@@ -39,7 +39,23 @@ const httpServer = require('http').createServer(app);
 // Main page of game
 app.get('/', async (req, res, next) => {
     try {
+        res.render('admin/dashboard', { loginUser: req.user });
+    } catch (error) {
+        next(new customError(error.message, 503));
+    }
+});
+
+app.get('/customer', async (req, res, next) => {
+    try {
         res.render('customer/home', { loginUser: req.user });
+    } catch (error) {
+        next(new customError(error.message, 503));
+    }
+});
+
+app.get('/customer/summary', async (req, res, next) => {
+    try {
+        res.render('customer/summary', { loginUser: req.user });
     } catch (error) {
         next(new customError(error.message, 503));
     }
