@@ -44,6 +44,9 @@ app.get('/', async (req, res, next) => {
         next(new customError(error.message, 503));
     }
 });
+app.get('/profile', (req, res, next) => { res.render('customer/profile', {}) })
+app.get('/cart', (req, res, next) => { res.render('customer/cart', {}) })
+app.get('/detail', (req, res, next) => { res.render('customer/detail', {}) })
 
 // Catch exceptions
 require('./middlewares/error-handler')(app);
