@@ -64,6 +64,11 @@ app.get('/customer/summary', async (req, res, next) => {
     }
 });
 
+app.get('/admin/products', (req, res, next) => { res.render('admin/products', {hasDataTable: true}) })
+app.get('/admin/categories', (req, res, next) => { res.render('admin/categories', {hasDataTable: true}) })
+app.get('/admin/users', (req, res, next) => { res.render('admin/users', {hasDataTable: true}) })
+app.get('/admin/orders', (req, res, next) => { res.render('admin/orders', {hasDataTable: true}) })
+
 // Catch exceptions
 require('./middlewares/error-handler')(app);
 

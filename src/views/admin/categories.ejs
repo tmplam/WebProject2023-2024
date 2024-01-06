@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Products</title>
+
+        <%- include('../partials/cdn') %>
+        <style>
+            @media screen and (min-width: 768px) {
+                #sidebar:not(.hide) ~ #content {
+                    padding-left: 280px;
+                }
+            }
+
+            #sidebar.hide {
+                transform: translateX(-280px);
+            }
+
+            #sidebar,
+            #content {
+                transition: 0.5s;
+            }
+        </style>
+
+        <% if(hasDataTable) { %>
+            <%- include('./partials/datatable-css') %>
+        <% } %>
+    </head>
+
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <%- include('./partials/sidebar') %>
+
+            <div id="content" class="w-100 h-100">
+                <%- include('./partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <h1>Categories</h1>
+                        <div class="bg-white p-4 rounded-4">
+                            <div class="w-100 d-flex justify-content-end">
+                                <a href="#" class="btn btn-outline-primary text-uppercase me-2">
+                                    <i class="fa-solid fa-plus me-2"></i>
+                                    new category
+                                </a>
+                            </div>
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th> # &nbsp;&nbsp;</th>
+                                        <th>Category Name</th>
+                                        <th>Number of books</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th> # &nbsp;&nbsp;</th>
+                                        <th>Category Name</th>
+                                        <th>Number of books</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Truyện ngắn</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Truyện dài</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Truyện ngụ ngôn</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Truyện cổ tích</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Thơ</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Tiểu thuyết</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Sách giáo khoa</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Giáo trình</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Tạp chí</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Truyện tranh</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>11</td>
+                                        <td>Truyện kinh dị</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>12</td>
+                                        <td>Sách thiếu nhi</td>
+                                        <td>10</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1" href="#">
+                                                <i class="fas fa-edit me-2"></i> edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+                $('#toggle-btn').click(() => {
+                    $('#sidebar').toggleClass('hide');
+                });
+
+                $('#close-sidebar-btn').click(() => {
+                    $('#sidebar').addClass('hide');
+                });
+
+                // data table
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+        </script>
+    </body>
+</html>
