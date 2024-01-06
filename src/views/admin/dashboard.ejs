@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+
+        <%- include('../partials/cdn') %>
+        <style>
+            @media screen and (min-width: 768px) {
+                #sidebar:not(.hide) ~ #content {
+                    padding-left: 280px;
+                }
+            }
+
+            #sidebar.hide {
+                transform: translateX(-280px);
+            }
+
+            #sidebar,
+            #content {
+                transition: 0.5s;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <%- include('./partials/sidebar') %>
+
+            <div id="content" class="w-100 h-100">
+                <%- include('./partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <div class="row g-3">
+                            <div class="col-xl-4 col-md-6">
+                                <div
+                                    class="card border-0 border-start border-5 border-primary shadow py-2 opacity-75"
+                                >
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col me-2">
+                                                <div
+                                                    style="font-size: 14px"
+                                                    class="fw-semibold text-primary text-uppercase mb-1 text-nowrap"
+                                                >
+                                                    Earnings (Monthly)
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold">$40,000</div>
+                                            </div>
+                                            <div class="col-auto opacity-25">
+                                                <i class="fas fa-calendar fa-2x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div
+                                    class="card border-0 border-start border-5 border-success shadow py-2 opacity-75"
+                                >
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col me-2">
+                                                <div
+                                                    style="font-size: 14px"
+                                                    class="fw-semibold text-success text-uppercase mb-1 text-nowrap"
+                                                >
+                                                    Earnings (Annual)
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold">$215,000</div>
+                                            </div>
+                                            <div class="col-auto opacity-25">
+                                                <i class="fas fa-dollar-sign fa-2x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-6">
+                                <div
+                                    class="card border-0 border-start border-5 border-warning shadow py-2 opacity-75"
+                                >
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col me-2">
+                                                <div
+                                                    style="font-size: 14px"
+                                                    class="fw-semibold text-warning text-uppercase mb-1 text-nowrap"
+                                                >
+                                                    Earnings (Monthly)
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold">$40,000</div>
+                                            </div>
+                                            <div class="col-auto opacity-25">
+                                                <i class="fas fa-clipboard-list fa-2x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+                $('#toggle-btn').click(() => {
+                    $('#sidebar').toggleClass('hide');
+                });
+
+                $('#close-sidebar-btn').click(() => {
+                    $('#sidebar').addClass('hide');
+                });
+            });
+        </script>
+    </body>
+</html>
