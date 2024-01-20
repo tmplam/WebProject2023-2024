@@ -30,6 +30,7 @@
                 </li>
             </ul>
 
+            <% if (typeof loginUser !== 'undefined' && loginUser) { %>
             <div class="dropdown text-end">
                 <a
                     href="#"
@@ -53,6 +54,12 @@
                     <li><a class="dropdown-item" href="#">Sign out</a></li>
                 </ul>
             </div>
+            <% } else { %>
+            <div>
+                <a class="btn btn-outline-primary" href="/login">Login</a>
+                <a class="btn btn-primary" href="/signup">Sign-up</a>
+            </div>
+            <% } %>
         </div>
     </div>
 </header>

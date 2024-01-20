@@ -3,29 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Products</title>
-
+        <title>Orders</title>
         <%- include('../partials/cdn') %>
-        <style>
-            @media screen and (min-width: 768px) {
-                #sidebar:not(.hide) ~ #content {
-                    padding-left: 280px;
-                }
-            }
-
-            #sidebar.hide {
-                transform: translateX(-280px);
-            }
-
-            #sidebar,
-            #content {
-                transition: 0.5s;
-            }
-        </style>
-
-        <% if(hasDataTable) { %>
-            <%- include('./partials/datatable-css') %>
-        <% } %>
+        <!--  -->
+        <%- include('./partials/datatable-css') %>
     </head>
 
     <body>
@@ -38,106 +19,120 @@
                 <div class="bg-body-secondary p-3">
                     <div class="container">
                         <!-- Change the content of page here -->
-                        <h1>Customers</h1>
-                        <div class="bg-white p-4 rounded-4">
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        <th> # &nbsp;&nbsp;</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Adress</th>
-                                        <th>Status</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Vương Huỳnh Khải</td>
-                                        <td>0125123477</td>
-                                        <td>Dĩ An, Bình Dương</td>
-                                        <td>completed</td>
-                                        <td>100</td>
-                                        <td>
-                                            <a class="btn btn-success bg-gradient py-1 mx-2" href="#">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                        <div class="row g-3">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card shadow">
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
+                                        <h4 class="m-0">
+                                            <i class="fa-solid fa-table"></i> ORDERS
+                                        </h4>
+                                    </div>
+                                    <div class="card-body px-3 py-2">
+                                        <div class="datatable-area scroll-container overflow-auto">
+                                            <table id="datatablesSimple">
+                                                <thead>
+                                                    <tr>
+                                                        <th># &nbsp;&nbsp;</th>
+                                                        <th>Name</th>
+                                                        <th>Phone</th>
+                                                        <th>Adress</th>
+                                                        <th>Status</th>
+                                                        <th>Total</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>Vương Huỳnh Khải</td>
+                                                        <td>0125123477</td>
+                                                        <td>Dĩ An, Bình Dương</td>
+                                                        <td>completed</td>
+                                                        <td>100</td>
+                                                        <td>
+                                                            <a class="btn btn-primary py-1">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
 
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Trần Mỹ Phú Lâm</td>
-                                        <td>0919239459</td>
-                                        <td>Đông Hòa, Bình Dương</td>
-                                        <td>In Proccess</td>
-                                        <td>95</td>
-                                        <td>
-                                            <a class="btn btn-success bg-gradient py-1 mx-2" href="#">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Trần Mỹ Phú Lâm</td>
+                                                        <td>0919239459</td>
+                                                        <td>Đông Hòa, Bình Dương</td>
+                                                        <td>In Proccess</td>
+                                                        <td>95</td>
+                                                        <td>
+                                                            <a class="btn btn-primary py-1">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
 
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Nguyễn Võ Nhật Huy</td>
-                                        <td>0921120470</td>
-                                        <td>Link Trung, TP HCM</td>
-                                        <td>Pending</td>
-                                        <td>120</td>
-                                        <td>
-                                            <a class="btn btn-success bg-gradient py-1 mx-2" href="#">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>Nguyễn Võ Nhật Huy</td>
+                                                        <td>0921120470</td>
+                                                        <td>Link Trung, TP HCM</td>
+                                                        <td>Pending</td>
+                                                        <td>120</td>
+                                                        <td>
+                                                            <a class="btn btn-primary py-1">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
 
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Tạ Ngọc Duy Khiêm</td>
-                                        <td>0978532141</td>
-                                        <td>Thủ Đức, TP HCM</td>
-                                        <td>Pending</td>
-                                        <td>200</td>
-                                        <td>
-                                            <a class="btn btn-success bg-gradient py-1 mx-2" href="#">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>Tạ Ngọc Duy Khiêm</td>
+                                                        <td>0978532141</td>
+                                                        <td>Thủ Đức, TP HCM</td>
+                                                        <td>Pending</td>
+                                                        <td>200</td>
+                                                        <td>
+                                                            <a class="btn btn-primary py-1">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
 
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Vương Huỳnh Khải</td>
-                                        <td>0125123477</td>
-                                        <td>Dĩ An, Bình Dương</td>
-                                        <td>completed</td>
-                                        <td>150</td>
-                                        <td>
-                                            <a class="btn btn-success bg-gradient py-1 mx-2" href="#">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>Vương Huỳnh Khải</td>
+                                                        <td>0125123477</td>
+                                                        <td>Dĩ An, Bình Dương</td>
+                                                        <td>completed</td>
+                                                        <td>150</td>
+                                                        <td>
+                                                            <a class="btn btn-primary py-1">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
 
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Vương Huỳnh Khải</td>
-                                        <td>0125123477</td>
-                                        <td>Dĩ An, Bình Dương</td>
-                                        <td>completed</td>
-                                        <td>150</td>
-                                        <td>
-                                            <a class="btn btn-success bg-gradient py-1 mx-2" href="#">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td>Vương Huỳnh Khải</td>
+                                                        <td>0125123477</td>
+                                                        <td>Dĩ An, Bình Dương</td>
+                                                        <td>completed</td>
+                                                        <td>150</td>
+                                                        <td>
+                                                            <a class="btn btn-primary py-1">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,14 +141,6 @@
 
         <script>
             $(() => {
-                $('#toggle-btn').click(() => {
-                    $('#sidebar').toggleClass('hide');
-                });
-
-                $('#close-sidebar-btn').click(() => {
-                    $('#sidebar').addClass('hide');
-                });
-
                 // data table
                 const datatablesSimple = document.getElementById('datatablesSimple');
                 if (datatablesSimple) {

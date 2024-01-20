@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Update book</title>
+
+        <%- include('../../partials/cdn') %>
+    </head>
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <%- include('../partials/sidebar') %>
+
+            <div id="content" class="w-100 h-100">
+                <%- include('../partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div
+                                        class="text-bg-primary card-header py-3 d-flex flex-row align-items-center justify-content-center"
+                                    >
+                                        <h2 class="m-0 text-nowrap">
+                                            <i class="fa-solid fa-pen-to-square"></i> UPDATE BOOK
+                                        </h2>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <div class="datatable-area">
+                                            <form class="row g-3">
+                                                <div class="col-md-6 col-lg-4">
+                                                    <label for="isbn" class="form-label"
+                                                        >ISBN</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        class="form-control"
+                                                        id="isbn"
+                                                        name="isbn"
+                                                    />
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <label for="title" class="form-label"
+                                                        >Title</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        class="form-control"
+                                                        id="title"
+                                                        name="title"
+                                                    />
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <label for="author" class="form-label"
+                                                        >Author</label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        class="form-control"
+                                                        id="author"
+                                                        name="author"
+                                                    />
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <label for="genre" class="form-label"
+                                                        >Genre</label
+                                                    >
+                                                    <select
+                                                        name="genre"
+                                                        id="genre"
+                                                        class="form-select"
+                                                    >
+                                                        <option value="action">Action</option>
+                                                        <option value="detective">Detective</option>
+                                                        <option value="drama">Drama</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <label for="price" class="form-label"
+                                                        >Price</label
+                                                    >
+                                                    <input
+                                                        type="number"
+                                                        required
+                                                        class="form-control"
+                                                        id="price"
+                                                        name="price"
+                                                    />
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <label for="quantity" class="form-label"
+                                                        >Quantity</label
+                                                    >
+                                                    <input
+                                                        type="number"
+                                                        required
+                                                        class="form-control"
+                                                        id="quantity"
+                                                        name="quantity"
+                                                    />
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="description" class="form-label"
+                                                        >Description</label
+                                                    >
+                                                    <textarea
+                                                        required
+                                                        class="form-control"
+                                                        id="description"
+                                                        name="description"
+                                                        rows="4"
+                                                    ></textarea>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="front-cover" class="form-label">
+                                                        Front cover
+                                                    </label>
+                                                    <input
+                                                        type="file"
+                                                        class="form-control"
+                                                        id="front-cover"
+                                                        name="front-cover"
+                                                        accept="image/*"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="back-cover" class="form-label">
+                                                        Back cover
+                                                    </label>
+                                                    <input
+                                                        type="file"
+                                                        class="form-control"
+                                                        id="back-cover"
+                                                        name="back-cover"
+                                                        accept="image/*"
+                                                        required
+                                                    />
+                                                </div>
+                                                <div class="col-6">
+                                                    <div
+                                                        id="preview-front-cover"
+                                                        class="text-center"
+                                                    >
+                                                        <img
+                                                            class="shadow d-inline-block img-thumbnail"
+                                                            style="
+                                                                width: 60%;
+                                                                aspect-ratio: 4 / 5;
+                                                                object-fit: cover;
+                                                            "
+                                                            src="https://th.bing.com/th/id/R.590acdaa19e60804129f179fd797af79?rik=3JoqcSOvRptTEA&pid=ImgRaw&r=0"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div
+                                                        id="preview-back-cover"
+                                                        class="text-center"
+                                                    >
+                                                        <img
+                                                            class="shadow d-inline-block img-thumbnail"
+                                                            style="
+                                                                width: 60%;
+                                                                aspect-ratio: 4 / 5;
+                                                                object-fit: cover;
+                                                            "
+                                                            src="https://th.bing.com/th/id/R.590acdaa19e60804129f179fd797af79?rik=3JoqcSOvRptTEA&pid=ImgRaw&r=0"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 text-end">
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-primary px-5"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+                $('#front-cover').change(function (event) {
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            const imagePreview = $('#preview-front-cover');
+                            imagePreview.html(`
+                                <img
+                                    class="shadow d-inline-block img-thumbnail"
+                                    style="
+                                        width: 60%;
+                                        aspect-ratio: 4 / 5;
+                                        object-fit: cover;
+                                    "
+                                    src="${e.target.result}"
+                                />
+                            `);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                $('#back-cover').change(function (event) {
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            const imagePreview = $('#preview-back-cover');
+                            imagePreview.html(`
+                                <img
+                                    class="shadow d-inline-block img-thumbnail"
+                                    style="
+                                        width: 60%;
+                                        aspect-ratio: 4 / 5;
+                                        object-fit: cover;
+                                    "
+                                    src="${e.target.result}"
+                                />
+                            `);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -40,14 +40,6 @@ const httpServer = require('http').createServer(app);
 // });
 
 // Main page of game
-app.get('/admin/dashboard', async (req, res, next) => {
-    try {
-        res.render('admin/dashboard', { loginUser: req.user, hasDataTable: false });
-    } catch (error) {
-        next(new customError(error.message, 503));
-    }
-});
-
 app.get('/', async (req, res, next) => {
     try {
         const bookList = await bookModel.getAll();
@@ -81,14 +73,47 @@ app.get('/customer/summary', async (req, res, next) => {
         next(new customError(error.message, 503));
     }
 });
-app.get('/signup', (req, res, next) => { res. render('customer/SignupForm') });
-app.get('/login', (req, res, next) => { res. render('customer/LoginForm') });
 
-app.get('/admin/products', (req, res, next) => { res.render('admin/products', {hasDataTable: true}) })
-app.get('/admin/categories', (req, res, next) => { res.render('admin/categories', {hasDataTable: true}) })
-app.get('/admin/users', (req, res, next) => { res.render('admin/users', {hasDataTable: true}) })
-app.get('/admin/orders', (req, res, next) => { res.render('admin/orders', {hasDataTable: true}) })
-app.get('/admin/products/add', (req, res, next) => { res.render('admin/add-product', {hasDataTable: false}) })
+app.get('/signup', (req, res, next) => {
+    res.render('customer/signup');
+});
+
+app.get('/login', (req, res, next) => {
+    res.render('customer/Login');
+});
+
+app.get('/admin/dashboard', async (req, res, next) => {
+    try {
+        res.render('admin/dashboard', { loginUser: req.user, dashboard: true });
+    } catch (error) {
+        next(new customError(error.message, 503));
+    }
+});
+
+app.get('/admin/categories', (req, res, next) => {
+    res.render('admin/categories', {});
+});
+
+app.get('/admin/customers', (req, res, next) => {
+    res.render('admin/customers', { customers: true });
+});
+
+app.get('/admin/orders', (req, res, next) => {
+    res.render('admin/orders', { orders: true });
+});
+
+// PRODUCTS
+app.get('/admin/products', (req, res, next) => {
+    res.render('admin/products/products', { products: true });
+});
+
+app.get('/admin/products/create', (req, res, next) => {
+    res.render('admin/products/create-product', { products: true });
+});
+
+app.get('/admin/products/:productId/edit', (req, res, next) => {
+    res.render('admin/products/update-product', { products: true });
+});
 
 // Catch exceptions
 require('./middlewares/error-handler')(app);
