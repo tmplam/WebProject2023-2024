@@ -1,3 +1,11 @@
+<style>
+    @media screen and (min-width: 816.5px) {
+        #close-sidebar-btn {
+            display: none;
+        }
+    }
+</style>
+
 <div
     class="flex-column flex-shrink-0 bg-body-tertiary p-3 position-fixed vh-100"
     style="width: 280px; z-index: 1"
@@ -11,38 +19,53 @@
             <span style="font-size: 28px" class="me-2"><i class="fa-solid fa-book"></i></span>
             <span style="font-size: 24px" class="me-auto">Bookstore</span>
         </a>
-        <button
-            id="close-sidebar-btn"
-            type="button"
-            class="btn-close d-md-none"
-            aria-label="Close"
-        ></button>
+        <button id="close-sidebar-btn" type="button" class="btn-close" aria-label="Close"></button>
     </div>
     <hr class="mb-3" style="margin-top: 6px" />
-    <ul class="nav nav-pills flex-column mb-auto">
+    <ul id="sidebar-nav" class="nav nav-pills flex-column mb-auto">
         <li>
-            <a href="/admin/dashboard" class="nav-link active text-nowrap">
+            <a
+                href="/admin/dashboard"
+                class="nav-link <%= typeof dashboard !== 'undefined' && dashboard ? 'active' : 'link-body-emphasis' %> text-nowrap"
+            >
                 <span class="me-2"><i class="fa-solid fa-gauge-high" aria-current="page"></i></span>
                 Dashboard
             </a>
         </li>
         <li>
-            <a href="/admin/orders" class="nav-link link-body-emphasis text-nowrap">
+            <a
+                href="/admin/orders"
+                class="nav-link <%= typeof orders !== 'undefined' && orders ? 'active' : 'link-body-emphasis' %> text-nowrap"
+            >
                 <span class="me-2"><i class="fa-solid fa-table"></i></span>
                 Orders
             </a>
         </li>
         <li>
-            <a href="/admin/products" class="nav-link link-body-emphasis text-nowrap">
+            <a
+                href="/admin/products"
+                class="nav-link <%= typeof products !== 'undefined' && products ? 'active' : 'link-body-emphasis' %> text-nowrap"
+            >
                 <span class="me-2"><i class="fa-solid fa-tags"></i></span>
                 Products
             </a>
         </li>
         <li>
-            <a href="/admin/customer" class="nav-link link-body-emphasis text-nowrap">
-                <span class="me-2"><i class="fa-solid fa-user"></i></span>
+            <a
+                href="/admin/customers"
+                class="nav-link <%= typeof customers !== 'undefined' && customers ? 'active' : 'link-body-emphasis' %> text-nowrap"
+            >
+                <span class="me-2"><i class="fa-solid fa-users"></i></i></span>
                 Customers
             </a>
         </li>
     </ul>
 </div>
+
+<script>
+    $(() => {
+        $('#sidebar-nav li').click((e) => {
+            $('#sidebar-nav li a.active').addClass('link-body-emphasis').removeClass('active');
+        });
+    });
+</script>

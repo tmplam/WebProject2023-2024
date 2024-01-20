@@ -6,26 +6,7 @@
         <title>Products</title>
 
         <%- include('../partials/cdn') %>
-        <style>
-            @media screen and (min-width: 768px) {
-                #sidebar:not(.hide) ~ #content {
-                    padding-left: 280px;
-                }
-            }
-
-            #sidebar.hide {
-                transform: translateX(-280px);
-            }
-
-            #sidebar,
-            #content {
-                transition: 0.5s;
-            }
-        </style>
-
-        <% if(hasDataTable) { %>
-            <%- include('./partials/datatable-css') %>
-        <% } %>
+        <%- include('./partials/datatable-css') %>
     </head>
 
     <body>
@@ -49,7 +30,7 @@
                             <table id="datatablesSimple">
                                 <thead>
                                     <tr>
-                                        <th> # &nbsp;&nbsp;</th>
+                                        <th># &nbsp;&nbsp;</th>
                                         <th>Category Name</th>
                                         <th>Number of books</th>
                                         <th></th>
@@ -57,7 +38,7 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th> # &nbsp;&nbsp;</th>
+                                        <th># &nbsp;&nbsp;</th>
                                         <th>Category Name</th>
                                         <th>Number of books</th>
                                         <th></th>
@@ -205,14 +186,6 @@
 
         <script>
             $(() => {
-                $('#toggle-btn').click(() => {
-                    $('#sidebar').toggleClass('hide');
-                });
-
-                $('#close-sidebar-btn').click(() => {
-                    $('#sidebar').addClass('hide');
-                });
-
                 // data table
                 const datatablesSimple = document.getElementById('datatablesSimple');
                 if (datatablesSimple) {
