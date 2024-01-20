@@ -1,3 +1,32 @@
+<style>
+    @media screen and (min-width: 816.5px) {
+        #sidebar:not(.hide) ~ #content {
+            padding-left: 280px;
+        }
+    }
+
+    #sidebar.hide {
+        transform: translateX(-280px);
+    }
+
+    #sidebar,
+    #content {
+        transition: 0.5s;
+    }
+</style>
+
+<script>
+    $(() => {
+        $('#toggle-btn').click(() => {
+            $('#sidebar').toggleClass('hide');
+        });
+
+        $('#close-sidebar-btn').click(() => {
+            $('#sidebar').addClass('hide');
+        });
+    });
+</script>
+
 <header class="p-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center">

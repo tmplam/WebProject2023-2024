@@ -5,10 +5,13 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+// Import models here to get data to test!!!
+const bookModel = require('./models/book.m');
+
 // Setup utility
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(process.env.SECRET_KEY));
 app.use(
     session({
@@ -37,7 +40,7 @@ const httpServer = require('http').createServer(app);
 // });
 
 // Main page of game
-app.get('/', async (req, res, next) => {
+app.get('/admin/dashboard', async (req, res, next) => {
     try {
         res.render('admin/dashboard', { loginUser: req.user });
     } catch (error) {
@@ -45,16 +48,31 @@ app.get('/', async (req, res, next) => {
     }
 });
 
-app.get('/customer', async (req, res, next) => {
+app.get('/', async (req, res, next) => {
     try {
-        res.render('customer/home', { loginUser: req.user });
+        const bookList = await bookModel.getAll();
+        res.render('customer/home', { loginUser: req.user, bookList });
     } catch (error) {
         next(new customError(error.message, 503));
     }
 });
-app.get('/profile', (req, res, next) => { res.render('customer/profile', {}) })
-app.get('/cart', (req, res, next) => { res.render('customer/cart', {}) })
-app.get('/detail', (req, res, next) => { res.render('customer/detail', {}) })
+
+app.get('/customer/profile', (req, res, next) => {
+    res.render('customer/profile', {});
+});
+
+app.get('/customer/cart', (req, res, next) => {
+    res.render('customer/cart', {});
+});
+
+app.get('/customer/detail/:bookId', async (req, res, next) => {
+    try {
+        const book = await bookModel.get(req.params.bookId);
+        res.render('customer/detail', { book });
+    } catch (error) {
+        next(new customError(error.message, 503));
+    }
+});
 
 app.get('/customer/summary', async (req, res, next) => {
     try {

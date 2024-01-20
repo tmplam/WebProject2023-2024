@@ -19,10 +19,27 @@ module.exports = {
         return data;
     },
 
-    get: async (tableName, fieldName, value) => {
-        const data = await db.oneOrNone(
-            `SELECT * FROM "${tableName}" WHERE "${fieldName}" = '${value}'`
+    // [{fieldName: "price", value: 123}]
+    getOneOrNone: async (tableName, constraintValues) => {
+        const constraintArray = constraintValues.map(
+            (obj) => `"${obj.fieldName}" = '${obj.value}'`
         );
+        const data = await db.oneOrNone(
+            `SELECT * FROM "${tableName}" WHERE ${constraintArray.join(' AND ')}`
+        );
+        return data;
+    },
+
+    // [{fieldName: "price", value: 123}]
+    getManyOrNone: async (tableName, constraintValues) => {
+        let query = `SELECT * FROM "${tableName}"`;
+        if (constraintValues) {
+            const constraintArray = constraintValues.map(
+                (obj) => `"${obj.fieldName}" = '${obj.value}'`
+            );
+            query = query + ` WHERE ${constraintArray.join(' AND ')}`;
+        }
+        const data = await db.any(query);
         return data;
     },
 
@@ -35,12 +52,7 @@ module.exports = {
         return data;
     },
 
-    getAllOnField: async (tableName, fieldName, value) => {
-        const data = await db.any(`SELECT * FROM "${tableName}" WHERE "${fieldName}" = '${value}'`);
-        return data;
-    },
-
-    update: async (tableName, entity, idName = 'ID', idValue) => {
+    update: async (tableName, entity, idName, idValue) => {
         const condition = pgp.as.format(` WHERE "${idName}" = '${idValue}'`, entity);
         const query =
             pgp.helpers.update(entity, null, tableName) + condition + ` RETURNING "${idName}"`;
@@ -48,12 +60,32 @@ module.exports = {
         return response;
     },
 
-    delete: async (tableName, idName = 'ID', idValue) => {
-        await db.none(`DELETE FROM "${tableName}" WHERE "${idName}" = '${idValue}'`);
+    // [{fieldName: "price", value: 123}]
+    delete: async (tableName, constraintValues) => {
+        const constraintArray = constraintValues.map(
+            (obj) => `"${obj.fieldName}" = '${obj.value}'`
+        );
+
+        await db.none(`DELETE FROM "${tableName}" WHERE ${constraintArray.join(' AND ')}`);
     },
 
     getMax: async (tableName, fieldName) => {
         const data = await db.oneOrNone(`SELECT MAX("${fieldName}") FROM "${tableName}"`);
+        return data;
+    },
+
+    // [{fieldName: "price", value: 123}]
+    getCount: async (tableName, constraintValues) => {
+        let query = `SELECT COUNT(*) FROM "${tableName}"`;
+
+        if (constraintValues) {
+            const constraintArray = constraintValues.map(
+                (obj) => `"${obj.fieldName}" = '${obj.value}'`
+            );
+            query = query + ` WHERE ${constraintArray.join(' AND ')}`;
+        }
+
+        const data = await db.oneOrNone(query);
         return data;
     },
 };
