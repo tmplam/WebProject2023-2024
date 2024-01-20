@@ -4,24 +4,14 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Dashboard</title>
-
         <%- include('../partials/cdn') %>
-        <style>
-            @media screen and (min-width: 768px) {
-                #sidebar:not(.hide) ~ #content {
-                    padding-left: 280px;
-                }
-            }
 
-            #sidebar.hide {
-                transform: translateX(-280px);
-            }
-
-            #sidebar,
-            #content {
-                transition: 0.5s;
-            }
-        </style>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+            integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
     </head>
 
     <body>
@@ -41,14 +31,14 @@
                                 >
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col me-2">
+                                            <div class="col">
                                                 <div
                                                     style="font-size: 14px"
                                                     class="fw-semibold text-primary text-uppercase mb-1 text-nowrap"
                                                 >
-                                                    Earnings (Monthly)
+                                                    Total products
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold">$40,000</div>
+                                                <div class="h5 mb-0 font-weight-bold">36</div>
                                             </div>
                                             <div class="col-auto opacity-25">
                                                 <i class="fas fa-calendar fa-2x"></i>
@@ -63,7 +53,7 @@
                                 >
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col me-2">
+                                            <div class="col">
                                                 <div
                                                     style="font-size: 14px"
                                                     class="fw-semibold text-success text-uppercase mb-1 text-nowrap"
@@ -85,7 +75,7 @@
                                 >
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col me-2">
+                                            <div class="col">
                                                 <div
                                                     style="font-size: 14px"
                                                     class="fw-semibold text-warning text-uppercase mb-1 text-nowrap"
@@ -102,20 +92,83 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row g-3">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card shadow my-4">
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
+                                        <h5 class="m-0 font-weight-bold text-primary">
+                                            Earnings Overview
+                                        </h5>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <div class="chart-area">
+                                            <canvas id="myChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
 
         <script>
-            $(() => {
-                $('#toggle-btn').click(() => {
-                    $('#sidebar').toggleClass('hide');
-                });
+            var chartData = {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [
+                    {
+                        label: 'Earnings',
+                        data: [3000, 5000, 1500, 2000, 800],
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#98AB2F', '#12CD2F'],
+                        borderColor: 'rgba(75,192,192,1)',
+                        borderWidth: 2,
+                    },
+                ],
+            };
 
-                $('#close-sidebar-btn').click(() => {
-                    $('#sidebar').addClass('hide');
-                });
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+
+            var chartOptions = {
+                responsive: true,
+                labels: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        grid: {
+                            borderDash: [4, 4],
+                            display: true,
+                        },
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return '$' + numberWithCommas(value);
+                            },
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            };
+
+            // Lấy tham chiếu đến canvas và vẽ biểu đồ
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: chartOptions,
             });
         </script>
     </body>

@@ -1,156 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
+        <%- include('../partials/cdn') %>
         <title>Document</title>
     </head>
     <body>
-        <header class="p-3 mb-3 border-bottom">
-            <div class="container">
-                <div
-                    class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
-                >
-                    <a
-                        href="/"
-                        class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none me-2"
-                    >
-                        <i class="fa-solid fa-house"></i>
-                    </a>
+        <%- include('../partials/header') %>
 
-                    <ul
-                        class="nav nav-pills col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-                    >
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-secondary">Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-body-emphasis">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-body-emphasis">Products</a>
-                        </li>
-                    </ul>
-
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <input
-                            type="search"
-                            class="form-control"
-                            placeholder="Search..."
-                            aria-label="Search"
-                        />
-                    </form>
-
-                    <div class="dropdown text-end">
-                        <a
-                            href="#"
-                            class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            <img
-                                src="https://github.com/mdo.png"
-                                alt="mdo"
-                                width="32"
-                                height="32"
-                                class="rounded-circle"
-                            />
-                        </a>
-                        <ul class="dropdown-menu text-small" style="">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <main>
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col col-lg-6">
-                        <div class="card shadow">
-                            <div class="rounded-top bg-success bg-gradient text-white" style="height: 180px;">
-                                <div class="ms-4 mt-5 position-absolute" style="width: 150px;">
-                                    <img src="https://img.freepik.com/premium-photo/beautiful-anime-girl-waterfall-mobile-wallpaper_973189-16380.jpg"
-                                        class="img-thumbnail w-100" style="max-height: 200px;" id="img-avatar" role="button">
-                                    <p class="text-black text-center fw-bold">un1</p>
-                                    <form action="/profile/update/avatar" method="post" enctype="multipart/form-data" id="form-update-avatar" class="d-none">
-                                        <input type="file" name="avatar" id="input-avatar">
-                                    </form>
+        <main class="bg-body-secondary">
+            <div class="container py-2">
+                <div class="row justify-content-center align-items-center my-3">
+                    <div class="col col-12 col-lg-10">
+                        <div class="card row g-0 border rounded overflow-hidden flex-md-row shadow">
+                            <div class="col col-12 col-md-5 col-xl-4 d-lg-block">
+                                <img
+                                    src="https://img.freepik.com/premium-photo/beautiful-anime-girl-waterfall-mobile-wallpaper_973189-16380.jpg"
+                                    class="w-100 h-100 shadow"
+                                    style="object-fit: cover"
+                                    id="img-avatar"
+                                    role="button"
+                                />
+                            </div>
+                            <form class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column">
+                                <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    name="avatar"
+                                    id="input-avatar"
+                                    class="d-none"
+                                />
+                                <div class="form-floating mb-2">
+                                    <input
+                                        class="form-control border-info"
+                                        required
+                                        name="name"
+                                        id="name"
+                                        value="Trần Mỹ Phú Lâm"
+                                        spellcheck="false"
+                                    />
+                                    <label for="name">Name</label>
                                 </div>
-                            </div>
-                            <div class="px-4 pt-4 pb-5 bg-light d-flex justify-content-end">
-                                <a href="#" class="btn btn-success d-inline-block">Doi mat khau</a>
-                            </div>
-
-                            <div class="card-body p-4 text-black">
-                                <div class="mb-5">
-                                    <h5>Thông tin cá nhân</h5>
-                                    <form action="" method="post" class="px-5">
-                                        <div class="input-group row align-items-center">
-                                            <label for="input-fullname" class="col-3">Họ tên: </label>
-                                            <input type="text" name="fullname" id="input-fullname" class="col-6 rounded border-info border form-control" value="Chua co ten">
-                                        </div>
-                                        <div class="input-group row align-items-center mt-3">
-                                            <label for="input-email" class="col-3">Email: </label>
-                                            <input type="email" name="email" id="input-email" class="col-6 rounded border-info border form-control" value="un1123456@gmail.com">
-                                        </div>
-                                        <div class="input-group row align-items-center mt-3">
-                                            <label for="input-phone" class="col-3">SĐT: </label>
-                                            <input type="tel" name="phone" id="input-phone" class="col-6 rounded border-info border form-control" value="0919239459">
-                                        </div>
-                                        <div class="input-group row align-items-center mt-3">
-                                            <label for="input-address" class="col-3">Địa chỉ: </label>
-                                            <input type="text" name="address" id="input-address" class="col-6 rounded border-info border form-control" value="KTX Khu B - Di An, Binh Duong">
-                                        </div>
-                                        <input type="submit" value="Lưu thay đổi" class="btn btn-outline-success ms-auto me-2 mt-4 d-block">
-                                    </form>
+                                <div class="form-floating mb-2">
+                                    <input
+                                        class="form-control border-info"
+                                        type="email"
+                                        required
+                                        name="email"
+                                        id="email"
+                                        value="example@gmail.com"
+                                        spellcheck="false"
+                                    />
+                                    <label for="email">Email</label>
                                 </div>
-                            </div>
+                                <div class="form-floating mb-2">
+                                    <input
+                                        class="form-control border-info"
+                                        name="phone"
+                                        id="phone"
+                                        required
+                                        value="0808888888"
+                                        spellcheck="false"
+                                    />
+                                    <label for="phone">Phone</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input
+                                        class="form-control border-info"
+                                        name="address"
+                                        id="address"
+                                        value="Dĩ An, Bình Dương"
+                                        spellcheck="false"
+                                    />
+                                    <label for="address">Address</label>
+                                </div>
+
+                                <div class="text-end">
+                                    <button class="btn btn-primary">Change password</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Save changes
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-              
         </main>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"
-        ></script>
+        <%- include('../partials/footer') %>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script>
             $(() => {
                 $('#img-avatar').on('click', () => {
                     $('#input-avatar').click();
-                })
+                });
 
-                $('#input-avatar').change((e) => {
-                    $('#form-update-avatar').submit();
-                })
-            })
+                // $('#input-avatar').change((e) => {
+                //     $('#form-update-avatar').submit();
+                // });
+            });
         </script>
     </body>
 </html>

@@ -1,193 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
+        <%- include('../partials/cdn') %>
         <title>Document</title>
+
+        <style>
+            input[type='number']::-webkit-inner-spin-button,
+            input[type='number']::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            #more-btn:hover,
+            #less-btn:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        </style>
 
     </head>
     <body>
-        <header class="p-3 mb-3 border-bottom">
-            <div class="container">
-                <div
-                    class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
-                >
-                    <a
-                        href="/"
-                        class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none me-2"
-                    >
-                        <i class="fa-solid fa-house"></i>
-                    </a>
-
-                    <ul
-                        class="nav nav-pills col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-                    >
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-secondary">Overview</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-body-emphasis">Customers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link px-2 link-body-emphasis">Products</a>
-                        </li>
-                    </ul>
-
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <input
-                            type="search"
-                            class="form-control"
-                            placeholder="Search..."
-                            aria-label="Search"
-                        />
-                    </form>
-
-                    <div class="dropdown text-end">
-                        <a
-                            href="#"
-                            class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            <img
-                                src="https://github.com/mdo.png"
-                                alt="mdo"
-                                width="32"
-                                height="32"
-                                class="rounded-circle"
-                            />
-                        </a>
-                        <ul class="dropdown-menu text-small" style="">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <%- include('../partials/header') %>
 
         <main>
-            <div class="album py-5 bg-body-tertiary">
+            <div class="py-2 bg-body-secondary">
                 <div class="container">
-                    <div class="card shadow border-0 mt-4 mb-4">
-                        <div class="card-header bg-success bg-gradient text-light py-4">
+                    <div class="card shadow border-0 my-3">
+                        <div class="card-header text-bg-dark py-3">
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    <h4 class="text-white text-uppercase">5 centimeters pers second</h4>
-                                    <p class="text-white-50 fw-semibold mb-0">by Makoto Shinkai</p>
+                                    <h4 class="text-white text-uppercase"><%= book.title %></h4>
+                                    <p class="text-white-50 fw-semibold mb-0">
+                                        by <%= book.author %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="py-3">
-
-                                <div class="row">
+                            <div class="container p-2">
+                                <div class="row g-0">
                                     <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-                                        
-                                        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+                                        <div
+                                            id="myCarousel"
+                                            class="carousel slide"
+                                            data-bs-ride="carousel"
+                                        >
                                             <ol class="carousel-indicators list-unstyled">
-                                                <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
-                                                <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+                                                <li
+                                                    data-bs-target="#myCarousel"
+                                                    data-bs-slide-to="0"
+                                                    class="active"
+                                                ></li>
+                                                <li
+                                                    data-bs-target="#myCarousel"
+                                                    data-bs-slide-to="1"
+                                                ></li>
                                             </ol>
-                        
-                                            <div class="carousel-inner h-0" style="padding-bottom: 125%;">
+
+                                            <div
+                                                class="carousel-inner h-0"
+                                                style="padding-bottom: 125%"
+                                            >
                                                 <div class="carousel-item position-absolute active">
-                                                    <img class="d-block w-100 h-100" src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1419696935i/24122950.jpg" alt="First slide">
+                                                    <img
+                                                        class="d-block w-100 h-100"
+                                                        src="<%= book.front_cover_image %>"
+                                                        alt="First slide"
+                                                    />
                                                 </div>
                                                 <div class="carousel-item position-absolute">
-                                                    <img class="d-block w-100 h-100" src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1548336607i/43695901.jpg" alt="Second slide">
+                                                    <img
+                                                        class="d-block w-100 h-100"
+                                                        src="<%= book.back_cover_image %>"
+                                                        alt="Second slide"
+                                                    />
                                                 </div>
                                             </div>
-                        
-                                            <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
+
+                                            <a
+                                                class="carousel-control-prev"
+                                                href="#myCarousel"
+                                                role="button"
+                                                data-bs-slide="prev"
+                                            >
                                                 <span class="carousel-control-prev-icon"></span>
                                                 <span class="sr-only">Previous</span>
                                             </a>
-                        
-                                            <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
+
+                                            <a
+                                                class="carousel-control-next"
+                                                href="#myCarousel"
+                                                role="button"
+                                                data-bs-slide="next"
+                                            >
                                                 <span class="carousel-control-next-icon"></span>
                                                 <span class="sr-only">Next</span>
                                             </a>
                                         </div>
-
                                     </div>
 
                                     <div class="col-12 col-lg-6 offset-lg-1">
-                                        <div class="row">
-                                            <h6 class="text-dark text-opacity-50 ">ISBN : RITO5555501</h6>
+                                        <div class="col-12 col-md-6 pb-4">
+                                            <span class="badge rounded-pill bg-warning px-3 py-2"
+                                                >Action</span
+                                            >
                                         </div>
                                         <div class="row">
-                                            <h6 class="text-dark text-opacity-50 ">Category: Novel</h6>
-                                        </div>
-                                        <div class="row">
-                                            <h6 class="text-dark text-opacity-50  pb-2">
-                                                Price:
-                                                <span class="text-danger"> $30.00</span>
-                                            </h6>
-                                        </div>
-                                        
-                                        <div class="row pl-2 my-3">
-                                            <p class="text-secondary" style="text-align: justify;">
-                                                The title 5 Centimeters per Second comes from the speed at which cherry blossom petals fall, with petals being a metaphorical representation of humans, reminiscent of the slowness of life and how people often start together but slowly drift into their separate ways.
+                                            <p class="text-body-emphasis mb-0">
+                                                <span class="fw-bold">ISBN:</span>
+                                                <span class="text-secondary"><%= book.isbn %></span>
                                             </p>
                                         </div>
-                                        
+                                        <div class="row">
+                                            <h6 class="text-body-emphasis pb-2">
+                                                <span class="fw-bold">Price:</span>
+                                                <span class="text-success">
+                                                    $<%= book.price %></span
+                                                >
+                                            </h6>
+                                        </div>
+
+                                        <div class="row my-3">
+                                            <p
+                                                id="description"
+                                                class="text-secondary"
+                                                style="text-align: justify"
+                                            ></p>
+                                        </div>
+
                                         <form action="" method="post">
                                             <div class="row">
                                                 <div class="col">
-                                                    <h6 class="text-dark text-opacity-50" >Quantity: </h6>
+                                                    <h6 class="text-body-emphasis">Quantity:</h6>
                                                 </div>
                                             </div>
-    
-                                            <div class="row pl-2 mb-5">
+
+                                            <div class="row mb-4">
                                                 <div class="col-lg-4 col-md-6 mb-lg-0">
                                                     <div class="d-flex w-100 input-group">
-                                                        <span class="btn btn-outline-success px-3 input-group-text" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                        <span
+                                                            class="btn btn-outline-success px-3 input-group-text"
+                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                        >
                                                             <i class="fas fa-minus"></i>
                                                         </span>
-                                                        
-                                                        <input min="0" class="form-control text-center border-success" name="quantity" value="1" type="number" />
-                                        
-                                                        <span class="btn btn-outline-success px-3 input-group-text" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+
+                                                        <input
+                                                            min="1"
+                                                            class="form-control text-center border-success border-start-0"
+                                                            name="quantity"
+                                                            value="1"
+                                                            type="number"
+                                                        />
+
+                                                        <span
+                                                            class="btn btn-outline-success px-3 input-group-text"
+                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                        >
                                                             <i class="fas fa-plus"></i>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-6">
-                                                    <h6 class="text-dark text-opacity-50 mb-0" style="line-height: 32px;">In stock: 100</h6>
+                                                    <h6
+                                                        class="text-body-emphasis mb-0"
+                                                        style="line-height: 32px"
+                                                    >
+                                                        In stock:
+                                                        <span class="text-danger fs-3"
+                                                            ><%= book.stock_quantity %></span
+                                                        >
+                                                    </h6>
                                                 </div>
                                             </div>
-    
+
                                             <div class="row">
-                                                <div class="col-12 col-lg-4 col-md-6 pb-1">
-                                                    <button type="submit" class="btn btn-danger bg-gradient  w-100 py-2 text-uppercase fw-semibold">
-                                                        Add to Cart 
+                                                <div class="col-12 col-lg-5 pb-1">
+                                                    <button
+                                                        type="submit"
+                                                        class="btn bg-warning text-light form-control bg-gradient py-2 text-uppercase fw-semibold"
+                                                    >
+                                                        <span class="me-1">Add to Cart</span>
                                                         <i class="fa-solid fa-cart-shopping"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                
                                 </div>
                             </div>
                         </div>
@@ -196,10 +197,46 @@
             </div>
         </main>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"
-        ></script>
+        <%- include('../partials/footer') %>
+        <script>
+            $(() => {
+                let content = `<%= book.description %>`;
+                const contentArray = content.split(/\s+/);
+
+                if (contentArray.length > 100) {
+                    const showContent = contentArray.splice(0, 100);
+                    const hideContent = contentArray;
+
+                    $('#description').html(`
+                        ${showContent.join(' ')}
+                        <span id="dots">...
+                            <span id="more-btn" class="fw-bold text-nowrap">
+                                Read more
+                            </span>
+                        </span>
+                        <span id="more-content" class="d-none">
+                            ${hideContent.join(' ')}
+                        </span>
+                        <span id="less-btn" class="fw-bold text-nowrap d-none">
+                                Read less
+                        </span>
+                    `);
+
+                    $('#more-btn').click(function () {
+                        $('#dots').addClass('d-none');
+                        $('#more-content').removeClass('d-none');
+                        $('#less-btn').removeClass('d-none');
+                    });
+
+                    $('#less-btn').click(function () {
+                        $('#dots').removeClass('d-none');
+                        $('#more-content').addClass('d-none');
+                        $('#less-btn').addClass('d-none');
+                    });
+                } else {
+                    $('#description').html(`${contentArray.join(' ')}`);
+                }
+            });
+        </script>
     </body>
 </html>
