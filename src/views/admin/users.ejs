@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Products</title>
+
+        <%- include('../partials/cdn') %>
+        <style>
+            @media screen and (min-width: 768px) {
+                #sidebar:not(.hide) ~ #content {
+                    padding-left: 280px;
+                }
+            }
+
+            #sidebar.hide {
+                transform: translateX(-280px);
+            }
+
+            #sidebar,
+            #content {
+                transition: 0.5s;
+            }
+        </style>
+
+        <% if(hasDataTable) { %>
+            <%- include('./partials/datatable-css') %>
+        <% } %>
+    </head>
+
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <%- include('./partials/sidebar') %>
+
+            <div id="content" class="w-100 h-100">
+                <%- include('./partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <h1>Customers</h1>
+                        <div class="bg-white p-4 rounded-4">
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th> # &nbsp;&nbsp;</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Adress</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Vương Huỳnh Khải</td>
+                                        <td>vuonghuynhkhai@gmail.com</td>
+                                        <td>0125123477</td>
+                                        <td>Dĩ An, Bình Dương</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1 text-uppercase" style="min-width: 120px;" href="#">
+                                                <i class="fa-solid fa-lock"></i> block
+                                            </a>
+
+                                            <a class="btn btn-primary bg-gradient py-1 text-uppercase ms-2" href="#">
+                                                <i class="fa-solid fa-eye"></i> Info
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Trần Mỹ Phú Lâm</td>
+                                        <td>tmplam123456@gmail.com</td>
+                                        <td>0919239459</td>
+                                        <td>Đông Hòa, Bình Dương</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1 text-uppercase" style="min-width: 120px;" href="#">
+                                                <i class="fa-solid fa-lock"></i> block
+                                            </a>
+                                            <a class="btn btn-primary bg-gradient py-1 text-uppercase ms-2" href="#">
+                                                <i class="fa-solid fa-eye"></i> Info
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Nguyễn Võ Nhật Huy</td>
+                                        <td>nguyenvonhathuy100@gmail.com</td>
+                                        <td>0921120470</td>
+                                        <td>Link Trung, TP HCM</td>
+                                        <td>
+                                            <a class="btn btn-success bg-gradient py-1 text-uppercase" style="min-width: 120px;" href="#">
+                                                <i class="fa-solid fa-lock"></i> block
+                                            </a>
+                                            <a class="btn btn-primary bg-gradient py-1 text-uppercase ms-2" href="#">
+                                                <i class="fa-solid fa-eye"></i> Info
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Tạ Ngọc Duy Khiêm</td>
+                                        <td>tnduykhiem480@gmail.com</td>
+                                        <td>0978532141</td>
+                                        <td>Thủ Đức, TP HCM</td>
+                                        <td>
+                                            <a class="btn btn-danger bg-gradient py-1 text-uppercase" href="#">
+                                                <i class="fa-solid fa-lock-open"></i> unblock
+                                            </a>
+                                            <a class="btn btn-primary bg-gradient py-1 text-uppercase ms-2" href="#">
+                                                <i class="fa-solid fa-eye"></i> Info
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+                $('#toggle-btn').click(() => {
+                    $('#sidebar').toggleClass('hide');
+                });
+
+                $('#close-sidebar-btn').click(() => {
+                    $('#sidebar').addClass('hide');
+                });
+
+                // data table
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+        </script>
+    </body>
+</html>
