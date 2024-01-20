@@ -39,7 +39,7 @@ const httpServer = require('http').createServer(app);
 // Main page of game
 app.get('/', async (req, res, next) => {
     try {
-        res.render('admin/dashboard', { loginUser: req.user });
+        res.render('admin/dashboard', { loginUser: req.user, hasDataTable: false });
     } catch (error) {
         next(new customError(error.message, 503));
     }
@@ -63,11 +63,14 @@ app.get('/customer/summary', async (req, res, next) => {
         next(new customError(error.message, 503));
     }
 });
+app.get('/signup', (req, res, next) => { res. render('customer/SignupForm') });
+app.get('/login', (req, res, next) => { res. render('customer/LoginForm') });
 
 app.get('/admin/products', (req, res, next) => { res.render('admin/products', {hasDataTable: true}) })
 app.get('/admin/categories', (req, res, next) => { res.render('admin/categories', {hasDataTable: true}) })
 app.get('/admin/users', (req, res, next) => { res.render('admin/users', {hasDataTable: true}) })
 app.get('/admin/orders', (req, res, next) => { res.render('admin/orders', {hasDataTable: true}) })
+app.get('/admin/products/add', (req, res, next) => { res.render('admin/add-product', {hasDataTable: false}) })
 
 // Catch exceptions
 require('./middlewares/error-handler')(app);
