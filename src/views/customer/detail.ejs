@@ -12,6 +12,12 @@
                 -webkit-appearance: none;
                 margin: 0;
             }
+
+            #more-btn:hover,
+            #less-btn:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
         </style>
     </head>
     <body>
@@ -24,10 +30,10 @@
                         <div class="card-header text-bg-dark py-3">
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    <h4 class="text-white text-uppercase">
-                                        5 centimeters pers second
-                                    </h4>
-                                    <p class="text-white-50 fw-semibold mb-0">by Makoto Shinkai</p>
+                                    <h4 class="text-white text-uppercase"><%= book.title %></h4>
+                                    <p class="text-white-50 fw-semibold mb-0">
+                                        by <%= book.author %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -59,14 +65,14 @@
                                                 <div class="carousel-item position-absolute active">
                                                     <img
                                                         class="d-block w-100 h-100"
-                                                        src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1419696935i/24122950.jpg"
+                                                        src="<%= book.front_cover_image %>"
                                                         alt="First slide"
                                                     />
                                                 </div>
                                                 <div class="carousel-item position-absolute">
                                                     <img
                                                         class="d-block w-100 h-100"
-                                                        src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1548336607i/43695901.jpg"
+                                                        src="<%= book.back_cover_image %>"
                                                         alt="Second slide"
                                                     />
                                                 </div>
@@ -103,25 +109,24 @@
                                         <div class="row">
                                             <p class="text-body-emphasis mb-0">
                                                 <span class="fw-bold">ISBN:</span>
-                                                <span class="text-secondary">RITO5555501</span>
+                                                <span class="text-secondary"><%= book.isbn %></span>
                                             </p>
                                         </div>
                                         <div class="row">
                                             <h6 class="text-body-emphasis pb-2">
                                                 <span class="fw-bold">Price:</span>
-                                                <span class="text-success"> $30.00</span>
+                                                <span class="text-success">
+                                                    $<%= book.price %></span
+                                                >
                                             </h6>
                                         </div>
 
                                         <div class="row my-3">
-                                            <p class="text-secondary" style="text-align: justify">
-                                                The title 5 Centimeters per Second comes from the
-                                                speed at which cherry blossom petals fall, with
-                                                petals being a metaphorical representation of
-                                                humans, reminiscent of the slowness of life and how
-                                                people often start together but slowly drift into
-                                                their separate ways.
-                                            </p>
+                                            <p
+                                                id="description"
+                                                class="text-secondary"
+                                                style="text-align: justify"
+                                            ></p>
                                         </div>
 
                                         <form action="" method="post">
@@ -163,7 +168,9 @@
                                                         style="line-height: 32px"
                                                     >
                                                         In stock:
-                                                        <span class="text-danger fs-3">100</span>
+                                                        <span class="text-danger fs-3"
+                                                            ><%= book.stock_quantity %></span
+                                                        >
                                                     </h6>
                                                 </div>
                                             </div>
@@ -190,5 +197,45 @@
         </main>
 
         <%- include('../partials/footer') %>
+        <script>
+            $(() => {
+                let content = `<%= book.description %>`;
+                const contentArray = content.split(/\s+/);
+
+                if (contentArray.length > 100) {
+                    const showContent = contentArray.splice(0, 100);
+                    const hideContent = contentArray;
+
+                    $('#description').html(`
+                        ${showContent.join(' ')}
+                        <span id="dots">...
+                            <span id="more-btn" class="fw-bold text-nowrap">
+                                Read more
+                            </span>
+                        </span>
+                        <span id="more-content" class="d-none">
+                            ${hideContent.join(' ')}
+                        </span>
+                        <span id="less-btn" class="fw-bold text-nowrap d-none">
+                                Read less
+                        </span>
+                    `);
+
+                    $('#more-btn').click(function () {
+                        $('#dots').addClass('d-none');
+                        $('#more-content').removeClass('d-none');
+                        $('#less-btn').removeClass('d-none');
+                    });
+
+                    $('#less-btn').click(function () {
+                        $('#dots').removeClass('d-none');
+                        $('#more-content').addClass('d-none');
+                        $('#less-btn').addClass('d-none');
+                    });
+                } else {
+                    $('#description').html(`${contentArray.join(' ')}`);
+                }
+            });
+        </script>
     </body>
 </html>

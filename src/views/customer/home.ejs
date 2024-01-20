@@ -43,14 +43,15 @@
                     <div
                         class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3"
                     >
+                        <% bookList.forEach(function(book) { %>
                         <div class="col">
                             <a
-                                href="/customer/detail"
+                                href="/customer/detail/<%= book.id %>"
                                 class="card border-0 p-2 shadow border-top border-5 border-secondary rounded text-decoration-none"
                                 title="Xem chi tiết"
                             >
                                 <img
-                                    src="https://bulky.azurewebsites.net/images/products/product-1/240def0e-ff8e-4b61-bc03-93ce31069e55.jpg"
+                                    src="<%= book.front_cover_image %>"
                                     class="card-img-top rounded"
                                     style="aspect-ratio: 9 / 10"
                                 />
@@ -59,139 +60,27 @@
                                     <div class="">
                                         <p
                                             class="card-title h5 text-body-emphasis opacity-75 text-uppercase text-center text-truncate"
+                                            title="<%= book.title %>"
                                         >
-                                            vanish in the sunset
+                                            <%= book.title %>
                                         </p>
                                         <p
-                                            class="card-title text-success text-uppercase text-center"
+                                            class="card-title text-success text-uppercase text-center text-truncate"
+                                            title="<%= book.author %>"
                                         >
-                                            <b>Author:</b> Billy Spark
+                                            <b>Author:</b> <%= book.author %>
                                         </p>
                                     </div>
-                                    <p class="card-text mb-2 line-clamp">
-                                        Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.
-                                    </p>
+                                    <p class="card-text mb-2 line-clamp"><%- book.description %></p>
                                     <div class="d-flex justify-content-end align-items-center fs-6">
                                         <p class="mb-0">
-                                            <b class="text-success">Price:</b> 100.000đ
+                                            <b class="text-success">Price:</b> $<%= book.price %>
                                         </p>
                                     </div>
                                 </div>
                             </a>
                         </div>
-                        <div class="col">
-                            <a
-                                href="/customer/detail"
-                                class="card border-0 p-2 shadow border-top border-5 border-secondary rounded text-decoration-none"
-                                title="Xem chi tiết"
-                            >
-                                <img
-                                    src="https://bulky.azurewebsites.net/images/products/product-1/240def0e-ff8e-4b61-bc03-93ce31069e55.jpg"
-                                    class="card-img-top rounded"
-                                    style="aspect-ratio: 9 / 10"
-                                />
-
-                                <div class="card-body p-1 pb-1">
-                                    <div class="">
-                                        <p
-                                            class="card-title h5 text-body-emphasis opacity-75 text-uppercase text-center text-truncate"
-                                        >
-                                            Fortune of Time
-                                        </p>
-                                        <p
-                                            class="card-title text-success text-uppercase text-center"
-                                        >
-                                            <b>Author:</b> Billy Spark
-                                        </p>
-                                    </div>
-                                    <p class="card-text mb-2 line-clamp">
-                                        Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.
-                                    </p>
-                                    <div class="d-flex justify-content-end align-items-center fs-6">
-                                        <p class="mb-0">
-                                            <b class="text-success">Price:</b> 100.000đ
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a
-                                href="/customer/detail"
-                                class="card border-0 p-2 shadow border-top border-5 border-secondary rounded text-decoration-none"
-                                title="Xem chi tiết"
-                            >
-                                <img
-                                    src="https://bulky.azurewebsites.net/images/products/product-1/240def0e-ff8e-4b61-bc03-93ce31069e55.jpg"
-                                    class="card-img-top rounded"
-                                    style="aspect-ratio: 9 / 10"
-                                />
-
-                                <div class="card-body p-1 pb-1">
-                                    <div class="">
-                                        <p
-                                            class="card-title h5 text-body-emphasis opacity-75 text-uppercase text-center text-truncate"
-                                        >
-                                            Fortune of Time
-                                        </p>
-                                        <p
-                                            class="card-title text-success text-uppercase text-center"
-                                        >
-                                            <b>Author:</b> Billy Spark
-                                        </p>
-                                    </div>
-                                    <p class="card-text mb-2 line-clamp">
-                                        Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.
-                                    </p>
-                                    <div class="d-flex justify-content-end align-items-center fs-6">
-                                        <p class="mb-0">
-                                            <b class="text-success">Price:</b> 100.000đ
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a
-                                href="/customer/detail"
-                                class="card border-0 p-2 shadow border-top border-5 border-secondary rounded text-decoration-none"
-                                title="Xem chi tiết"
-                            >
-                                <img
-                                    src="https://bulky.azurewebsites.net/images/products/product-1/240def0e-ff8e-4b61-bc03-93ce31069e55.jpg"
-                                    class="card-img-top rounded"
-                                    style="aspect-ratio: 9 / 10"
-                                />
-
-                                <div class="card-body p-1 pb-1">
-                                    <div class="">
-                                        <p
-                                            class="card-title h5 text-body-emphasis opacity-75 text-uppercase text-center text-truncate"
-                                            title="Full title"
-                                        >
-                                            Fortune of Time
-                                        </p>
-                                        <p
-                                            class="card-title text-success text-uppercase text-center"
-                                        >
-                                            <b>Author:</b> Billy Spark
-                                        </p>
-                                    </div>
-                                    <p class="card-text mb-2 line-clamp">
-                                        Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.
-                                    </p>
-                                    <div class="d-flex justify-content-end align-items-center fs-6">
-                                        <p class="mb-0">
-                                            <b class="text-success">Price:</b> 100.000đ
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                        <% }); %>
                     </div>
 
                     <nav class="mt-4 d-flex justify-content-end">
