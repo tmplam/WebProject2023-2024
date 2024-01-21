@@ -29,6 +29,8 @@ app.set('view engine', 'ejs');
 
 const httpServer = require('http').createServer(app);
 // Setup socket (if any)
+require('./utils/custom-passport')(app);
+const customError = require('./utils/custom-error');
 
 // SET UP ROUTER
 // app.use((req, res, next) => {
@@ -38,6 +40,7 @@ const httpServer = require('http').createServer(app);
 //         res.redirect('/auth/signin');
 //     }
 // });
+
 
 // Main page of game
 app.get('/', async (req, res, next) => {
@@ -49,7 +52,11 @@ app.get('/', async (req, res, next) => {
     }
 });
 
+const authRouter = require('./router/AuthRouter');
+app.use('/', authRouter);
+
 app.get('/customer/profile', (req, res, next) => {
+    console.log(req.user);
     res.render('customer/profile', {});
 });
 
@@ -74,13 +81,14 @@ app.get('/customer/summary', async (req, res, next) => {
     }
 });
 
-app.get('/signup', (req, res, next) => {
-    res.render('customer/signup');
-});
 
-app.get('/login', (req, res, next) => {
-    res.render('customer/Login');
-});
+///check role here
+app.use('/', (req, res, next) => {
+    if(req.user.role !== 2) {
+        throw new customError('Unauthorized!', 401);
+    }
+    next();
+})
 
 app.get('/admin/dashboard', async (req, res, next) => {
     try {

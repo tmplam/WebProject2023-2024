@@ -15,37 +15,39 @@
                     <div class="col-12 col-md-9 col-lg-6 col-xl-5">
                         <form action="" method="post" class="p-4 rounded-4 shadow text-body-emphasis card">
                             <h1 class="text-center text-primary mb-2 text-uppercase">SIGN UP</h1>
-                            <p class="text-danger text-center mb-1">
-                                <i>Username existed!</i>
-                            </p>
                             
                             <div class="form-group">
                                 <label class="form-label" for="input-username">Username</label>
                                 <input type="text" class="form-control" id="input-username" name="username"
                                     placeholder="Enter username" required>
+                                <span id="notify-username" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label" for="input-password">Password</label>
-                                <input type="password" class="form-control" id="input-password" name="password"
+                                <input type="password" class="form-control" id="input-password" name="repeatpassword"
                                     placeholder="Enter password" required>
+                                <span id="notify-password" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
-                                <label class="form-label" for="input-password">Confirm password</label>
-                                <input type="password" class="form-control" id="input-password" name="password"
+                                <label class="form-label" for="input-repeat-password">Confirm password</label>
+                                <input type="password" class="form-control" id="input-repeat-password" name="password"
                                     placeholder="Repeat your password" required>
+                                <span id="notify-repeat-password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label" for="input-fullname">Fullname</label>
+                                <input type="text" class="form-control" id="input-fullname" name="fullname"
+                                    placeholder="Enter fullname" required>
+                                <span id="notify-fullname" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label" for="input-email">Email</label>
                                 <input type="email" class="form-control" id="input-email" name="email"
                                     placeholder="Enter email" required>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label class="form-label" for="input-phone">Phone</label>
-                                <input type="tel" class="form-control" id="input-phone" name="phone"
-                                    placeholder="Enter numberphone" required>
+                                <span id="notify-email" class="text-danger"></span>
                             </div>
 
-                            <button type="submit" class="d-block mx-auto btn btn-primary col-12 mt-3 mb-2 px-4 py-2">Sign up</button>
+                            <button type="submit" id="btn-submit" class="d-block mx-auto btn btn-primary col-12 mt-3 mb-2 px-4 py-2">Sign up</button>
 
                             <p class="text-center mb-0">
                                 Have an account?
@@ -59,7 +61,7 @@
                             </div>
                           
                             <div class="d-flex justify-content-center mb-2">
-                                <a class="btn btn-danger px-4 py-2 col-12" href="# role="button">
+                                <a class="btn btn-danger px-4 py-2 col-12" href="/auth/google" role="button">
                                     <i class="fab fa-google me-2"></i>Continue with Google
                                 </a>
                             </div>
@@ -71,6 +73,137 @@
 
         <%- include('../partials/footer') %>
 
-        <script></script>
+        <script>
+            const usernameValidate = (username) => {
+                const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_-]{3,23}$/;
+                if (username === null || username === undefined) {
+                    return false;
+                }
+
+                if (!USER_REGEX.test(username)) {
+                    return false;
+                }
+
+                return username;
+            }
+
+            const passwordValidate = (password) => {
+                const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+                if (password === null || password === undefined) {
+                    return false;
+                }
+
+                if (!PWD_REGEX.test(password)) {
+                    return false;
+                }
+
+                return password;
+            }
+
+            const fullnameValidate = (fullname) => {
+                const FULLNAME_REGEX = /^[A-ZÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÚÙỦŨỤƯỨỪỬỮỰÍÌỈĨỊÓÒỎÕỌƠỚỜỞỠỢÔỐỒỔỖỘÝỲỶỸỴ][a-záàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịóòỏõọơớờởỡợôốồổỗộýỳỷỹỵ]*$/;
+                const names = fullname.trim().split(/\s+/); 
+                for (let i = 0; i < names.length; i++) {
+                    if (!FULLNAME_REGEX.test(names[i])) {
+                        return false;
+                    }
+                }
+                return fullname;
+            }
+
+            const emailValidate = (email) => {
+                const EMAIL_REGEX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                if (email === null || email === undefined) {
+                    return false;
+                }
+                if (!EMAIL_REGEX.test(email)) {
+                    return false;
+                }
+                return email;
+            }
+
+
+            const inputUsername = $('#input-username');
+            const notifyUsername = $('#notify-username');
+            const inputPassword = $('#input-password');
+            const notifyPassword = $('#notify-password');
+            const inputRepeatPassword = $('#input-repeat-password');
+            const notifyRepeatPassword = $('#notify-repeat-password');
+            const inputEmail = $('#input-email');
+            const notifyEmail = $('#notify-email');
+            const inputFullname = $('#input-fullname');
+            const notifyFullname = $('#notify-fullname');
+
+            inputUsername.blur(async (e) => {
+                let txt = inputUsername.val();
+                if(!usernameValidate(txt)) {
+                    notifyUsername.html('invalid username');
+                    return;
+                }
+                const result = await fetch('/signup/validate', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: event.target.value
+                    })
+                });
+                const data = await result.json();
+                notifyUsername.html(data);
+            })
+            inputUsername.on('input', (e) => {
+                notifyUsername.html('');
+            })
+
+
+            inputPassword.on('input', (e) => {
+                notifyPassword.html('');
+            })
+            inputPassword.blur((e) => {
+                let txt = inputPassword.val();
+                if(!passwordValidate(txt)) {
+                    notifyPassword.html('invalid password');
+                }
+            })
+            
+            
+            inputRepeatPassword.on('input', (e) => {
+                notifyRepeatPassword.html('');
+            })
+            inputRepeatPassword.blur((e) => {
+                let pw = inputPassword.val();
+                let repeatpw = inputRepeatPassword.val();
+                if(pw != repeatpw) {
+                    notifyRepeatPassword.html('incorrect repeat password')
+                }
+            })
+            
+            inputEmail.blur((e) => {
+                let txt = inputEmail.val();
+                if(!emailValidate(txt)) {
+                    notifyEmail.html('invalid email');
+                }
+            })
+            inputEmail.on('input', (e) => {
+                notifyEmail.html('');
+            })
+
+            inputFullname.blur((e) => {
+                let txt = inputFullname.val();
+                if(!fullnameValidate(txt)) {
+                    notifyFullname.html('invalid fullname');
+                }
+            })
+            inputFullname.on('input', (e) => {
+                notifyFullname.html('');
+            })
+
+            $('form').submit(e => {
+                if(notifyUsername.html() || notifyPassword.html() || notifyRepeatPassword.html() || notifyEmail.html() || notifyFullname.html()) {
+                    e.preventDefault();
+                }
+            })
+        </script>
     </body>
 </html>
