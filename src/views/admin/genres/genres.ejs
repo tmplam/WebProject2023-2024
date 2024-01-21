@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin - Manage genres</title>
+
+        <%- include('../../partials/cdn') %>
+        <!--  -->
+        <%- include('../partials/datatable-css') %>
+    </head>
+
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <%- include('../partials/sidebar') %>
+
+            <div id="content" class="w-100 h-100">
+                <%- include('../partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <div class="row g-3">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card shadow">
+                                    <div
+                                        class="bg-body-dark card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
+                                        <h4 class="m-0 text-nowrap">
+                                            <i class="fa-solid fa-bookmark"></i> GENRES
+                                        </h4>
+                                        <div class="w-100 d-flex justify-content-end">
+                                            <button
+                                                href="/admin/products/create"
+                                                class="btn btn-primary fw-semibold text-uppercase"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#createModal"
+                                            >
+                                                <i class="fa-solid fa-circle-plus me-1"></i>
+                                                NEW GENRE
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="bg-body-tertiary card-body px-3 py-2">
+                                        <div class="datatable-area scroll-container overflow-auto">
+                                            <table id="datatablesSimple">
+                                                <thead>
+                                                    <tr>
+                                                        <th># &nbsp;&nbsp;</th>
+                                                        <th>Name</th>
+                                                        <th>Number of books</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th># &nbsp;&nbsp;</th>
+                                                        <th>Name</th>
+                                                        <th>Number of books</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>Action</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Drama</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>Detective</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>SciFi</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>History</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td>Animal</td>
+                                                        <td>10</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>7</td>
+                                                        <td>Comic</td>
+                                                        <td>230</td>
+                                                        <td>
+                                                            <div class="text-nowrap text-center">
+                                                                <button
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/genres/genreId/edit"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateModal"
+                                                                    data-bs-id="updateGenreId"
+                                                                    data-bs-name="updateGenreName"
+                                                                >
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="genreId"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%- include('../../partials/footer') %>
+            </div>
+
+            <!-- Delete modal -->
+            <div
+                class="modal fade"
+                id="deleteModal"
+                tabindex="-1"
+                aria-labelledby="deleteModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel">Are you sure?</h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <form
+                                id="delete-genre-form"
+                                class="visually-hidden"
+                                method="POST"
+                            ></form>
+                            The genre will be deleted permanently and books of this genre will be
+                            set genre to none!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button id="delete-genre-btn" type="button" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create modal -->
+            <div
+                class="modal fade"
+                id="createModal"
+                tabindex="-1"
+                aria-labelledby="createModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="createModalLabel">CREATE NEW GENRE</h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="create-genre-form" method="POST">
+                                <div class="form-floating">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="genre-name-create"
+                                        name="genre-name-create"
+                                        placeholder="Action"
+                                    />
+                                    <label for="genre-name-create">Genre name</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button id="create-genre-btn" type="button" class="btn btn-primary">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update modal -->
+            <div
+                class="modal fade"
+                id="updateModal"
+                tabindex="-1"
+                aria-labelledby="updateModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="updateModalLabel">UPDATE GENRE</h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="update-genre-form" method="POST">
+                                <div class="form-floating">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="genre-name-update"
+                                        name="genre-name-update"
+                                        placeholder="Action"
+                                    />
+                                    <label for="genre-name-update">Genre name</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button id="update-genre-btn" type="button" class="btn btn-primary">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+                // Data table
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+
+                // Delete product modal
+                const deleteModal = $('#deleteModal');
+                const deleteBtn = $('#delete-genre-btn');
+                let deleteGenreId;
+                if (deleteModal) {
+                    deleteModal.on('show.bs.modal', (event) => {
+                        const button = $(event.relatedTarget);
+                        deleteGenreId = button.attr('data-bs-id');
+                    });
+                }
+
+                const deleteForm = $('#delete-genre-form');
+                deleteBtn.click(function () {
+                    alert('Submit delete form!');
+                    deleteForm.attr('action', `/admin/genres/${deleteGenreId}/delete`);
+                    // deleteForm.submit();
+                });
+
+                // Create genre modal
+                const createModal = $('#createModal');
+                const createBtn = $('#create-genre-btn');
+
+                const createForm = $('#create-genre-form');
+                createBtn.click(function () {
+                    alert('Submit create form!');
+                    createForm.attr('action', `/admin/genres/${createGenreId}/create`);
+                    // deleteForm.submit();
+                });
+
+                // Update genre modal
+                const updateModal = $('#updateModal');
+                const updateBtn = $('#update-genre-btn');
+                let updateGenreId;
+                let updateGenreName;
+                if (updateModal) {
+                    updateModal.on('show.bs.modal', (event) => {
+                        const button = $(event.relatedTarget);
+                        updateGenreId = button.attr('data-bs-id');
+                        updateGenreName = button.attr('data-bs-name');
+                        $('#update-genre-form #genre-name-update').val(updateGenreName);
+                    });
+                }
+
+                const updateForm = $('#update-genre-form');
+                updateBtn.click(function () {
+                    alert('Sumit update form!');
+                    updateForm.attr('action', `/admin/genres/${updateGenreId}/create`);
+                    // updateForm.submit();
+                });
+            });
+        </script>
+    </body>
+</html>

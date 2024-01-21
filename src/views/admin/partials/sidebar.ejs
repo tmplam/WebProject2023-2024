@@ -52,6 +52,15 @@
         </li>
         <li>
             <a
+                href="/admin/genres"
+                class="nav-link <%= typeof genres !== 'undefined' && genres ? 'active' : 'link-body-emphasis' %> text-nowrap"
+            >
+                <span class="me-2"><i class="fa-solid fa-bookmark"></i></span>
+                Genres
+            </a>
+        </li>
+        <li>
+            <a
                 href="/admin/customers"
                 class="nav-link <%= typeof customers !== 'undefined' && customers ? 'active' : 'link-body-emphasis' %> text-nowrap"
             >
