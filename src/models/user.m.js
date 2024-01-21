@@ -35,4 +35,8 @@ module.exports = class User {
         return response;
     }
 
+    static async update(user, userId) {
+        const response = await db.update(tableName, user, tableId, userId);
+        return response;
+    }
 }

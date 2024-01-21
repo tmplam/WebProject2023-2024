@@ -14,4 +14,13 @@ module.exports = {
             next(new customError(error.message, 503));
         }
     },
+    updateProfileController: async(req, res, next) => {
+        console.log(req.body);
+        try {
+            await userModel.update(req.body, req.params.id);
+            res.redirect('/customer/profile');
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+    }
 };
