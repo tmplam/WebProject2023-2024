@@ -20,9 +20,9 @@
                         >
                             <h1 class="text-center text-primary mb-2 text-uppercase">Login</h1>
                             <% if(typeof status !== 'undefined') {%>
-                                <p id="notification" class="text-danger text-center mb-1">
-                                    <i>Incorrect username or password</i>
-                                </p>
+                            <p id="notification" class="text-danger text-center mb-1">
+                                <i>Incorrect username or password</i>
+                            </p>
                             <% } %>
                             <div class="form-group">
                                 <label class="form-label" for="input-username">Username</label>
@@ -55,7 +55,7 @@
                             </button>
                             <p class="text-center mb-0">
                                 You don't have an account?
-                                <a href="/signup" class="text-primary">Sign-up</a> now.
+                                <a href="/auth/signup" class="text-primary">Sign-up</a> now.
                             </p>
 
                             <div class="divider d-flex align-items-center my-3">
@@ -71,7 +71,11 @@
                             </div>
 
                             <div class="d-flex justify-content-center mb-2">
-                                <a class="btn btn-danger px-4 py-2 col-12" href="/auth/google" role="button">
+                                <a
+                                    class="btn btn-danger px-4 py-2 col-12"
+                                    href="/auth/google"
+                                    role="button"
+                                >
                                     <i class="fab fa-google me-2"></i>Continue with Google
                                 </a>
                             </div>
@@ -81,17 +85,15 @@
             </div>
         </main>
 
-        <%- include('../partials/footer') %>
-
-        <% if(typeof status !== 'undefined') {%>
-            <script>
-                $('#input-username').on('input', (e) => {
-                    $('#notification').css('visibility', 'hidden')
-                })
-                $('#input-password').on('input', (e) => {
-                    $('#notification').css('visibility', 'hidden');
-                })
-            </script>
+        <%- include('../partials/footer') %> <% if(typeof status !== 'undefined') {%>
+        <script>
+            $('#input-username').on('input', (e) => {
+                $('#notification').css('visibility', 'hidden');
+            });
+            $('#input-password').on('input', (e) => {
+                $('#notification').css('visibility', 'hidden');
+            });
+        </script>
         <% } %>
     </body>
 </html>

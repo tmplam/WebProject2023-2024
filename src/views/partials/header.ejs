@@ -10,15 +10,24 @@
 
             <ul class="nav nav-pills col-auto me-auto justify-content-center mb-md-0 fw-bold">
                 <li class="nav-item">
-                    <a href="/" class="nav-link px-2 link-secondary">Home</a>
+                    <a
+                        href="/"
+                        class="nav-link px-2 <%= typeof home !== 'undefined' && home ? 'link-secondary' : 'link-body-emphasis' %>"
+                    >
+                        Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/customer/summary" class="nav-link px-2 link-body-emphasis">Order</a>
+                    <a
+                        href="/customer/orders"
+                        class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>"
+                        >Order</a
+                    >
                 </li>
                 <li class="nav-item">
                     <a
                         href="/customer/cart"
-                        class="nav-link px-2 link-body-emphasis position-relative"
+                        class="nav-link px-2 <%= typeof cart !== 'undefined' && cart ? 'link-secondary' : 'link-body-emphasis' %> position-relative"
                     >
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span
@@ -51,13 +60,13 @@
                     <li><a class="dropdown-item" href="/customer/profile">Settings</a></li>
                     <li><a class="dropdown-item" href="/customer/profile">Profile</a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    <li><a class="dropdown-item" href="/auth/logout">Sign out</a></li>
                 </ul>
             </div>
             <% } else { %>
             <div>
-                <a class="btn btn-outline-primary" href="/login">Login</a>
-                <a class="btn btn-primary" href="/signup">Sign-up</a>
+                <a class="btn btn-outline-primary" href="/auth/login">Login</a>
+                <a class="btn btn-primary" href="/auth/signup">Sign-up</a>
             </div>
             <% } %>
         </div>

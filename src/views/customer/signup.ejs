@@ -13,55 +13,107 @@
             <div class="container py-2">
                 <div class="row justify-content-center align-items-center my-3">
                     <div class="col-12 col-md-9 col-lg-6 col-xl-5">
-                        <form action="" method="post" class="p-4 rounded-4 shadow text-body-emphasis card">
+                        <form
+                            action=""
+                            method="post"
+                            class="p-4 rounded-4 shadow text-body-emphasis card"
+                        >
                             <h1 class="text-center text-primary mb-2 text-uppercase">SIGN UP</h1>
-                            
+
                             <div class="form-group">
                                 <label class="form-label" for="input-username">Username</label>
-                                <input type="text" class="form-control" id="input-username" name="username"
-                                    placeholder="Enter username" required>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="input-username"
+                                    name="username"
+                                    placeholder="Enter username"
+                                    required
+                                />
                                 <span id="notify-username" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label" for="input-password">Password</label>
-                                <input type="password" class="form-control" id="input-password" name="repeatpassword"
-                                    placeholder="Enter password" required>
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="input-password"
+                                    name="repeatpassword"
+                                    placeholder="Enter password"
+                                    required
+                                />
                                 <span id="notify-password" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
-                                <label class="form-label" for="input-repeat-password">Confirm password</label>
-                                <input type="password" class="form-control" id="input-repeat-password" name="password"
-                                    placeholder="Repeat your password" required>
+                                <label class="form-label" for="input-repeat-password"
+                                    >Confirm password</label
+                                >
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="input-repeat-password"
+                                    name="password"
+                                    placeholder="Repeat your password"
+                                    required
+                                />
                                 <span id="notify-repeat-password" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label" for="input-fullname">Fullname</label>
-                                <input type="text" class="form-control" id="input-fullname" name="fullname"
-                                    placeholder="Enter fullname" required>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="input-fullname"
+                                    name="fullname"
+                                    placeholder="Enter fullname"
+                                    required
+                                />
                                 <span id="notify-fullname" class="text-danger"></span>
                             </div>
                             <div class="form-group mt-3">
                                 <label class="form-label" for="input-email">Email</label>
-                                <input type="email" class="form-control" id="input-email" name="email"
-                                    placeholder="Enter email" required>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="input-email"
+                                    name="email"
+                                    placeholder="Enter email"
+                                    required
+                                />
                                 <span id="notify-email" class="text-danger"></span>
                             </div>
 
-                            <button type="submit" id="btn-submit" class="d-block mx-auto btn btn-primary col-12 mt-3 mb-2 px-4 py-2">Sign up</button>
+                            <button
+                                type="submit"
+                                id="btn-submit"
+                                class="d-block mx-auto btn btn-primary col-12 mt-3 mb-2 px-4 py-2"
+                            >
+                                Sign up
+                            </button>
 
                             <p class="text-center mb-0">
                                 Have an account?
-                                <a href="/login" class="text-primary">Login</a> now.
+                                <a href="/auth/login" class="text-primary">Login</a> now.
                             </p>
 
                             <div class="divider d-flex align-items-center my-3">
-                                <p class="mb-0 flex-grow-1 ms-2" style="height: 1px; background-color: #eee;"></p>
+                                <p
+                                    class="mb-0 flex-grow-1 ms-2"
+                                    style="height: 1px; background-color: #eee"
+                                ></p>
                                 <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                                <p class="mb-0 flex-grow-1 me-2" style="height: 1px; background-color: #eee;"></p>
+                                <p
+                                    class="mb-0 flex-grow-1 me-2"
+                                    style="height: 1px; background-color: #eee"
+                                ></p>
                             </div>
-                          
+
                             <div class="d-flex justify-content-center mb-2">
-                                <a class="btn btn-danger px-4 py-2 col-12" href="/auth/google" role="button">
+                                <a
+                                    class="btn btn-danger px-4 py-2 col-12"
+                                    href="/auth/google"
+                                    role="button"
+                                >
                                     <i class="fab fa-google me-2"></i>Continue with Google
                                 </a>
                             </div>
@@ -85,7 +137,7 @@
                 }
 
                 return username;
-            }
+            };
 
             const passwordValidate = (password) => {
                 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -98,21 +150,23 @@
                 }
 
                 return password;
-            }
+            };
 
             const fullnameValidate = (fullname) => {
-                const FULLNAME_REGEX = /^[A-ZÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÚÙỦŨỤƯỨỪỬỮỰÍÌỈĨỊÓÒỎÕỌƠỚỜỞỠỢÔỐỒỔỖỘÝỲỶỸỴ][a-záàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịóòỏõọơớờởỡợôốồổỗộýỳỷỹỵ]*$/;
-                const names = fullname.trim().split(/\s+/); 
+                const FULLNAME_REGEX =
+                    /^[A-ZÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÚÙỦŨỤƯỨỪỬỮỰÍÌỈĨỊÓÒỎÕỌƠỚỜỞỠỢÔỐỒỔỖỘÝỲỶỸỴ][a-záàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịóòỏõọơớờởỡợôốồổỗộýỳỷỹỵ]*$/;
+                const names = fullname.trim().split(/\s+/);
                 for (let i = 0; i < names.length; i++) {
                     if (!FULLNAME_REGEX.test(names[i])) {
                         return false;
                     }
                 }
                 return fullname;
-            }
+            };
 
             const emailValidate = (email) => {
-                const EMAIL_REGEX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                const EMAIL_REGEX =
+                    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
                 if (email === null || email === undefined) {
                     return false;
                 }
@@ -120,8 +174,7 @@
                     return false;
                 }
                 return email;
-            }
-
+            };
 
             const inputUsername = $('#input-username');
             const notifyUsername = $('#notify-username');
@@ -136,74 +189,78 @@
 
             inputUsername.blur(async (e) => {
                 let txt = inputUsername.val();
-                if(!usernameValidate(txt)) {
-                    notifyUsername.html('invalid username');
+                if (!usernameValidate(txt)) {
+                    notifyUsername.html('Invalid username');
                     return;
                 }
-                const result = await fetch('/signup/validate', {
+                const result = await fetch('/auth/signup/validate', {
                     method: 'post',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        username: event.target.value
-                    })
+                        username: event.target.value,
+                    }),
                 });
                 const data = await result.json();
                 notifyUsername.html(data);
-            })
+            });
             inputUsername.on('input', (e) => {
                 notifyUsername.html('');
-            })
-
+            });
 
             inputPassword.on('input', (e) => {
                 notifyPassword.html('');
-            })
+            });
             inputPassword.blur((e) => {
                 let txt = inputPassword.val();
-                if(!passwordValidate(txt)) {
-                    notifyPassword.html('invalid password');
+                if (!passwordValidate(txt)) {
+                    notifyPassword.html('Invalid password');
                 }
-            })
-            
-            
+            });
+
             inputRepeatPassword.on('input', (e) => {
                 notifyRepeatPassword.html('');
-            })
+            });
             inputRepeatPassword.blur((e) => {
                 let pw = inputPassword.val();
                 let repeatpw = inputRepeatPassword.val();
-                if(pw != repeatpw) {
-                    notifyRepeatPassword.html('incorrect repeat password')
+                if (pw != repeatpw) {
+                    notifyRepeatPassword.html('incorrect repeat password');
                 }
-            })
-            
+            });
+
             inputEmail.blur((e) => {
                 let txt = inputEmail.val();
-                if(!emailValidate(txt)) {
-                    notifyEmail.html('invalid email');
+                if (!emailValidate(txt)) {
+                    notifyEmail.html('Invalid email');
                 }
-            })
+            });
             inputEmail.on('input', (e) => {
                 notifyEmail.html('');
-            })
+            });
 
             inputFullname.blur((e) => {
                 let txt = inputFullname.val();
-                if(!fullnameValidate(txt)) {
-                    notifyFullname.html('invalid fullname');
+                if (!fullnameValidate(txt)) {
+                    notifyFullname.html('Invalid fullname');
                 }
-            })
+            });
             inputFullname.on('input', (e) => {
                 notifyFullname.html('');
-            })
+            });
 
-            $('form').submit(e => {
-                if(notifyUsername.html() || notifyPassword.html() || notifyRepeatPassword.html() || notifyEmail.html() || notifyFullname.html()) {
+            $('form').submit((e) => {
+                if (
+                    notifyUsername.html() ||
+                    notifyPassword.html() ||
+                    notifyRepeatPassword.html() ||
+                    notifyEmail.html() ||
+                    notifyFullname.html()
+                ) {
                     e.preventDefault();
                 }
-            })
+            });
         </script>
     </body>
 </html>
