@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Products</title>
+        <title>Admin - Manage books</title>
 
         <%- include('../../partials/cdn') %>
         <!--  -->
@@ -50,7 +50,7 @@
                                         <div class="w-100 d-flex justify-content-end">
                                             <a
                                                 href="/admin/products/create"
-                                                class="btn btn-primary text-uppercase"
+                                                class="btn btn-primary fw-semibold text-uppercase"
                                             >
                                                 <i class="fa-solid fa-circle-plus me-1"></i>
                                                 NEW BOOK
@@ -66,7 +66,7 @@
                                                         <th>ISBN</th>
                                                         <th>Name</th>
                                                         <th>Author</th>
-                                                        <th>Category</th>
+                                                        <th>Genre</th>
                                                         <th>Stock&nbsp;&nbsp;</th>
                                                         <th>Price</th>
                                                         <th></th>
@@ -454,6 +454,8 @@
                         </div>
                     </div>
                 </div>
+
+                <%- include('../../partials/footer') %>
             </div>
 
             <div

@@ -98,8 +98,8 @@ app.get('/admin/dashboard', async (req, res, next) => {
     }
 });
 
-app.get('/admin/categories', (req, res, next) => {
-    res.render('admin/categories', {});
+app.get('/admin/genres', (req, res, next) => {
+    res.render('admin/genres/genres', { genres: true });
 });
 
 app.get('/admin/customers', (req, res, next) => {
@@ -108,6 +108,10 @@ app.get('/admin/customers', (req, res, next) => {
 
 app.get('/admin/orders', (req, res, next) => {
     res.render('admin/orders', { orders: true });
+});
+
+app.get('/admin/orders/:orderId/detail', (req, res, next) => {
+    res.render('admin/order-detail', { orders: true });
 });
 
 // PRODUCTS

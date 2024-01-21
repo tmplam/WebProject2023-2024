@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Orders</title>
+        <title>Admin - Manage orders</title>
         <%- include('../partials/cdn') %>
         <!--  -->
         <%- include('./partials/datatable-css') %>
@@ -52,7 +52,10 @@
                                                         <td>completed</td>
                                                         <td>100</td>
                                                         <td>
-                                                            <a class="btn btn-primary py-1">
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/admin/orders/orderId/detail"
+                                                            >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
@@ -66,7 +69,10 @@
                                                         <td>In Proccess</td>
                                                         <td>95</td>
                                                         <td>
-                                                            <a class="btn btn-primary py-1">
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/admin/orders/orderId/detail"
+                                                            >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
@@ -80,7 +86,10 @@
                                                         <td>Pending</td>
                                                         <td>120</td>
                                                         <td>
-                                                            <a class="btn btn-primary py-1">
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/admin/orders/orderId/detail"
+                                                            >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
@@ -94,7 +103,10 @@
                                                         <td>Pending</td>
                                                         <td>200</td>
                                                         <td>
-                                                            <a class="btn btn-primary py-1">
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/admin/orders/orderId/detail"
+                                                            >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
@@ -108,7 +120,10 @@
                                                         <td>completed</td>
                                                         <td>150</td>
                                                         <td>
-                                                            <a class="btn btn-primary py-1">
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/admin/orders/orderId/detail"
+                                                            >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
@@ -122,7 +137,10 @@
                                                         <td>completed</td>
                                                         <td>150</td>
                                                         <td>
-                                                            <a class="btn btn-primary py-1">
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/admin/orders/orderId/detail"
+                                                            >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
@@ -136,6 +154,8 @@
                         </div>
                     </div>
                 </div>
+
+                <%- include('../partials/footer') %>
             </div>
         </main>
 
