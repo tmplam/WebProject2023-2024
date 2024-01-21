@@ -1,11 +1,28 @@
 const bookModel = require('../models/book.m');
+const genreModel = require('../models/genre.m');
 const customError = require('../utils/custom-error');
 
 module.exports = {
     homeController: async (req, res, next) => {
         try {
-            const bookList = await bookModel.getAll();
-            res.render('customer/home', { loginUser: req.user, bookList, home: true });
+            const genreList = await genreModel.getAll();
+            const constraintValues = [
+                { fieldName: 'title', value: req.query.keyword || '', like: true },
+            ];
+            if (req.query.genre && req.query.genre !== 'all') {
+                constraintValues.push({
+                    fieldName: 'genre',
+                    value: req.query.genre,
+                });
+            }
+
+            const page = req.query.page || 1;
+            const bookData = await bookModel.getSearch(constraintValues, page, 8);
+            bookData.keyword = req.query.keyword;
+            bookData.genre = req.query.genre;
+            bookData.page = page;
+
+            res.render('customer/home', { loginUser: req.user, genreList, bookData, home: true });
         } catch (error) {
             next(new customError(error.message, 503));
         }

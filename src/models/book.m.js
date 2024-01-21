@@ -35,6 +35,13 @@ module.exports = class Book {
         return bookList;
     }
 
+    static async getSearch(constraintValues, page = 1, perPage = 8, orderField) {
+        const response = await db.getSearch(tableName, constraintValues, page, perPage, orderField);
+        const bookList = response.result.map((book) => new Book(book));
+        delete response.result;
+        return { ...response, bookList };
+    }
+
     static async getManyOrNone(constraintValues) {
         const response = await db.getManyOrNone(tableName, constraintValues);
         const bookList = response.map((book) => new Book(book));
