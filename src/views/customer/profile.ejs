@@ -16,12 +16,12 @@
                 <div class="row justify-content-center align-items-center my-3">
                     <div class="col col-12 col-lg-10">
                         <div class="card row g-0 border rounded overflow-hidden flex-md-row shadow">
-                            <div class="col col-12 col-md-5 col-xl-4 d-lg-block">
-                                <img src="<%= loginUser.avatar %>" class="w-100 h-100 shadow" style="object-fit: cover"
-                                    id="img-avatar" role="button" />
+                            <div class="col col-12 col-md-5 col-xl-4 d-lg-block" id="img-avatar" role="button">
+                                <img src="<%= loginUser.avatar %>" class="w-100 h-100 shadow"
+                                    style="object-fit: cover" />
                             </div>
                             <form class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column needs-validation"
-                                novalidate id="update-profile">
+                                novalidate enctype="multipart/form-data" id="update-profile">
                                 <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
                                 <input type="file" accept="image/*" name="avatar" id="input-avatar" class="d-none" />
                                 <div class="form-floating mb-2">
@@ -95,7 +95,28 @@
                     $('#img-avatar').on('click', () => {
                         $('#input-avatar').click();
                     });
-                    $('#name').on('blur', (e) => {
+                    $('#input-avatar').change(function (event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                const imagePreview = $('#img-avatar');
+                                imagePreview.html(`
+                                <img
+                                    role = "button"
+                                    class="w-100 h-100 shadow"
+                                    style="
+                                        object-fit: cover;
+                                    "
+                                    src="${e.target.result}"
+                                />
+                            `);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    })
+                    $('#name').on('input', (e) => {
                         $(e.target).removeClass('border-info');
                         const fullName = e.target.value;
                         if (!fullnameValidate(fullName)) {
@@ -110,7 +131,7 @@
                             $(e.target).addClass('is-valid').removeClass('is-invalid');
                         }
                     });
-                    $('#email').on('blur', (e) => {
+                    $('#email').on('input', (e) => {
                         $(e.target).removeClass('border-info');
                         const email = e.target.value;
                         if (!emailValidate(email)) {
@@ -125,7 +146,7 @@
                             $(e.target).addClass('is-valid').removeClass('is-invalid');
                         }
                     });
-                    $('#phone').on('blur', (e) => {
+                    $('#phone').on('input', (e) => {
                         $(e.target).removeClass('border-info');
                         const phone = e.target.value;
                         if (!phoneValidate(phone)) {
@@ -140,25 +161,67 @@
                             $(e.target).addClass('is-valid').removeClass('is-invalid');
                         }
                     });
+
                     $('#update-profile').submit(async (e) => {
                         e.preventDefault();
                         const fullName = $('#name').val();
                         const email = $('#email').val();
                         const phone = $('#phone').val();
+                        const avatar = $('#input-avatar').val();
                         if (handleSubmit(fullName, email, phone)) {
                             const data = {};
-                            data.fullName = fullName;
+                            data.name = fullName;
                             data.email = email;
-                            data.phone = phone;
+                            data.phone_number = phone;
                             const customerID = '<%= loginUser.id %>';
+                            // const avatar = `/images/users/avatars/${customerID}.${ext}`;
+                            data.avatar = avatar;
                             await fetch(`http://localhost:3000/customer/profile/${customerID}`, {
                                 method: 'POST',
                                 headers: {
                                     "Content-Type": "application/json",
                                 },
-                                body: data,
+                                body: JSON.stringify(data),
                             })
-
+                            $('.form-control').addClass('border-info').removeClass('is-valid').removeClass('is-invalid');
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toast-bottom-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["success"]("Successfully! Your profile had been updated")
+                        }
+                        else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toast-bottom-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            Command: toastr["error"]("Failed! Please check your information")
                         }
                     })
                     // $('#input-avatar').change((e) => {
