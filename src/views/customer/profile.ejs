@@ -17,10 +17,11 @@
                     <div class="col col-12 col-lg-10">
                         <div class="card row g-0 border rounded overflow-hidden flex-md-row shadow">
                             <div class="col col-12 col-md-5 col-xl-4 d-lg-block" id="img-avatar" role="button">
-                                <img src="<%= loginUser.avatar %>" class="w-100 h-100 shadow"
-                                    style="object-fit: cover" />
+                                <img src="<%= loginUser.avatar ? loginUser.avatar : '/images/users/avatars/default.jpg' %>"
+                                    class="w-100 h-100 shadow" style="object-fit: cover" />
                             </div>
-                            <form action="/customer/profile/<%= loginUser.id %>" method="post" class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column needs-validation"
+                            <form action="/customer/profile/<%= loginUser.id %>" method="post"
+                                class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column needs-validation"
                                 novalidate enctype="multipart/form-data" id="update-profile">
                                 <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
                                 <input type="file" accept="image/*" name="avatar" id="input-avatar" class="d-none" />
@@ -35,8 +36,8 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="form-floating mb-2">
-                                    <input class="form-control border-info" name="phone_number" id="phone_number" required
-                                        value="<%= loginUser.phone_number %>" spellcheck="false" />
+                                    <input class="form-control border-info" name="phone_number" id="phone_number"
+                                        required value="<%= loginUser.phone_number %>" spellcheck="false" />
                                     <label for="phone_number">Phone</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -166,48 +167,14 @@
                         const fullName = $('#name').val();
                         const email = $('#email').val();
                         const phone = $('#phone_number').val();
-                        if (handleSubmit(fullName, email, phone)) {
-                            // const data = {};
-                            // data.name = fullName;
-                            // data.email = email;
-                            // data.phone_number = phone;
-                            // const customerID = '<%= loginUser.id %>';
-                            // data.avatar = avatar;
-                            // await fetch(`http://localhost:3000/customer/profile/${customerID}`, {
-                            //     method: 'POST',
-                            //     headers: {
-                            //         "Content-Type": "application/json",
-                            //     },
-                            //     body: JSON.stringify(data),
-                            // })
-                            $('.form-control').addClass('border-info').removeClass('is-valid').removeClass('is-invalid');
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toast-bottom-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            Command: toastr["success"]("Successfully! Your profile had been updated")
-                        }
-                        else {
+                        if (!handleSubmit(fullName, email, phone)) {
                             e.preventDefault();
                             toastr.options = {
                                 "closeButton": false,
                                 "debug": false,
                                 "newestOnTop": false,
                                 "progressBar": false,
-                                "positionClass": "toast-bottom-right",
+                                "positionClass": "toast-top-right",
                                 "preventDuplicates": false,
                                 "onclick": null,
                                 "showDuration": "300",
@@ -227,6 +194,17 @@
                     // });
                 });
             </script>
+            <script>
+                const fullName = $('#name').val();
+                const email = $('#email').val();
+                const phone = $('#phone_number').val();
+                if (handleSubmit(fullName, email, phone)) {
+                    $('.form-control').addClass('border-info').removeClass('is-valid').removeClass('is-invalid');
+                    toastr.options.timeOut = 3000;
+                    toastr.success('Successfully! Your profile had been update');
+                }
+            </script>
+
 </body>
 
 </html>
