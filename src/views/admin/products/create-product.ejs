@@ -29,7 +29,7 @@
                                     </div>
                                     <div class="card-body p-4">
                                         <div class="datatable-area">
-                                            <form class="row g-3">
+                                            <form method="post" action="" class="row g-3" enctype="multipart/form-data">
                                                 <div class="col-md-6 col-lg-4">
                                                     <label for="isbn" class="form-label"
                                                         >ISBN</label
@@ -76,7 +76,7 @@
                                                         class="form-select"
                                                     >
                                                         <% for(let genre of genreList) { %>
-                                                            <option value="<%= genre.name %>">
+                                                            <option value="<%= genre.id %>">
                                                                 <%= genre.name %>
                                                             </option>
                                                         <% } %>
@@ -126,7 +126,7 @@
                                                         type="file"
                                                         class="form-control"
                                                         id="front-cover"
-                                                        name="front-cover"
+                                                        name="cover-img"
                                                         accept="image/*"
                                                         required
                                                     />
@@ -139,7 +139,7 @@
                                                         type="file"
                                                         class="form-control"
                                                         id="back-cover"
-                                                        name="back-cover"
+                                                        name="cover-img"
                                                         accept="image/*"
                                                         required
                                                     />
