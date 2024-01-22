@@ -20,7 +20,7 @@
                                 <img src="<%= loginUser.avatar %>" class="w-100 h-100 shadow"
                                     style="object-fit: cover" />
                             </div>
-                            <form class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column needs-validation"
+                            <form action="/customer/profile/<%= loginUser.id %>" method="post" class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column needs-validation"
                                 novalidate enctype="multipart/form-data" id="update-profile">
                                 <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
                                 <input type="file" accept="image/*" name="avatar" id="input-avatar" class="d-none" />
@@ -35,9 +35,9 @@
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="form-floating mb-2">
-                                    <input class="form-control border-info" name="phone" id="phone" required
+                                    <input class="form-control border-info" name="phone_number" id="phone_number" required
                                         value="<%= loginUser.phone_number %>" spellcheck="false" />
-                                    <label for="phone">Phone</label>
+                                    <label for="phone_number">Phone</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input class="form-control border-info" name="address" id="address"
@@ -146,7 +146,7 @@
                             $(e.target).addClass('is-valid').removeClass('is-invalid');
                         }
                     });
-                    $('#phone').on('input', (e) => {
+                    $('#phone_number').on('input', (e) => {
                         $(e.target).removeClass('border-info');
                         const phone = e.target.value;
                         if (!phoneValidate(phone)) {
@@ -163,26 +163,23 @@
                     });
 
                     $('#update-profile').submit(async (e) => {
-                        e.preventDefault();
                         const fullName = $('#name').val();
                         const email = $('#email').val();
-                        const phone = $('#phone').val();
-                        const avatar = $('#input-avatar').val();
+                        const phone = $('#phone_number').val();
                         if (handleSubmit(fullName, email, phone)) {
-                            const data = {};
-                            data.name = fullName;
-                            data.email = email;
-                            data.phone_number = phone;
-                            const customerID = '<%= loginUser.id %>';
-                            // const avatar = `/images/users/avatars/${customerID}.${ext}`;
-                            data.avatar = avatar;
-                            await fetch(`http://localhost:3000/customer/profile/${customerID}`, {
-                                method: 'POST',
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify(data),
-                            })
+                            // const data = {};
+                            // data.name = fullName;
+                            // data.email = email;
+                            // data.phone_number = phone;
+                            // const customerID = '<%= loginUser.id %>';
+                            // data.avatar = avatar;
+                            // await fetch(`http://localhost:3000/customer/profile/${customerID}`, {
+                            //     method: 'POST',
+                            //     headers: {
+                            //         "Content-Type": "application/json",
+                            //     },
+                            //     body: JSON.stringify(data),
+                            // })
                             $('.form-control').addClass('border-info').removeClass('is-valid').removeClass('is-invalid');
                             toastr.options = {
                                 "closeButton": false,
@@ -204,6 +201,7 @@
                             Command: toastr["success"]("Successfully! Your profile had been updated")
                         }
                         else {
+                            e.preventDefault();
                             toastr.options = {
                                 "closeButton": false,
                                 "debug": false,
