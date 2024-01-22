@@ -23,12 +23,16 @@
                         <div class="row g-3">
                             <div class="col-xl-12 col-md-12">
                                 <div class="card shadow">
-                                    <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                                    >
-                                        <h4 class="m-0">
+                                    <div class="bg-body-dark card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h4 class="m-0 text-nowrap">
                                             <i class="fa-solid fa-users"></i> CUSTOMERS
                                         </h4>
+                                        <div class="w-100 d-flex justify-content-end">
+                                            <a href="/admin/customers/create" class="btn btn-primary fw-semibold text-uppercase">
+                                                <i class="fa-solid fa-circle-plus me-1"></i>
+                                                NEW
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="card-body px-3 py-2">
                                         <div class="datatable-area scroll-container overflow-auto">
@@ -39,120 +43,39 @@
                                                         <th>Name</th>
                                                         <th>Email</th>
                                                         <th>Phone</th>
-                                                        <th>Adress</th>
+                                                        <th>Address</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Vương Huỳnh Khải</td>
-                                                        <td>vuonghuynhkhai@gmail.com</td>
-                                                        <td>0125123477</td>
-                                                        <td>Dĩ An, Bình Dương</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-success py-1"
-                                                                    title="Block"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-lock"></i>
-                                                                </a>
-
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    title="Detail"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Trần Mỹ Phú Lâm</td>
-                                                        <td>tmplam123456@gmail.com</td>
-                                                        <td>0919239459</td>
-                                                        <td>Đông Hòa, Bình Dương</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-success py-1"
-                                                                    title="Block"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-lock"></i>
-                                                                </a>
-
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    title="Detail"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>Nguyễn Võ Nhật Huy</td>
-                                                        <td>nguyenvonhathuy100@gmail.com</td>
-                                                        <td>0921120470</td>
-                                                        <td>Link Trung, TP HCM</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-success py-1"
-                                                                    title="Block"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-lock"></i>
-                                                                </a>
-
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    title="Detail"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>Tạ Ngọc Duy Khiêm</td>
-                                                        <td>tnduykhiem480@gmail.com</td>
-                                                        <td>0978532141</td>
-                                                        <td>Thủ Đức, TP HCM</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-danger py-1"
-                                                                    title="Unblock"
-                                                                    href="#"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-lock-open"
-                                                                    ></i>
-                                                                </a>
-
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    title="Detail"
-                                                                    href="#"
-                                                                >
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    <%  const length = customerList.length;
+                                                    for(let i = 0; i < length; i++) { %>
+                                                        <tr>
+                                                            <td><%= i+1 %></td>
+                                                            <td><%= customerList[i].name %></td>
+                                                            <td><%= customerList[i].email %></td>
+                                                            <td><%= customerList[i].phone_number %></td>
+                                                            <td><%= customerList[i].address %></td>
+                                                            <td>
+                                                                <div class="text-nowrap">
+                                                                    <% if(customerList[i].status == 'active') { %>
+                                                                        <a class="btn btn-success py-1 btn-block-unblock" href="/admin/customers/<%= customerList[i].id %>/block">
+                                                                            <i class="fa-solid fa-lock"></i>
+                                                                        </a>
+                                                                    <% } else { %>
+                                                                        <a class="btn btn-danger py-1 btn-block-unblock" href="/admin/customers/<%= customerList[i].id %>/unblock">
+                                                                            <i class="fa-solid fa-lock-open"></i>
+                                                                        </a>
+                                                                    <% } %>
+                                                                    <a class="btn btn-primary py-1" title="Detail" href="#">
+                                                                        <i class="fa-solid fa-eye"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <% } %>
+                                                    
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -174,6 +97,47 @@
                 if (datatablesSimple) {
                     new simpleDatatables.DataTable(datatablesSimple);
                 }
+
+
+
+                let btnBlock = $('.btn-block-unblock');
+                
+                btnBlock.click(async (e) => {
+                    e.preventDefault();
+
+                    const aItem = $(e.target).parents('.btn-block-unblock').attr('href') ? $(e.target).parents('.btn-block-unblock') : $(e.target);
+                    let fetchUrl =  aItem.attr('href');
+                    
+                    const isBlock = (fetchUrl.indexOf('unblock') === -1);
+
+                    const response = await fetch(fetchUrl);
+                    const data = await response.json();
+                    if(data) {
+                        toastr.options.timeOut=3000;
+
+                        aItem.toggleClass('btn-success');
+                        aItem.toggleClass('btn-danger');
+                        aItem.find('i').toggleClass('fa-lock-open')
+                        aItem.find('i').toggleClass('fa-lock');
+                        if(isBlock) {
+                            aItem.attr('href', fetchUrl.replace('block', 'unblock'));
+                            toastr.success('Block customer successfully');
+                        }
+                        else {
+                            aItem.attr('href', fetchUrl.replace('unblock', 'block'));
+                            toastr.success('Unblock customer successfully');
+                        }
+                    }
+                    else {
+                        toastr.options.timeOut=3000;
+                        if(isBlock)
+                            toastr.error('Fail to block customer');
+                        else
+                            toastr.error('Fail to unblock customer')
+                    }
+                })
+
+                
             });
         </script>
     </body>

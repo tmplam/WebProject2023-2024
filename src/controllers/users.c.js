@@ -11,9 +11,31 @@ module.exports = {
     // JUST FOR ADMIN
     usersController: async (req, res, next) => {
         try {
-            res.render('admin/customers', { loginUser: req.user, customers: true });
+            const customerList = await userModel.getAllCustomers();
+            res.render('admin/customers', { loginUser: req.user, customers: true, customerList });
         } catch (error) {
             next(new customError(error.message, 503));
+        }
+    },
+
+    blockUnblockController: async (req, res, next) => {
+        try {
+            const user_id = req.params.customerId;
+            const customer = await userModel.get(user_id);
+
+            const operate = req.params.operate;
+            
+            if(operate === 'block') {
+                customer.status = 'block';
+            }
+            else {
+                customer.status = 'active';
+            }
+            await userModel.updateStatus(customer);
+            res.json('success');
+        } catch (error) {
+            res.json('');
+            // next(new customError(error.message, 503));
         }
     },
 };

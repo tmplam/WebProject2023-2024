@@ -36,4 +36,14 @@ module.exports = class User {
         return response;
     }
 
+    static async getAllCustomers() {
+        const response = await db.getManyOrNone(tableName, [{ fieldName: 'role', value: 1 }]);
+        const customerList = response.map((customer) => new User(customer));
+        return customerList;
+    }
+
+    static async updateStatus(user) {
+        await db.update(tableName, user, tableId, user.id);
+    }
+
 }
