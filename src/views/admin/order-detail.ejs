@@ -40,7 +40,7 @@
                                     <div class="card-body">
                                         <div class="container rounded p-2">
                                             <div class="row">
-                                                <div class="col-12 col-lg-6 pb-4">
+                                                <form id="update-info-form" class="col-12 col-lg-6 pb-4" method="POST">
                                                     <div class="row">
                                                         <h4
                                                             class="d-flex justify-content-between align-items-center mb-3"
@@ -64,7 +64,8 @@
                                                                 data-val-required="The Name field is required."
                                                                 id="OrderHeader_Name"
                                                                 name="OrderHeader.Name"
-                                                                value="Bhrugen Patel"
+                                                                value="<%= order.order_by.name %>"
+                                                                readonly
                                                             />
                                                             <span
                                                                 class="text-danger field-validation-valid"
@@ -83,13 +84,14 @@
                                                                 type="text"
                                                                 data-val="true"
                                                                 data-val-required="The PhoneNumber field is required."
-                                                                id="OrderHeader_PhoneNumber"
-                                                                name="OrderHeader.PhoneNumber"
-                                                                value="1112223333"
+                                                                id="phone_number"
+                                                                name="phone_number"
+                                                                value="<%= order.phone_number %>"
+                                                                required
                                                             />
                                                             <span
                                                                 class="text-danger field-validation-valid"
-                                                                data-valmsg-for="OrderHeader.PhoneNumber"
+                                                                data-valmsg-for="phone_number"
                                                                 data-valmsg-replace="true"
                                                             ></span>
                                                         </div>
@@ -106,13 +108,14 @@
                                                                 type="text"
                                                                 data-val="true"
                                                                 data-val-required="The StreetAddress field is required."
-                                                                id="OrderHeader_StreetAddress"
-                                                                name="OrderHeader.StreetAddress"
-                                                                value="Dĩ An, Thủ Đức"
+                                                                id="delivery_address"
+                                                                name="delivery_address"
+                                                                value="<%= order.delivery_address %>"
+                                                                required
                                                             />
                                                             <span
                                                                 class="text-danger field-validation-valid"
-                                                                data-valmsg-for="OrderHeader.StreetAddress"
+                                                                data-valmsg-for="delivery_address"
                                                                 data-valmsg-replace="true"
                                                             ></span>
                                                         </div>
@@ -131,7 +134,7 @@
                                                                 data-val-required="The StreetAddress field is required."
                                                                 id="OrderHeader_StreetAddress"
                                                                 name="OrderHeader.StreetAddress"
-                                                                value="20/03/2003"
+                                                                value="<%= order.order_date %>"
                                                                 readonly
                                                             />
                                                             <span
@@ -155,7 +158,7 @@
                                                                 data-val-required="The StreetAddress field is required."
                                                                 id="OrderHeader_StreetAddress"
                                                                 name="OrderHeader.StreetAddress"
-                                                                value="20/03/2003"
+                                                                value="<%= order.delivery_date %>"
                                                                 readonly
                                                             />
                                                             <span
@@ -167,11 +170,13 @@
                                                     </div>
 
                                                     <button
+                                                        id="submit-update-info-btn"
+                                                        type="submit"
                                                         class="btn btn-warning text-light fw-semibold w-100 mt-2"
                                                     >
                                                         UPDATE ORDER DETAILS
                                                     </button>
-                                                </div>
+                                                </form>
                                                 <div class="col-12 col-lg-5 offset-lg-1">
                                                     <h4
                                                         class="d-flex justify-content-between align-items-center mb-3"
@@ -181,41 +186,33 @@
                                                         >
                                                     </h4>
                                                     <button
-                                                        class="btn btn-outline-success w-100 mb-2"
+                                                        class="btn <%= order.delivery_status == 'Cancel' ? 'btn-outline-danger' : 'btn-outline-success' %> w-100 mb-2 text-uppercase"
                                                     >
-                                                        ORDER STATUS - SHIPPED
+                                                        ORDER STATUS - <%= order.delivery_status %>
                                                     </button>
                                                     <ul class="list-group mb-3">
+                                                        <% order.order_details.forEach((order_detail, index) => { %>
                                                         <li
                                                             class="list-group-item d-flex justify-content-between"
                                                         >
-                                                            <div>
-                                                                <h6 class="my-0">Dark Skies</h6>
-                                                                <small class="text-muted d-block">
-                                                                    Price: $20.00
-                                                                </small>
-                                                                <small class="text-muted d-block">
-                                                                    Quantity: 2
-                                                                </small>
-                                                            </div>
-                                                            <span class="text-muted">$40.00 </span>
-                                                        </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between"
-                                                        >
-                                                            <div>
+                                                            <div class="flex-fill">
                                                                 <h6 class="my-0">
-                                                                    Vanish in the Sunset
+                                                                    <%= order_detail.book_title %>
                                                                 </h6>
                                                                 <small class="text-muted d-block">
-                                                                    Price: $23.00
+                                                                    Price: $<%=
+                                                                    order_detail.book_price %>
                                                                 </small>
-                                                                <small class="text-muted d-block"
-                                                                    >Quantity: 1</small
-                                                                >
+                                                                <small class="text-muted d-block">
+                                                                    Quantity: <%=
+                                                                    order_detail.quantity %>
+                                                                </small>
                                                             </div>
-                                                            <span class="text-muted">$23.00 </span>
+                                                            <span class="text-muted">
+                                                                $<%= order_detail.price %>
+                                                            </span>
                                                         </li>
+                                                        <% }); %>
 
                                                         <li
                                                             class="list-group-item d-flex justify-content-between align-items-center bg-light py-3"
@@ -226,20 +223,46 @@
                                                                 Total
                                                             </h4>
                                                             <h4 class="text-success mb-0">
-                                                                $63.00
+                                                                $<%= order.total_amount %>
                                                             </h4>
                                                         </li>
                                                     </ul>
-                                                    <button
-                                                        class="btn btn-primary w-100 fw-semibold"
+
+                                                    <form
+                                                        id="change-status-form"
+                                                        action="/admin/orders/<%= order.id %>/change-status"
+                                                        method="POST"
                                                     >
-                                                        SHIP ORDER
-                                                    </button>
-                                                    <button
-                                                        class="btn btn-danger w-100 fw-semibold mt-2"
+                                                        <input
+                                                            class="visually-hidden"
+                                                            type="text"
+                                                            id="delivery_status"
+                                                            name="delivery_status"
+                                                        />
+                                                        <button
+                                                            id="next-action-btn"
+                                                            class="btn btn-primary w-100 fw-semibold text-uppercase"
+                                                        ></button>
+                                                    </form>
+
+                                                    <form
+                                                        id="cancel-status-form"
+                                                        action="/admin/orders/<%= order.id %>/change-status"
+                                                        method="POST"
                                                     >
-                                                        CANCEL ORDER
-                                                    </button>
+                                                        <input
+                                                            class="visually-hidden"
+                                                            type="text"
+                                                            id="cancel_status"
+                                                            name="delivery_status"
+                                                        />
+                                                        <button
+                                                            id="cancel-action-btn"
+                                                            class="btn btn-danger w-100 fw-semibold mt-2"
+                                                        >
+                                                            CANCEL ORDER
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,7 +278,43 @@
         </main>
 
         <script>
-            $(() => {});
+            $(() => {
+                const delivery_status = '<%= order.delivery_status %>';
+                let nextAction = '';
+                let nextStatus = '';
+                if (delivery_status == 'Pending') {
+                    nextAction = 'Process';
+                    nextStatus = 'Processing';
+                } else if (delivery_status == 'Processing') {
+                    nextAction = 'Ship';
+                    nextStatus = 'Shipping';
+                } else if (delivery_status == 'Shipping') {
+                    nextAction = 'Complete';
+                    nextStatus = 'Shipped';
+                    $('#cancel-action-btn').remove();
+                    $('#update-info-form').submit(e => {
+                        e.preventDefault()
+                    })
+                    $('#submit-update-info-btn').attr('disabled', true);
+                } else {
+                    $('#next-action-btn').remove();
+                    $('#cancel-action-btn').remove();
+                    $('#update-info-form').submit(e => {
+                        e.preventDefault()
+                    })
+                    $('#submit-update-info-btn').attr('disabled', true);
+                }
+
+                $('#next-action-btn').text(`${nextAction} order`);
+
+                $('#change-status-form').submit((e) => {
+                    $('#delivery_status').val(nextStatus);
+                });
+
+                $('#cancel-status-form').submit((e) => {
+                    $('#cancel_status').val('Cancel');
+                });
+            });
         </script>
     </body>
 </html>

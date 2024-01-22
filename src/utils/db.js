@@ -52,6 +52,30 @@ module.exports = {
         return data;
     },
 
+    // [{fieldName: "price", value: 123, like: true}]
+    getSearch: async (tableName, constraintValues, page, perPage, orderField) => {
+        let query = `SELECT * FROM "${tableName}"`;
+        if (constraintValues) {
+            const constraintArray = constraintValues.map((obj) => {
+                if (obj.like) {
+                    return `LOWER("${obj.fieldName}") LIKE LOWER('%${obj.value}%')`;
+                } else {
+                    return `"${obj.fieldName}" = '${obj.value}'`;
+                }
+            });
+            query = query + ` WHERE ${constraintArray.join(' AND ')}`;
+        }
+        if (orderField) {
+            query = query + ` ORDER BY "${orderField}"`;
+        }
+        const data = await db.any(query);
+        // Pagination
+        const total = data.length;
+        const totalPage = Math.floor(total / perPage) + (Number.isInteger(total / perPage) ? 0 : 1);
+        const result = data.splice((page - 1) * perPage, perPage);
+        return { page, perPage, totalPage, total, result };
+    },
+
     update: async (tableName, entity, idName, idValue) => {
         const condition = pgp.as.format(` WHERE "${idName}" = '${idValue}'`, entity);
         const query =

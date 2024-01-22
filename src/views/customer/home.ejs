@@ -19,31 +19,33 @@
 
         <main>
             <div class="py-2 bg-body-secondary">
-                <div class="container d-flex flex-wrap align-items-center py-3">
-                    <form class="col-12 col-sm-auto mb-2 mb-sm-0 me-sm-auto" role="search">
+                <form id="search-form" class="container d-flex flex-wrap align-items-center py-3">
+                    <div class="col-12 col-sm-auto mb-2 mb-sm-0 me-sm-auto" role="search">
                         <input
                             type="search"
+                            name="keyword"
                             class="form-control"
                             placeholder="Search..."
                             aria-label="Search"
+                            value="<%= bookData.keyword %>"
                         />
-                    </form>
+                    </div>
 
                     <div class="d-flex align-items-center">
-                        <select class="form-select" id="category">
+                        <select class="form-select" name="genre" id="genre">
                             <option value="all">All</option>
-                            <option value="action">Action</option>
-                            <option value="romance">Romantic</option>
-                            <option value="detective">Detective</option>
+                            <% genreList.forEach(function(genre) { %>
+                            <option <%= typeof bookData.genre !== 'undefined' && bookData.genre === genre.id ? 'selected' : '' %> value="<%= genre.id %>"><%= genre.name %></option>
+                            <% }); %>
                         </select>
                     </div>
-                </div>
+                </form>
 
                 <div class="container">
                     <div
                         class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3"
                     >
-                        <% bookList.forEach(function(book) { %>
+                        <% bookData.bookList.forEach(function(book) { %>
                         <div class="col">
                             <a
                                 href="/customer/detail/<%= book.id %>"
@@ -85,15 +87,17 @@
 
                     <nav class="mt-4 d-flex justify-content-end">
                         <ul class="pagination">
-                            <li class="page-item" style="color: black !important">
+                            <li class="page-item prev" style="color: black !important">
                                 <a class="page-link" href="#" aria-label="Previous">
                                     <i class="fa-solid fa-angle-left"></i>
                                 </a>
                             </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
+                            <% for (let i = 1; i <= bookData.totalPage; i++) { %>
+                                <li class="page-item <%= bookData.page == i ? 'active' : '' %>">
+                                    <a page-value="<%= i %>" class="page-link" href="#"><%= i %></a>
+                                </li>
+                            <% } %>
+                            <li class="page-item next">
                                 <a class="page-link" href="#" aria-label="Next">
                                     <i class="fa-solid fa-angle-right"></i>
                                 </a>
@@ -105,5 +109,56 @@
         </main>
 
         <%- include('../partials/footer') %>
+
+        <script>
+            $(() => {
+                // Search and filter
+                $('#genre').change((e) => {
+                    $('#search-form').submit();
+                });
+
+                // Pagination
+                $('.page-item:not(.prev):not(.next):not(.active)').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.delete('page')
+                    currentUrl.searchParams.set('page', $(e.target).attr('page-value'));
+
+                    window.location.href = currentUrl.toString();
+                })
+
+                $('.page-item.active').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+
+                $('.page-item.prev').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentPage = Number.parseInt(`<%= bookData.page %>`);
+                    if (currentPage !== 1) {
+                        const currentUrl = new URL(window.location.href);
+                        currentUrl.searchParams.delete('page')
+                        currentUrl.searchParams.set('page', currentPage - 1);
+                        window.location.href = currentUrl.toString();
+                    }
+                })
+
+                $('.page-item.next').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentPage = Number.parseInt(`<%= bookData.page %>`);
+                    const totalPage = Number.parseInt(`<%= bookData.totalPage %>`);
+                    if (currentPage !== totalPage) {
+                        const currentUrl = new URL(window.location.href);
+                        currentUrl.searchParams.delete('page')
+                        currentUrl.searchParams.set('page', currentPage + 1);
+                        window.location.href = currentUrl.toString();
+                    }
+                })
+            });
+        </script>
     </body>
 </html>

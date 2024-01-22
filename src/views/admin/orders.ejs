@@ -44,107 +44,24 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <% orderList.forEach((order, index) => { %>
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Vương Huỳnh Khải</td>
-                                                        <td>0125123477</td>
-                                                        <td>Dĩ An, Bình Dương</td>
-                                                        <td>completed</td>
-                                                        <td>100</td>
+                                                        <td><%= index + 1 %></td>
+                                                        <td><%= order.order_by.name %></td>
+                                                        <td><%= order.phone_number %></td>
+                                                        <td><%= order.delivery_address %></td>
+                                                        <td><%= order.delivery_status %></td>
+                                                        <td><%= order.total_amount %></td>
                                                         <td>
                                                             <a
                                                                 class="btn btn-primary py-1"
-                                                                href="/admin/orders/orderId/detail"
+                                                                href="/admin/orders/<%= order.id %>/detail"
                                                             >
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
-
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Trần Mỹ Phú Lâm</td>
-                                                        <td>0919239459</td>
-                                                        <td>Đông Hòa, Bình Dương</td>
-                                                        <td>In Proccess</td>
-                                                        <td>95</td>
-                                                        <td>
-                                                            <a
-                                                                class="btn btn-primary py-1"
-                                                                href="/admin/orders/orderId/detail"
-                                                            >
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>Nguyễn Võ Nhật Huy</td>
-                                                        <td>0921120470</td>
-                                                        <td>Link Trung, TP HCM</td>
-                                                        <td>Pending</td>
-                                                        <td>120</td>
-                                                        <td>
-                                                            <a
-                                                                class="btn btn-primary py-1"
-                                                                href="/admin/orders/orderId/detail"
-                                                            >
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>Tạ Ngọc Duy Khiêm</td>
-                                                        <td>0978532141</td>
-                                                        <td>Thủ Đức, TP HCM</td>
-                                                        <td>Pending</td>
-                                                        <td>200</td>
-                                                        <td>
-                                                            <a
-                                                                class="btn btn-primary py-1"
-                                                                href="/admin/orders/orderId/detail"
-                                                            >
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Vương Huỳnh Khải</td>
-                                                        <td>0125123477</td>
-                                                        <td>Dĩ An, Bình Dương</td>
-                                                        <td>completed</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <a
-                                                                class="btn btn-primary py-1"
-                                                                href="/admin/orders/orderId/detail"
-                                                            >
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>6</td>
-                                                        <td>Vương Huỳnh Khải</td>
-                                                        <td>0125123477</td>
-                                                        <td>Dĩ An, Bình Dương</td>
-                                                        <td>completed</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <a
-                                                                class="btn btn-primary py-1"
-                                                                href="/admin/orders/orderId/detail"
-                                                            >
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
+                                                    <% }); %>
                                                 </tbody>
                                             </table>
                                         </div>

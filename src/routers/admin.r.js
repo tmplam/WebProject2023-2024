@@ -13,16 +13,24 @@ const upload = multer({ dest: path.join(__dirname, '../public/images/products') 
 
 
 router.get('/dashboard', productsController.dashBoardController);
+
+// Products management
 router.get('/products', productsController.productsController);
 router.get('/products/create',productsController.createProductController);
 router.post('/products/create', upload.array('cover-img', 2),productsController.createProductControllerPost);
 router.get('/products/:productId/edit', productsController.updateProductController);
 router.post('/products/:productId/edit', upload.array('cover-img', 2) ,productsController.updateProductControllerPost);
 
+// Genres management
 router.get('/genres', genresController.genresController);
+router.post('/genres', genresController.createGenreController);
+router.post('/genres/:genreId/update', genresController.updateGenreController);
+router.post('/genres/:genreId/delete', genresController.deleteGenreController);
 
 router.get('/orders', ordersController.ordersController);
-router.get('/orders/:orderId/detail', ordersController.orderDetailController);
+router.get('/orders/:orderId/detail', ordersController.orderSummaryController);
+router.post('/orders/:orderId/detail', ordersController.updateOrderSummaryController);
+router.post('/orders/:orderId/change-status', ordersController.updateOrderStatusController);
 
 router.get('/customers', usersController.usersController);
 

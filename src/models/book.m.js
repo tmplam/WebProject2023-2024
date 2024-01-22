@@ -29,10 +29,22 @@ module.exports = class Book {
         return book;
     }
 
+    static async count(constraintValues) {
+        const response = await db.getCount(tableName, constraintValues);
+        return response.count;
+    }
+
     static async getAll() {
         const response = await db.getAll(tableName);
         const bookList = response.map((book) => new Book(book));
         return bookList;
+    }
+
+    static async getSearch(constraintValues, page = 1, perPage = 8, orderField) {
+        const response = await db.getSearch(tableName, constraintValues, page, perPage, orderField);
+        const bookList = response.result.map((book) => new Book(book));
+        delete response.result;
+        return { ...response, bookList };
     }
 
     static async getManyOrNone(constraintValues) {
