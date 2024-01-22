@@ -39,25 +39,25 @@ app.use('/auth', authRouter);
 app.use('/', productsRouter);
 
 // AUTHENTICATION
-app.use((req, res, next) => {
-    if (req.isAuthenticated()) {
-        next();
-        return;
-    }
-    res.redirect('/auth/login');
-});
+// app.use((req, res, next) => {
+//     if (req.isAuthenticated()) {
+//         next();
+//         return;
+//     }
+//     res.redirect('/auth/login');
+// });
 
 app.use('/', cartsRouter);
 app.use('/', ordersRouter);
 app.use('/', usersRouter);
 
 // AUTHORIZATION
-app.use('/', (req, res, next) => {
-    if (req?.user?.role !== 2) {
-        throw new customError('Unauthorized!', 401);
-    }
-    next();
-});
+// app.use('/', (req, res, next) => {
+//     if (req?.user?.role !== 2) {
+//         throw new customError('Unauthorized!', 401);
+//     }
+//     next();
+// });
 
 app.use('/admin', adminRouter);
 

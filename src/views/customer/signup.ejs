@@ -190,7 +190,7 @@
             inputUsername.blur(async (e) => {
                 let txt = inputUsername.val();
                 if (!usernameValidate(txt)) {
-                    notifyUsername.html('Invalid username');
+                    notifyUsername.html('*Invalid username');
                     return;
                 }
                 const result = await fetch('/auth/signup/validate', {
@@ -215,7 +215,7 @@
             inputPassword.blur((e) => {
                 let txt = inputPassword.val();
                 if (!passwordValidate(txt)) {
-                    notifyPassword.html('Invalid password');
+                    notifyPassword.html('*Invalid password');
                 }
             });
 
@@ -233,7 +233,7 @@
             inputEmail.blur((e) => {
                 let txt = inputEmail.val();
                 if (!emailValidate(txt)) {
-                    notifyEmail.html('Invalid email');
+                    notifyEmail.html('*Invalid email');
                 }
             });
             inputEmail.on('input', (e) => {
@@ -243,7 +243,7 @@
             inputFullname.blur((e) => {
                 let txt = inputFullname.val();
                 if (!fullnameValidate(txt)) {
-                    notifyFullname.html('Invalid fullname');
+                    notifyFullname.html('*Invalid fullname');
                 }
             });
             inputFullname.on('input', (e) => {

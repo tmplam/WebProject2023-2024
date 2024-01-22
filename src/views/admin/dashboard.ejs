@@ -31,14 +31,16 @@
                                 >
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col">
+                                            <div class="col pe-0">
                                                 <div
                                                     style="font-size: 14px"
                                                     class="fw-semibold text-primary text-uppercase mb-1 text-nowrap"
                                                 >
                                                     Total products
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold">36</div>
+                                                <div class="h5 mb-0 font-weight-bold">
+                                                    <%= cardInfo.totalBook %>
+                                                </div>
                                             </div>
                                             <div class="col-auto opacity-25">
                                                 <i class="fas fa-calendar fa-2x"></i>
@@ -53,12 +55,12 @@
                                 >
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col">
+                                            <div class="col pe-0">
                                                 <div
                                                     style="font-size: 14px"
                                                     class="fw-semibold text-success text-uppercase mb-1 text-nowrap"
                                                 >
-                                                    Earnings (Annual)
+                                                    Earnings (This year)
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold">$215,000</div>
                                             </div>
@@ -75,12 +77,12 @@
                                 >
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col">
+                                            <div class="col pe-0">
                                                 <div
                                                     style="font-size: 14px"
                                                     class="fw-semibold text-warning text-uppercase mb-1 text-nowrap"
                                                 >
-                                                    Earnings (Monthly)
+                                                    Earnings (This Month)
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold">$40,000</div>
                                             </div>
@@ -100,7 +102,8 @@
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                                     >
                                         <h5 class="m-0 font-weight-bold text-primary">
-                                            Earnings Overview
+                                            <i class="fa-solid fa-chart-simple"></i> Earnings
+                                            Overview
                                         </h5>
                                     </div>
                                     <div class="card-body p-4">
@@ -123,7 +126,7 @@
                 datasets: [
                     {
                         label: 'Earnings',
-                        data: [3000, 5000, 1500, 2000, 800],
+                        data: JSON.parse(`[<%= earning %>]`),
                         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#98AB2F', '#12CD2F'],
                         borderColor: 'rgba(75,192,192,1)',
                         borderWidth: 2,

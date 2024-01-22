@@ -40,7 +40,18 @@ module.exports = {
     // JUST FOR ADMIN
     dashBoardController: async (req, res, next) => {
         try {
-            res.render('admin/dashboard', { loginUser: req.user, dashboard: true });
+            const totalBook = await bookModel.count();
+            const cardInfo = {
+                totalBook,
+            };
+
+            const earning = [3000, 5000, 1500, 2000, 800];
+            res.render('admin/dashboard', {
+                loginUser: req.user,
+                cardInfo,
+                earning,
+                dashboard: true,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }

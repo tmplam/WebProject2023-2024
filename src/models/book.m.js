@@ -29,6 +29,11 @@ module.exports = class Book {
         return book;
     }
 
+    static async count(constraintValues) {
+        const response = await db.getCount(tableName, constraintValues);
+        return response.count;
+    }
+
     static async getAll() {
         const response = await db.getAll(tableName);
         const bookList = response.map((book) => new Book(book));
