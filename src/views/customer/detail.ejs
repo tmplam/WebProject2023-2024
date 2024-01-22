@@ -103,9 +103,9 @@
 
                                     <div class="col-12 col-lg-6 offset-lg-1">
                                         <div class="col-12 col-md-6 pb-4">
-                                            <span class="badge rounded-pill bg-warning px-3 py-2"
-                                                >Action</span
-                                            >
+                                            <span class="badge rounded-pill bg-warning px-3 py-2">
+                                                Action
+                                            </span>
                                         </div>
                                         <div class="row">
                                             <p class="text-body-emphasis mb-0">
@@ -117,8 +117,8 @@
                                             <h6 class="text-body-emphasis pb-2">
                                                 <span class="fw-bold">Price:</span>
                                                 <span class="text-success">
-                                                    $<%= book.price %></span
-                                                >
+                                                    $<%= book.price %>
+                                                </span>
                                             </h6>
                                         </div>
 
@@ -149,10 +149,12 @@
 
                                                         <input
                                                             min="1"
+                                                            max="<%= book.stock_quantity %>"
                                                             class="form-control text-center border-success border-start-0"
                                                             name="quantity"
                                                             value="1"
                                                             type="number"
+                                                            id="input-quantity"
                                                         />
 
                                                         <span
@@ -178,10 +180,7 @@
 
                                             <div class="row">
                                                 <div class="col-12 col-lg-5 pb-1">
-                                                    <button
-                                                        type="submit"
-                                                        class="btn bg-warning text-light form-control bg-gradient py-2 text-uppercase fw-semibold"
-                                                    >
+                                                    <button class="btn bg-warning text-light form-control bg-gradient py-2 text-uppercase fw-semibold">
                                                         <span class="me-1">Add to Cart</span>
                                                         <i class="fa-solid fa-cart-shopping"></i>
                                                     </button>
@@ -236,7 +235,33 @@
                 } else {
                     $('#description').html(`${contentArray.join(' ')}`);
                 }
+
+
+                const inputQuantity = $('#input-quantity');
+                const maxQuantity = Number(inputQuantity.attr('max'));
+                inputQuantity.blur((e) => {
+                    const value = inputQuantity.val();
+                    if(value < 1) {
+                        inputQuantity.val(1);
+                    }
+                    else if(value > maxQuantity) {
+                        inputQuantity.val(maxQuantity);
+                    }
+                })
             });
         </script>
+
+        <% if(typeof successAddToCart !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut=5000;
+                toastr.success('Add to cart successfully');
+            </script>
+        <% } %>
+        <% if(typeof failureAddToCart !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut=5000;
+                toastr.success('Fail to add to cart');
+            </script>
+        <% } %>
     </body>
 </html>

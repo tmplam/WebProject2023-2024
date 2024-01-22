@@ -88,4 +88,18 @@ module.exports = {
         const data = await db.oneOrNone(query);
         return data;
     },
+
+    updateVer2: async (tableName, entity, constraintValues) => {
+        if (constraintValues) {
+            const constraintArray = constraintValues.map(
+                (obj) => `"${obj.fieldName}" = '${obj.value}'`
+            );
+            const condition = ` WHERE ${constraintArray.join(' AND ')}`;
+
+            const query =
+                pgp.helpers.update(entity, null, tableName) + condition + ` RETURNING "user_id"`;
+            const response = await db.oneOrNone(query);
+            return response;
+        }
+    }
 };
