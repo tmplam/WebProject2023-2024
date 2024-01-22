@@ -1,0 +1,37 @@
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const app = express();
+
+const fs = require('fs')
+const https = require('https');
+
+const options = {
+    key: fs.readFileSync('./keys/key.pem'),
+    cert: fs.readFileSync('./keys/cert.pem'),
+};
+
+// Setup utility
+// app.use(bodyParser())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+
+// require('./middlewares/passport')(app);
+
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
+
+
+
+const authRouter = require('./routers/auth-router')
+app.use('/auth', authRouter)
+
+
+const server = https.createServer(options, app);
+// Start server
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
