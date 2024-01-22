@@ -1,5 +1,6 @@
 const cartModel = require('../models/cart.m');
 const bookModel = require('../models/book.m');
+const genreModel = require('../models/genre.m');
 const customError = require('../utils/custom-error');
 
 module.exports = {
@@ -9,13 +10,18 @@ module.exports = {
             if(cartInfo.books.length > 0) {
                 for(let book of cartInfo.books) {
                     book.bookInfo = await bookModel.get(book.book_id);
+                    const genre = await genreModel.get(book.bookInfo.genre);
+                    book.bookInfo.genre = genre.name;
                 }
             }
-        
+            
+            const numCartItem = await cartModel.getNumItem(req.user.id);
+
             res.render('customer/cart', { 
                 loginUser: req.user, 
                 cart: true,
-                cartInfo: cartInfo
+                cartInfo: cartInfo,
+                numCartItem
             });
         }
         catch(err) {
@@ -42,10 +48,12 @@ module.exports = {
             })
 
             //re render book detail
-            res.render('customer/detail', { loginUser: req.user, book , successAddToCart: true });
+            const numCartItem = await cartModel.getNumItem(req.user.id);
+            res.render('customer/detail', { loginUser: req.user, book , successAddToCart: true, numCartItem });
         }
         catch(err) {
-            res.render('customer/detail', { loginUser: req.user, book, failureAddToCart: true })
+            const numCartItem = await cartModel.getNumItem(req.user.id);
+            res.render('customer/detail', { loginUser: req.user, book, failureAddToCart: true, numCartItem })
         }
     },
 

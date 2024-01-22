@@ -1,5 +1,6 @@
 const bookModel = require('../models/book.m');
 const genreModel = require('../models/genre.m');
+const cartModel = require('../models/cart.m');
 const customError = require('../utils/custom-error');
 const fs = require('fs');
 const path = require('path');
@@ -24,7 +25,11 @@ module.exports = {
             bookData.genre = req.query.genre;
             bookData.page = page;
 
-            res.render('customer/home', { loginUser: req.user, genreList, bookData, home: true });
+            let numCartItem = 0;
+            if(req.user) {
+                numCartItem = await cartModel.getNumItem(req.user.id);
+            }
+            res.render('customer/home', { loginUser: req.user, genreList, bookData, home: true, numCartItem });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -33,7 +38,11 @@ module.exports = {
     bookDetailController: async (req, res, next) => {
         try {
             const book = await bookModel.get(req.params.bookId);
-            res.render('customer/detail', { loginUser: req.user, book });
+            let numCartItem = 0;
+            if(req.user) {
+                numCartItem = await cartModel.getNumItem(req.user.id);
+            }
+            res.render('customer/detail', { loginUser: req.user, book, numCartItem });
         } catch (error) {
             next(new customError(error.message, 503));
         }

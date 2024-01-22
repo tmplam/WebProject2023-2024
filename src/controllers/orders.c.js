@@ -5,7 +5,7 @@ const userModel = require('../models/user.m');
 const customError = require('../utils/custom-error');
 
 module.exports = {
-    orderSummaryController: async (req, res, next) => {
+    customerSummaryController: async (req, res, next) => {
         res.render('customer/summary', { loginUser: req.user, cart: true });
     },
 

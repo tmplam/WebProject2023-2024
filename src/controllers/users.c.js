@@ -1,9 +1,11 @@
 const userModel = require('../models/user.m');
+const cartModel = require('../models/cart.m');
 const customError = require('../utils/custom-error');
 
 module.exports = {
     userProfileController: async (req, res, next) => {
-        res.render('customer/profile', { loginUser: req.user });
+        const numCartItem = await cartModel.getNumItem(req.user.id);
+        res.render('customer/profile', { loginUser: req.user, numCartItem });
     },
 
     // JUST FOR ADMIN
