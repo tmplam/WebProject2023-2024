@@ -85,366 +85,55 @@
                                                     </tr>
                                                 </tfoot>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>ISBM12385</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Đắc Nhân Tâm"
-                                                            >
-                                                                Đắc Nhân Tâm
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Trần Mỹ Phú Lâm"
-                                                            >
-                                                                Trần Mỹ Phú Lâm
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện ngắn</td>
-                                                        <td>61</td>
-                                                        <td>$320,800</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
+                                                    
+                                                    <%  const length = productList.length;
+                                                        for(let i = 0; i < length; i++) { %>
+                                                        <tr>
+                                                            <td><%= i+1 %></td>
+                                                            <td><%= productList[i].isbn %></td>
+                                                            <td>
+                                                                <span
+                                                                    class="two-line-ellipsis"
+                                                                    title="<%= productList[i].title %>"
                                                                 >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
+                                                                    <%= productList[i].title %>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span
+                                                                    class="one-line-ellipsis"
+                                                                    title="<%= productList[i].author %>"
                                                                 >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>ISBM35789</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Nhà Giả Kim"
-                                                            >
-                                                                Nhà Giả Kim
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Vương Huỳnh Khải"
-                                                            >
-                                                                Vương Huỳnh Khải
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện ngắn</td>
-                                                        <td>100</td>
-                                                        <td>$120,800</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>ISBM178964</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Kỹ thuật lập trình"
-                                                            >
-                                                                Kỹ thuật lập trình
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Trương Toàn Thịnh"
-                                                            >
-                                                                Trương Toàn Thịnh
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện dài</td>
-                                                        <td>30</td>
-                                                        <td>$84,500</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>ISBN456987</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Phương pháp lập trình hướng đối tượng"
-                                                            >
-                                                                Phương pháp lập trình hướng đối
-                                                                tượng
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Hồ Tuấn Thanh"
-                                                            >
-                                                                Hồ Tuấn Thanh
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện dài</td>
-                                                        <td>50</td>
-                                                        <td>$75,000</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>ISBM741236</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Mạng Máy Tính"
-                                                            >
-                                                                Mạng Máy Tính
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Tạ Ngọc Duy Khiêm"
-                                                            >
-                                                                Tạ Ngọc Duy Khiêm
-                                                            </span>
-                                                        </td>
-                                                        <td>Tiểu thuyết</td>
-                                                        <td>45</td>
-                                                        <td>$120,000</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>6</td>
-                                                        <td>ISBM785236</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Bí kiếp tán gái"
-                                                            >
-                                                                Bí kiếp tán gái
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Nguyễn Võ Nhật Huy"
-                                                            >
-                                                                Nguyễn Võ Nhật Huy
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện ngắn</td>
-                                                        <td>61</td>
-                                                        <td>$320,800</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>7</td>
-                                                        <td>ISBM12385</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Võ thuật trung hoa"
-                                                            >
-                                                                Võ thuật trung hoa
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Trương Toàn Thịnh"
-                                                            >
-                                                                Trương Toàn Thịnh
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện ngắn</td>
-                                                        <td>61</td>
-                                                        <td>$320,800</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td class="d-none">8</td>
-                                                        <td>ISBM12385</td>
-                                                        <td>
-                                                            <span
-                                                                class="two-line-ellipsis"
-                                                                title="Chém Gió Xuyên Lục Địa"
-                                                            >
-                                                                Chém Gió Xuyên Lục Địa
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="one-line-ellipsis"
-                                                                title="Trương Toàn Thịnh"
-                                                            >
-                                                                Trương Toàn Thịnh
-                                                            </span>
-                                                        </td>
-                                                        <td>Truyện ngắn</td>
-                                                        <td>61</td>
-                                                        <td>$320,800</td>
-                                                        <td>
-                                                            <div class="text-nowrap">
-                                                                <a
-                                                                    class="btn btn-primary py-1"
-                                                                    href="/admin/products/bookId/edit"
-                                                                >
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-
-                                                                <button
-                                                                    class="btn btn-danger py-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal"
-                                                                    data-bs-id="productId"
-                                                                >
-                                                                    <i
-                                                                        class="fa-solid fa-trash-can"
-                                                                    ></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                                    <%= productList[i].author %>
+                                                                </span>
+                                                            </td>
+                                                            <td><%= productList[i].genre %></td>
+                                                            <td><%= productList[i].stock_quantity %></td>
+                                                            <td>$<%= productList[i].price %></td>
+                                                            <td>
+                                                                <div class="text-nowrap">
+                                                                    <a
+                                                                        class="btn btn-primary py-1"
+                                                                        href="/admin/products/<%= productList[i].id %>/edit"
+                                                                    >
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </a>
+    
+                                                                    <button
+                                                                        class="btn btn-danger py-1"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#deleteModal"
+                                                                        data-bs-id="<%= productList[i].id %>"
+                                                                    >
+                                                                        <i
+                                                                            class="fa-solid fa-trash-can"
+                                                                        ></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <% } %>
+                                                      
                                                 </tbody>
                                             </table>
                                         </div>
