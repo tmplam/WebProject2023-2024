@@ -16,6 +16,7 @@ module.exports = class User {
         this.created_date = obj?.created_date;
         this.account_number = obj?.account_number;
         this.phone_number = obj?.phone_number;
+        this.status = obj?.status || 'active';
     }
 
     static async get(id) {

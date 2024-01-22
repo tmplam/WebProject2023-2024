@@ -63,7 +63,6 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="text-nowrap"># &nbsp;&nbsp;</th>
-                                                        <th>ISBN</th>
                                                         <th>Name</th>
                                                         <th>Author</th>
                                                         <th>Genre</th>
@@ -75,7 +74,6 @@
                                                 <tfoot>
                                                     <tr>
                                                         <th># &nbsp;&nbsp;</th>
-                                                        <th>ISBN</th>
                                                         <th>Name</th>
                                                         <th>Author</th>
                                                         <th>Category</th>
@@ -90,7 +88,6 @@
                                                         for(let i = 0; i < length; i++) { %>
                                                         <tr>
                                                             <td><%= i+1 %></td>
-                                                            <td><%= productList[i].isbn %></td>
                                                             <td>
                                                                 <span
                                                                     class="two-line-ellipsis"
@@ -205,7 +202,7 @@
                 deleteBtn.click(function () {
                     deleteForm.attr('action', `/admin/products/${bookId}/delete`);
                     console.log(deleteForm);
-                    // deleteForm.submit();
+                    deleteForm.submit();
                 });
             });
         </script>

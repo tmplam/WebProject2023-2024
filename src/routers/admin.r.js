@@ -20,6 +20,7 @@ router.get('/products/create',productsController.createProductController);
 router.post('/products/create', upload.array('cover-img', 2),productsController.createProductControllerPost);
 router.get('/products/:productId/edit', productsController.updateProductController);
 router.post('/products/:productId/edit', upload.array('cover-img', 2) ,productsController.updateProductControllerPost);
+router.post('/products/:productId/delete' ,productsController.deleteProductController);
 
 // Genres management
 router.get('/genres', genresController.genresController);

@@ -16,6 +16,7 @@ module.exports = class Book {
         this.stock_quantity = obj?.stock_quantity ? Number.parseInt(obj?.stock_quantity) : 0;
         this.front_cover_image = obj?.front_cover_image;
         this.back_cover_image = obj?.back_cover_image;
+        this.status = obj?.status || 'active';
     }
 
     static async add(book) {
@@ -35,7 +36,7 @@ module.exports = class Book {
     }
 
     static async getAll() {
-        const response = await db.getAll(tableName);
+        const response = await db.getManyOrNone(tableName, [{ fieldName: 'status', value: 'active' }])
         const bookList = response.map((book) => new Book(book));
         return bookList;
     }

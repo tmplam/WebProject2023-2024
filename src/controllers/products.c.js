@@ -217,6 +217,23 @@ module.exports = {
         } catch (error) {
             next(new customError(error.message, 503));
         }
+    },
+
+    deleteProductController: async (req, res, next) => {
+        try {
+            const bookId = req.params.productId;
+            const book = await bookModel.get(bookId);
+            if(book) {
+                book.status = 'delete';
+                await bookModel.update(book, bookId);
+                res.redirect('/admin/products')
+            }
+            else {
+                throw new customError('Can not find this book!', 404);
+            }
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
     }
 
 };

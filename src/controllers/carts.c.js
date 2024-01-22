@@ -25,20 +25,24 @@ module.exports = {
             });
         }
         catch(err) {
-            throw new customError(err.message, 503);
+            next(new customError(err.message, 503));
         }
         
     },
 
     addToCartController: async (req, res, next) => {
+        let book;
         try {
             const bookId = req.params.bookId;
             const userId = req.user.id;
             const quantity = Number(req.body.quantity);
 
-            const book = await bookModel.get(bookId);
+            book = await bookModel.get(bookId);
             if(book.stock_quantity < quantity) {
                 throw new customError('The stock quantity is insufficient!', 400);
+            }
+            else if(book.status === 'delete') {
+                throw new customError('This was deleted!', 400);
             }
 
             await cartModel.add({
@@ -81,7 +85,7 @@ module.exports = {
             res.redirect('/customer/cart')
         }
         catch(err) {
-            throw new customError(err.message, 503);
+            next(new customError(err.message, 503));
         }
     },
 
@@ -92,7 +96,7 @@ module.exports = {
             await cartModel.delete(userId, bookId);
             res.redirect('/customer/cart')
         }catch(err) {
-            throw new customError(err.message, 503);
+            next(new customError(err.message, 503));
         }
     }
 
