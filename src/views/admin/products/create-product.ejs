@@ -75,9 +75,11 @@
                                                         id="genre"
                                                         class="form-select"
                                                     >
-                                                        <option value="action">Action</option>
-                                                        <option value="detective">Detective</option>
-                                                        <option value="drama">Drama</option>
+                                                        <% for(let genre of genreList) { %>
+                                                            <option value="<%= genre.name %>">
+                                                                <%= genre.name %>
+                                                            </option>
+                                                        <% } %>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">

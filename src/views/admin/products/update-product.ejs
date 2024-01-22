@@ -40,6 +40,7 @@
                                                         class="form-control"
                                                         id="isbn"
                                                         name="isbn"
+                                                        value="<%= book.isbn %>"
                                                     />
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
@@ -52,6 +53,7 @@
                                                         class="form-control"
                                                         id="title"
                                                         name="title"
+                                                        value="<%= book.title %>"
                                                     />
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
@@ -64,32 +66,34 @@
                                                         class="form-control"
                                                         id="author"
                                                         name="author"
+                                                        value="<%= book.author %>"
                                                     />
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="genre" class="form-label"
-                                                        >Genre</label
-                                                    >
-                                                    <select
-                                                        name="genre"
-                                                        id="genre"
-                                                        class="form-select"
-                                                    >
-                                                        <option value="action">Action</option>
-                                                        <option value="detective">Detective</option>
-                                                        <option value="drama">Drama</option>
+                                                    <label for="genre" class="form-label">
+                                                        Genre
+                                                    </label>
+                                                    <select name="genre" id="genre" class="form-select">
+                                                        <% for(let genre of genreList) { %>
+                                                        <option value="<%= genre.name %>" 
+                                                            <% if(genre.name === book.genre){  %>
+                                                                <%= 'selected' %>
+                                                            <% } %>
+                                                        >
+                                                            <%= genre.name %>
+                                                        </option>
+                                                        <% } %>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="price" class="form-label"
-                                                        >Price</label
-                                                    >
+                                                    <label for="price" class="form-label">Price</label>
                                                     <input
                                                         type="number"
                                                         required
                                                         class="form-control"
                                                         id="price"
                                                         name="price"
+                                                        value="<%= book.price %>"
                                                     />
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
@@ -102,6 +106,7 @@
                                                         class="form-control"
                                                         id="quantity"
                                                         name="quantity"
+                                                        value="<%= book.stock_quantity %>"
                                                     />
                                                 </div>
                                                 <div class="col-12">
@@ -113,8 +118,9 @@
                                                         class="form-control"
                                                         id="description"
                                                         name="description"
-                                                        rows="4"
-                                                    ></textarea>
+                                                        rows="6"
+                                                        
+                                                    ><%= book.description %></textarea>
                                                 </div>
                                                 <div class="col-6">
                                                     <label for="front-cover" class="form-label">
@@ -154,7 +160,7 @@
                                                                 aspect-ratio: 4 / 5;
                                                                 object-fit: cover;
                                                             "
-                                                            src="https://th.bing.com/th/id/R.590acdaa19e60804129f179fd797af79?rik=3JoqcSOvRptTEA&pid=ImgRaw&r=0"
+                                                            src="<%= book.front_cover_image %>"
                                                         />
                                                     </div>
                                                 </div>
@@ -170,7 +176,7 @@
                                                                 aspect-ratio: 4 / 5;
                                                                 object-fit: cover;
                                                             "
-                                                            src="https://th.bing.com/th/id/R.590acdaa19e60804129f179fd797af79?rik=3JoqcSOvRptTEA&pid=ImgRaw&r=0"
+                                                            src="<%= book.back_cover_image %>"
                                                         />
                                                     </div>
                                                 </div>
