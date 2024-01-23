@@ -15,8 +15,15 @@ module.exports = {
     // JUST FOR ADMIN
     usersController: async (req, res, next) => {
         try {
+            const addSuccess = req.session.addSuccess;
+            delete req.session.addSuccess;
             const customerList = await userModel.getAllCustomers();
-            res.render('admin/customers', { loginUser: req.user, customers: true, customerList });
+            res.render('admin/customers', { 
+                loginUser: req.user,
+                customers: true,
+                customerList, 
+                addSuccess 
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -89,6 +96,7 @@ module.exports = {
             delete user.created_date;
             await userModel.add(user);
 
+            req.session.addSuccess = 'success';
             res.redirect('/admin/customers');
         } catch (error) {
             next(new customError(error.message, 503));
@@ -97,14 +105,14 @@ module.exports = {
 
     viewProfileUser: async (req, res, next) => {
         try {
-            const update = req.query.update;
+            const updateSuccess = req.session.updateSuccess;
             const user_id = req.params.customerId;
             const user = await userModel.get(user_id);
             res.render('admin/profile-customer', {
                 loginUser: req.user,
                 user: user,
                 customers: true,
-                update
+                updateSuccess
             });
 
         } catch (error) {
@@ -135,7 +143,8 @@ module.exports = {
                 }
             }
 
-            res.redirect(`/admin/customers/${user_id}/profile?update=true`);
+            req.session.updateSuccess = 'success';
+            res.redirect(`/admin/customers/${user_id}/profile`);
 
         } catch (error) {
             next(new customError(error.message, 503));

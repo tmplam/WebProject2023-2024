@@ -142,5 +142,12 @@
                 
             });
         </script>
+
+        <% if(typeof addSuccess !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut = 3000;
+                toastr.success('Add customer successfully');
+            </script>
+        <% } %>
     </body>
 </html>

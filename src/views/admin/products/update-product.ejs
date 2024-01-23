@@ -250,5 +250,12 @@
                 });
             });
         </script>
+
+        <% if(typeof updateSuccess !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut = 3000;
+                toastr.success('Update this book successfully');
+            </script>
+        <% } %>
     </body>
 </html>

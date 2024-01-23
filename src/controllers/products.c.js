@@ -144,11 +144,16 @@ module.exports = {
                 const genre = await genreModel.get(book.genre);
                 book.genre = genre.name;
             }
-
+            const addSuccess = req.session.addSuccess;
+            const deleteSuccess = req.session.deleteSuccess;
+            delete req.session.addSuccess;
+            delete req.session.deleteSuccess;
             res.render('admin/products/products', {
                 loginUser: req.user,
                 products: true,
                 productList: productList,
+                addSuccess,
+                deleteSuccess
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -181,6 +186,7 @@ module.exports = {
                 price: req.body.price,
                 stock_quantity: req.body.quantity,
                 description: req.body.description,
+                status: 'active'
             };
 
             let i = 1;
@@ -207,7 +213,7 @@ module.exports = {
 
             //add to database
             await bookModel.add(book);
-
+            req.session.addSuccess = 'success';
             res.redirect('/admin/products');
         } catch (error) {
             next(new customError(error.message, 503));
@@ -227,12 +233,15 @@ module.exports = {
             book.genre = genre.name;
             const genreList = await genreModel.getAll();
 
+            const updateSuccess = req.session.updateSuccess;
+            delete req.session.updateSuccess;
             //render update
             res.render('admin/products/update-product', {
                 loginUser: req.user,
                 products: true,
                 book: book,
                 genreList: genreList,
+                updateSuccess
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -284,16 +293,9 @@ module.exports = {
             }
             await bookModel.update(book, bookId);
 
-            const genre = await genreModel.get(book.genre);
-            book.genre = genre.name;
-            const genreList = await genreModel.getAll();
             //render update
-            res.render('admin/products/update-product', {
-                loginUser: req.user,
-                products: true,
-                book: book,
-                genreList: genreList,
-            });
+            req.session.updateSuccess = 'success';
+            res.redirect('back');
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -306,6 +308,7 @@ module.exports = {
             if(book) {
                 book.status = 'delete';
                 await bookModel.update(book, bookId);
+                req.session.deleteSuccess = 'success';
                 res.redirect('/admin/products')
             }
             else {
