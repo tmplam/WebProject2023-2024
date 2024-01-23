@@ -34,6 +34,8 @@ router.post('/orders/:orderId/detail', ordersController.updateOrderSummaryContro
 router.post('/orders/:orderId/change-status', ordersController.updateOrderStatusController);
 
 router.get('/customers', usersController.usersController);
+router.get('/customers/create', usersController.getCreatePage);
+router.post('/customers/create', usersController.createUserController);
 router.get('/customers/:customerId/:operate', usersController.blockUnblockController);
 
 module.exports = router;

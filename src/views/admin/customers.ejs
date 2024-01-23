@@ -60,15 +60,15 @@
                                                                 <div class="text-nowrap">
                                                                     <% if(customerList[i].status == 'active') { %>
                                                                         <a class="btn btn-success py-1 btn-block-unblock" href="/admin/customers/<%= customerList[i].id %>/block">
-                                                                            <i class="fa-solid fa-lock"></i>
+                                                                            <i class="fa-solid fa-lock mx-1"></i>
                                                                         </a>
                                                                     <% } else { %>
                                                                         <a class="btn btn-danger py-1 btn-block-unblock" href="/admin/customers/<%= customerList[i].id %>/unblock">
-                                                                            <i class="fa-solid fa-lock-open"></i>
+                                                                            <i class="fa-solid fa-lock-open ms-1"></i>
                                                                         </a>
                                                                     <% } %>
                                                                     <a class="btn btn-primary py-1" title="Detail" href="#">
-                                                                        <i class="fa-solid fa-eye"></i>
+                                                                        <i class="fa-solid fa-eye" style="margin-left: 2px;margin-right: 2px;"></i>
                                                                     </a>
                                                                 </div>
                                                             </td>
@@ -119,6 +119,8 @@
                         aItem.toggleClass('btn-danger');
                         aItem.find('i').toggleClass('fa-lock-open')
                         aItem.find('i').toggleClass('fa-lock');
+                        aItem.find('i').toggleClass('mx-1');
+                        aItem.find('i').toggleClass('ms-1');
                         if(isBlock) {
                             aItem.attr('href', fetchUrl.replace('block', 'unblock'));
                             toastr.success('Block customer successfully');
