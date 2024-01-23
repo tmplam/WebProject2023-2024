@@ -5,9 +5,9 @@ const saltRounds = 10;
 
 module.exports = {
     getLoginPage(req, res, next) {
-        if (req.query.status === 'fail') {
+        if (req.query.status === 'fail' || req.query.status === 'block') {
             return res.render('customer/login', {
-                status: 'fail',
+                status: req.query.status,
             });
         }
         res.render('customer/login');
@@ -45,7 +45,7 @@ module.exports = {
         delete user.avatar;
         delete user.created_date;
         await User.add(user);
-        res.redirect('/login');
+        res.redirect('/auth/login');
     },
 
     async signUpValidate(req, res, next) {

@@ -39,6 +39,9 @@ module.exports = (app) => {
                     let user = await User.getByUsername(username);
 
                     if (user && user.username) {
+                        if(user.status !== 'active') {
+                            return done('blocked account');
+                        }
                         return done(null, user);
                     }
 
@@ -76,6 +79,9 @@ module.exports = (app) => {
             }
 
             if (auth) {
+                if(user.status !== 'active') {
+                    return done('blocked account');
+                }
                 return done(null, user);
             }
 

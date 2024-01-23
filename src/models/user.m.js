@@ -45,5 +45,8 @@ module.exports = class User {
     static async updateStatus(user) {
         await db.update(tableName, user, tableId, user.id);
     }
+    static async updateRole(user) {
+        await db.update(tableName, user, tableId, user.id);
+    }
 
 }

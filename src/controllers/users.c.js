@@ -92,5 +92,52 @@ module.exports = {
         } catch (error) {
             next(new customError(error.message, 503));
         }
+    },
+
+    viewProfileUser: async (req, res, next) => {
+        try {
+            const update = req.query.update;
+            const user_id = req.params.customerId;
+            const user = await userModel.get(user_id);
+            res.render('admin/profile-customer', {
+                loginUser: req.user,
+                user: user,
+                customers: true,
+                update
+            });
+
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+        
+    },
+
+    updateProfileUser: async (req, res, next) => {
+        try {
+            const user_id = req.params.customerId;
+            let role = Number(req.body.role);
+            let status = req.body.status;
+            if(role !== 1 && role !== 2) role = 1;
+            if(status !== 'block' && status !== 'active') status = 'active';
+
+            const user = await userModel.get(user_id);
+            if(user) {
+                if(user.status !== status) {
+                    user.status = status;
+                    await userModel.updateStatus(user);
+                }
+
+                if(user.role !== role) {
+                    user.role = role;
+                    await userModel.updateRole(user);
+                }
+            }
+
+            res.redirect(`/admin/customers/${user_id}/profile?update=true`);
+
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+        
     }
 };
