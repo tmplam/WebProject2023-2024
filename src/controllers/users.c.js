@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 
+
 module.exports = {
     userProfileController: async (req, res, next) => {
         const numCartItem = await cartModel.getNumItem(req.user.id);
@@ -112,6 +113,7 @@ module.exports = {
         
     },
 
+
     updateProfileUser: async (req, res, next) => {
         try {
             const user_id = req.params.customerId;
@@ -138,6 +140,16 @@ module.exports = {
         } catch (error) {
             next(new customError(error.message, 503));
         }
+    },
         
+
+    updateProfileController: async(req, res, next) => {
+        try {
+            await userModel.update(req.body, req.params.customerId);
+            res.redirect('/customer/profile');
+        } catch (error) {
+            console.log(error);
+            next(new customError(error.message, 503));
+        }
     }
 };

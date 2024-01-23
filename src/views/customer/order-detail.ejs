@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order detail</title>
+
+    <%- include('../partials/cdn') %>
+</head>
+
+<body>
+    <main class="d-flex flex-nowrap h-100">
+        <div id="content" class="w-100 h-100">
+            <%- include('../partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card shadow border-0">
+                                    <div class="card-header text-bg-dark py-3">
+                                        <div class="row px-4 align-items-center">
+                                            <div class="col-6 ps-0">
+                                                <h4 class="pt-2 text-white text-uppercase">
+                                                    Order Summary
+                                                </h4>
+                                            </div>
+                                            <div class="col-6 pe-0 text-end">
+                                                <a class="btn btn-outline-danger btn-sm py-2 text-uppercase"
+                                                    href="/customer/orders/<%= loginUser.id %>">
+                                                    Back to Orders
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="container rounded p-2">
+                                            <div class="row">
+                                                <form id="update-info-form" class="col-12 col-lg-6 pb-4" method="POST">
+                                                    <fieldset>
+                                                        <div class="row">
+                                                            <h4
+                                                                class="d-flex justify-content-between align-items-center mb-3">
+                                                                <span class="text-info">Delivery Details:</span>
+                                                            </h4>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col-3">
+                                                                <label class="fw-semibold">Fullname</label>
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <input class="form-control" type="text" data-val="true"
+                                                                    data-val-required="The Name field is required."
+                                                                    id="OrderHeader_Name" name="OrderHeader.Name"
+                                                                    value="<%= orderDetail.order_by.name %>" readonly />
+                                                                <span class="text-danger field-validation-valid"
+                                                                    data-valmsg-for="OrderHeader.Name"
+                                                                    data-valmsg-replace="true"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col-3">
+                                                                <label class="fw-semibold">Phone</label>
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <input class="form-control" type="text" data-val="true"
+                                                                    data-val-required="The PhoneNumber field is required."
+                                                                    id="phone_number" name="phone_number"
+                                                                    value="<%= orderDetail.phone_number %>" required />
+                                                                <span class="text-danger field-validation-valid"
+                                                                    data-valmsg-for="phone_number"
+                                                                    data-valmsg-replace="true"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col-3">
+                                                                <label class="fw-semibold">Address</label>
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <input class="form-control" type="text" data-val="true"
+                                                                    data-val-required="The StreetAddress field is required."
+                                                                    id="delivery_address" name="delivery_address"
+                                                                    value="<%= orderDetail.delivery_address %>"
+                                                                    required />
+                                                                <span class="text-danger field-validation-valid"
+                                                                    data-valmsg-for="delivery_address"
+                                                                    data-valmsg-replace="true"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col-3">
+                                                                <label class="fw-semibold">Order date</label>
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <input class="form-control" type="text" data-val="true"
+                                                                    data-val-required="The StreetAddress field is required."
+                                                                    id="OrderHeader_StreetAddress"
+                                                                    name="OrderHeader.StreetAddress"
+                                                                    value="<%= orderDetail.order_date %>" readonly />
+                                                                <span class="text-danger field-validation-valid"
+                                                                    data-valmsg-for="OrderHeader.StreetAddress"
+                                                                    data-valmsg-replace="true"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-1">
+                                                            <div class="col-3">
+                                                                <label class="fw-semibold text-nowrap">Shipping
+                                                                    date</label>
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <input class="form-control" type="text" data-val="true"
+                                                                    data-val-required="The StreetAddress field is required."
+                                                                    id="OrderHeader_StreetAddress"
+                                                                    name="OrderHeader.StreetAddress"
+                                                                    value="<%= orderDetail.delivery_date %>" readonly />
+                                                                <span class="text-danger field-validation-valid"
+                                                                    data-valmsg-for="OrderHeader.StreetAddress"
+                                                                    data-valmsg-replace="true"></span>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <button id="submit-update-info-btn" type="submit"
+                                                        class="btn btn-warning text-light fw-semibold w-100 mt-2">
+                                                        UPDATE ORDER DETAILS
+                                                    </button>
+                                                </form>
+                                                <div class="col-12 col-lg-5 offset-lg-1">
+                                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span class="text-info">Order Summary:</span>
+                                                    </h4>
+                                                    <button
+                                                        class="btn <%= orderDetail.delivery_status == 'Cancel' ? 'btn-outline-danger' : 'btn-outline-success' %> w-100 mb-2 text-uppercase">
+                                                        ORDER STATUS - <%= orderDetail.delivery_status %>
+                                                    </button>
+                                                    <ul class="list-group mb-3">
+                                                        <% orderDetail.order_details.forEach((order_detail, index)=> {
+                                                            %>
+                                                            <li class="list-group-item d-flex justify-content-between">
+                                                                <div class="flex-fill">
+                                                                    <h6 class="my-0">
+                                                                        <%= order_detail.book_title %>
+                                                                    </h6>
+                                                                    <small class="text-muted d-block">
+                                                                        Price: $<%= order_detail.book_price %>
+                                                                    </small>
+                                                                    <small class="text-muted d-block">
+                                                                        Quantity: <%= order_detail.quantity %>
+                                                                    </small>
+                                                                </div>
+                                                                <span class="text-muted">
+                                                                    $<%= order_detail.price %>
+                                                                </span>
+                                                            </li>
+                                                            <% }); %>
+
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between align-items-center bg-light py-3">
+                                                                    <h4 class="text-success mb-0 text-uppercase">
+                                                                        Total
+                                                                    </h4>
+                                                                    <h4 class="text-success mb-0">
+                                                                        $<%= orderDetail.total_amount %>
+                                                                    </h4>
+                                                                </li>
+                                                    </ul>
+                                                    <form id="cancel-status-form"
+                                                        action="/customer/orders/<%= orderDetail.id %>/cancel"
+                                                        method="POST">
+                                                        <input class="visually-hidden" type="text" id="cancel_status"
+                                                            name="delivery_status" />
+                                                        <button id="cancel-action-btn"
+                                                            class="btn btn-danger w-100 fw-semibold mt-2">
+                                                            CANCEL ORDER
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%- include('../partials/footer') %>
+        </div>
+    </main>
+
+    <script>
+        $(() => {
+            const delivery_status = '<%= orderDetail.delivery_status %>';
+            if (delivery_status == 'Shipping' || delivery_status == 'Shipped' || delivery_status == 'Cancel') {
+                $('#cancel-action-btn').remove();
+                $('#update-info-form').submit(e => {
+                    e.preventDefault()
+                })
+                $('#submit-update-info-btn').attr('disabled', true);
+                $('#update-info-form fieldset').prop('disabled', true);
+            }
+            $('#cancel-status-form').submit((e) => {
+                $('#cancel_status').val('Cancel');
+            });
+        });
+    </script>
+</body>
+
+</html>

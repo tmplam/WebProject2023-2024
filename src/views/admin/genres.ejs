@@ -293,5 +293,17 @@
                 });
             });
         </script>
+
+        <% if(typeof successMessage !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 1500;
+            toastr.success('<%= successMessage %>');
+        </script>
+        <% } %> <% if(typeof failMessage !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 1500;
+            toastr.error('<%= failMessage %>');
+        </script>
+        <% } %>
     </body>
 </html>

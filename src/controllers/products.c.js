@@ -1,6 +1,8 @@
 const bookModel = require('../models/book.m');
-const genreModel = require('../models/genre.m');
 const cartModel = require('../models/cart.m');
+const genreModel = require('../models/genre.m');
+const orderModel = require('../models/order.m');
+
 const customError = require('../utils/custom-error');
 const fs = require('fs');
 const path = require('path');
@@ -38,11 +40,41 @@ module.exports = {
     bookDetailController: async (req, res, next) => {
         try {
             const book = await bookModel.get(req.params.bookId);
+
             let numCartItem = 0;
-            if(req.user) {
+            if (req.user) {
                 numCartItem = await cartModel.getNumItem(req.user.id);
             }
-            res.render('customer/detail', { loginUser: req.user, book, numCartItem });
+
+            book.genre = await genreModel.get(book.genre);
+            // let relatedBooks = await bookModel.getAll();
+            let relatedBooks = await bookModel.getManyOrNone([
+                { fieldName: 'genre', value: book.genre.id },
+            ]);
+            relatedBooks = relatedBooks.filter((item) => item.id != book.id);
+
+            book.max_quantity = book.stock_quantity;
+            if (req?.user) {
+                const cart = await cartModel.get(req.user.id);
+                const currentIncCart = cart.books.find((product) => product.book_id == book.id);
+                if (currentIncCart) {
+                    book.max_quantity -= currentIncCart.quantity;
+                }
+            }
+
+            let successMessage = req.session.successMessage;
+            let failMessage = req.session.failMessage;
+            delete req.session.successMessage;
+            delete req.session.failMessage;
+
+            res.render('customer/detail', {
+                loginUser: req.user,
+                book,
+                relatedBooks,
+                successMessage,
+                failMessage,
+                numCartItem
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -52,15 +84,52 @@ module.exports = {
     dashBoardController: async (req, res, next) => {
         try {
             const totalBook = await bookModel.count();
+            const orders = await orderModel.getManyOrNone([
+                { fieldName: 'delivery_status', value: 'Shipped' },
+            ]);
+
+            const now = new Date();
+            const earningYear = orders.reduce((accumulator, order) => {
+                if (new Date(order.order_date).getFullYear() == now.getFullYear())
+                    return accumulator + Number.parseFloat(order.total_amount);
+                return accumulator;
+            }, 0);
+            const earningMonth = orders.reduce((accumulator, order) => {
+                if (new Date(order.order_date).getMonth() == now.getMonth())
+                    return accumulator + Number.parseFloat(order.total_amount);
+                return accumulator;
+            }, 0);
+
             const cardInfo = {
                 totalBook,
+                earningYear: earningYear
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                earningMonth: earningMonth
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
             };
+
+            // Data for chart
+            const earningByYear = [];
+            const year = now.getFullYear();
+            for (let i = year - 4; i <= year; i++) {
+                const earning = orders.reduce((accumulator, order) => {
+                    if (new Date(order.order_date).getFullYear() == i)
+                        return accumulator + Number.parseFloat(order.total_amount);
+                    return accumulator;
+                }, 0);
+                earningByYear.push({ year: i, earning: earning });
+            }
 
             const earning = [3000, 5000, 1500, 2000, 800];
             res.render('admin/dashboard', {
                 loginUser: req.user,
                 cardInfo,
                 earning,
+                earningByYear: JSON.stringify(earningByYear),
                 dashboard: true,
             });
         } catch (error) {
@@ -71,12 +140,16 @@ module.exports = {
     productsController: async (req, res, next) => {
         try {
             const productList = await bookModel.getAll();
-            for(let book of productList) {
+            for (let book of productList) {
                 const genre = await genreModel.get(book.genre);
                 book.genre = genre.name;
             }
 
-            res.render('admin/products/products', { loginUser: req.user, products: true, productList: productList });
+            res.render('admin/products/products', {
+                loginUser: req.user,
+                products: true,
+                productList: productList,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -85,10 +158,10 @@ module.exports = {
     createProductController: async (req, res, next) => {
         try {
             const genreList = await genreModel.getAll();
-            res.render('admin/products/create-product', { 
-                loginUser: req.user, 
+            res.render('admin/products/create-product', {
+                loginUser: req.user,
                 products: true,
-                genreList: genreList
+                genreList: genreList,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -108,19 +181,24 @@ module.exports = {
                 price: req.body.price,
                 stock_quantity: req.body.quantity,
                 description: req.body.description,
-            }
+            };
 
             let i = 1;
-            for(let file of req.files) {
-                const ext = file.mimetype.substring(file.mimetype.indexOf('/')+1);
+            for (let file of req.files) {
+                const ext = file.mimetype.substring(file.mimetype.indexOf('/') + 1);
                 const oldPath = file.path;
-                if(i == 1) {
-                    const newPath = path.join(file.destination, `front-cover/${file.filename}.${ext}`);
+                if (i == 1) {
+                    const newPath = path.join(
+                        file.destination,
+                        `front-cover/${file.filename}.${ext}`
+                    );
                     fs.renameSync(oldPath, newPath);
                     book.front_cover_image = `/images/products/front-cover/${file.filename}.${ext}`;
-                }
-                else {
-                    const newPath = path.join(file.destination, `back-cover/${file.filename}.${ext}`);
+                } else {
+                    const newPath = path.join(
+                        file.destination,
+                        `back-cover/${file.filename}.${ext}`
+                    );
                     fs.renameSync(oldPath, newPath);
                     book.back_cover_image = `/images/products/back-cover/${file.filename}.${ext}`;
                 }
@@ -134,15 +212,14 @@ module.exports = {
         } catch (error) {
             next(new customError(error.message, 503));
         }
-    }
-    ,
+    },
 
     updateProductController: async (req, res, next) => {
         try {
             const bookId = req.params.productId;
             const book = await bookModel.get(bookId);
 
-            if(!book) {
+            if (!book) {
                 throw new customError('Can not find this book!', 404);
             }
 
@@ -151,13 +228,12 @@ module.exports = {
             const genreList = await genreModel.getAll();
 
             //render update
-            res.render('admin/products/update-product', { 
+            res.render('admin/products/update-product', {
                 loginUser: req.user,
                 products: true,
                 book: book,
-                genreList: genreList
+                genreList: genreList,
             });
-
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -168,7 +244,7 @@ module.exports = {
             const bookId = req.params.productId;
             const book = await bookModel.get(bookId);
 
-            if(!book) {
+            if (!book) {
                 throw new customError('Can not find this book!', 404);
             }
 
@@ -182,21 +258,26 @@ module.exports = {
 
             //update cover img
             let i = 1;
-            for(let file of req.files) {
-                const ext = file.mimetype.substring(file.mimetype.indexOf('/')+1);
+            for (let file of req.files) {
+                const ext = file.mimetype.substring(file.mimetype.indexOf('/') + 1);
                 const oldPath = file.path;
-                if(i == 1) {
-                    const newPath = path.join(file.destination, `front-cover/${file.filename}.${ext}`);
+                if (i == 1) {
+                    const newPath = path.join(
+                        file.destination,
+                        `front-cover/${file.filename}.${ext}`
+                    );
                     fs.renameSync(oldPath, newPath);
                     //delete old image
-                    fs.unlinkSync(path.join(__dirname,'../',`/public${book.front_cover_image}`));
+                    fs.unlinkSync(path.join(__dirname, '../', `/public${book.front_cover_image}`));
                     book.front_cover_image = `/images/products/front-cover/${file.filename}.${ext}`;
-                }
-                else {
-                    const newPath = path.join(file.destination, `back-cover/${file.filename}.${ext}`);
+                } else {
+                    const newPath = path.join(
+                        file.destination,
+                        `back-cover/${file.filename}.${ext}`
+                    );
                     fs.renameSync(oldPath, newPath);
                     //delete old image
-                    fs.unlinkSync(path.join(__dirname,'../',`/public${book.back_cover_image}`));
+                    fs.unlinkSync(path.join(__dirname, '../', `/public${book.back_cover_image}`));
                     book.back_cover_image = `/images/products/back-cover/${file.filename}.${ext}`;
                 }
                 i = i + 1;
@@ -207,13 +288,12 @@ module.exports = {
             book.genre = genre.name;
             const genreList = await genreModel.getAll();
             //render update
-            res.render('admin/products/update-product', { 
+            res.render('admin/products/update-product', {
                 loginUser: req.user,
                 products: true,
                 book: book,
-                genreList: genreList
+                genreList: genreList,
             });
-
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -235,5 +315,4 @@ module.exports = {
             next(new customError(error.message, 503));
         }
     }
-
 };

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Manage orders</title>
+        <%- include('../partials/cdn') %>
+    </head>
+
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <div id="content" class="w-100 h-100">
+                <%- include('../partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <div class="row g-3" >
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card shadow" style="min-height: 450px;">
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
+                                        <h4 class="m-0">
+                                            <i class="fa-solid fa-table"></i> ORDERS
+                                        </h4>
+                                    </div>
+                                    <div class="card-body px-3 py-2">
+                                        <div class="datatable-area scroll-container overflow-auto">
+                                            <table id="datatablesSimple">
+                                                <thead>
+                                                    <tr>
+                                                        <th># &nbsp;&nbsp;</th>
+                                                        <th>Name</th>
+                                                        <th>Phone</th>
+                                                        <th>Adress</th>
+                                                        <th>Status</th>
+                                                        <th>Total</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% orderList.forEach((order, index) => { %>
+                                                    <tr>
+                                                        <td><%= index + 1 %></td>
+                                                        <td><%= order.order_by.name %></td>
+                                                        <td><%= order.phone_number %></td>
+                                                        <td><%= order.delivery_address %></td>
+                                                        <td><%= order.delivery_status %></td>
+                                                        <td><%= order.total_amount %></td>
+                                                        <td>
+                                                            <a
+                                                                class="btn btn-primary py-1"
+                                                                href="/customer/orders/<%= order.id %>/detail"
+                                                            >
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%- include('../partials/footer') %>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+                // data table
+                const datatablesSimple = document.getElementById('datatablesSimple');
+                if (datatablesSimple) {
+                    new simpleDatatables.DataTable(datatablesSimple);
+                }
+            });
+        </script>
+    </body>
+</html>

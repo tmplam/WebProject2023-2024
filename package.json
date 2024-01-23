@@ -25,6 +25,7 @@
         "passport-strategy": "^1.0.0",
         "pg": "^8.11.3",
         "pg-promise": "^11.5.4",
+        "toastr": "^2.1.4",
         "typeorm": "^0.3.19"
     },
     "devDependencies": {
