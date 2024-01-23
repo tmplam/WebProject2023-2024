@@ -59,6 +59,57 @@ module.exports = {
         res.render('customer/summary', { loginUser: req.user, order: true });
     },
 
+    getOrdersOfUserController: async (req, res, next) => {
+        const userId = req.params.userId;
+        try {
+            const orderList = await orderModel.getManyOrNone([{ fieldName: 'order_by', value: userId }]);
+            for (let i = 0; i < orderList.length; i++) {
+                orderList[i].order_by = await userModel.get(orderList[i].order_by);
+            }
+            res.render('customer/orders', { loginUser: req.user, orderList, order: true });
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+    },
+
+    getOrderDetailController: async (req, res, next) => {
+        try {
+            const orderDetail = await orderModel.get(req.params.orderId);
+            orderDetail.order_by = await userModel.get(orderDetail.order_by);
+            orderDetail.order_date = new Date(orderDetail.order_date).toLocaleString();
+            orderDetail.delivery_date = orderDetail.delivery_date
+                ? new Date(orderDetail.delivery_date).toLocaleDateString()
+                : null;
+
+            orderDetail.order_details = await orderDetailModel.getOrderDetails(orderDetail.id);
+
+            for (let i = 0; i < orderDetail.order_details.length; i++) {
+                orderDetail.order_details[i].book_title = (
+                    await bookModel.get(orderDetail.order_details[i].book_id)
+                ).title;
+                orderDetail.order_details[i].book_price = (
+                    orderDetail.order_details[i].price / orderDetail.order_details[i].quantity
+                ).toFixed(2);
+            }
+
+            res.render('customer/order-detail', { loginUser: req.user, orderDetail, order: true });
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+    },
+
+    cancelOrderController: async (req, res, next) => {
+        try {
+            const data = {
+                delivery_status: req.body.delivery_status,
+            };
+            await orderModel.update(data, req.params.orderId);
+            res.redirect('back');
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+    },
+
     // JUST FOR ADMIN
     ordersController: async (req, res, next) => {
         try {
