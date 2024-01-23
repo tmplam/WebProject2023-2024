@@ -62,7 +62,9 @@
                                                 >
                                                     Earnings (This year)
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold">$215,000</div>
+                                                <div class="h5 mb-0 font-weight-bold">
+                                                    $<%= cardInfo.earningYear %>
+                                                </div>
                                             </div>
                                             <div class="col-auto opacity-25">
                                                 <i class="fas fa-dollar-sign fa-2x"></i>
@@ -84,7 +86,9 @@
                                                 >
                                                     Earnings (This Month)
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold">$40,000</div>
+                                                <div class="h5 mb-0 font-weight-bold">
+                                                    $<%= cardInfo.earningMonth %>
+                                                </div>
                                             </div>
                                             <div class="col-auto opacity-25">
                                                 <i class="fas fa-clipboard-list fa-2x"></i>
@@ -121,58 +125,70 @@
         </main>
 
         <script>
-            var chartData = {
-                labels: ['2020', '2021', '2022', '2023', '2024'],
-                datasets: [
-                    {
-                        label: 'Earnings',
-                        data: JSON.parse(`[<%= earning %>]`),
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#98AB2F', '#12CD2F'],
-                        borderColor: 'rgba(75,192,192,1)',
-                        borderWidth: 2,
-                    },
-                ],
-            };
+            $(() => {
+                let stringData = `<%= earningByYear %>`;
+                stringData = stringData.replace(/&#34;/g, '"');
 
-            function numberWithCommas(x) {
-                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            }
+                const earningByYearData = JSON.parse(stringData);
+                var chartData = {
+                    labels: earningByYearData.map((item) => item.year),
+                    datasets: [
+                        {
+                            label: 'Earnings',
+                            data: earningByYearData.map((item) => item.earning),
+                            backgroundColor: [
+                                '#FF6384',
+                                '#36A2EB',
+                                '#FFCE56',
+                                '#98AB2F',
+                                '#12CD2F',
+                            ],
+                            borderColor: 'rgba(75,192,192,1)',
+                            borderWidth: 2,
+                        },
+                    ],
+                };
 
-            var chartOptions = {
-                responsive: true,
-                labels: false,
-                scales: {
-                    x: {
-                        grid: {
-                            display: false,
+                function numberWithCommas(x) {
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                }
+
+                var chartOptions = {
+                    responsive: true,
+                    labels: false,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            },
                         },
-                    },
-                    y: {
-                        grid: {
-                            borderDash: [4, 4],
-                            display: true,
-                        },
-                        ticks: {
-                            callback: function (value, index, values) {
-                                return '$' + numberWithCommas(value);
+                        y: {
+                            grid: {
+                                borderDash: [4, 4],
+                                display: true,
+                            },
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return '$' + numberWithCommas(value);
+                                },
                             },
                         },
                     },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
                     },
-                },
-            };
+                };
 
-            // Lấy tham chiếu đến canvas và vẽ biểu đồ
-            var ctx = document.getElementById('myChart').getContext('2d');
+                // Lấy tham chiếu đến canvas và vẽ biểu đồ
+                var ctx = document.getElementById('myChart').getContext('2d');
 
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: chartData,
-                options: chartOptions,
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: chartOptions,
+                });
             });
         </script>
     </body>

@@ -1,4 +1,5 @@
 const orderModel = require('../models/order.m');
+const cartModel = require('../models/cart.m');
 const orderDetailModel = require('../models/orderDetail.m');
 const bookModel = require('../models/book.m');
 const userModel = require('../models/user.m');
@@ -6,7 +7,51 @@ const customError = require('../utils/custom-error');
 
 module.exports = {
     orderSummaryController: async (req, res, next) => {
-        res.render('customer/summary', { loginUser: req.user, cart: true });
+        const cartInfo = await cartModel.get(req.user.id);
+        if (cartInfo.books.length == 0) {
+            res.redirect('/customer/cart');
+            return;
+        }
+        const nameError = req.session.nameError;
+        const phoneError = req.session.phoneError;
+        const addressError = req.session.addressError;
+
+        delete req.session.nameError;
+        delete req.session.phoneError;
+        delete req.session.addressError;
+        for (let book of cartInfo.books) {
+            book.bookInfo = await bookModel.get(book.book_id);
+        }
+
+        res.render('customer/summary', {
+            loginUser: req.user,
+            cartInfo,
+            cart: true,
+            nameError,
+            phoneError,
+            addressError,
+        });
+    },
+
+    placeOrderController: async (req, res, next) => {
+        let valid = true;
+        if (req.body.name.trim() == '') {
+            req.session.nameError = '(*) Name is required!';
+            valid = false;
+        }
+        if (!/^(84|0[3|5|7|8|9])\d{8}$/.test(req.body.phone_number.trim())) {
+            req.session.phoneError = '(*) Invalid phone number!';
+            valid = false;
+        }
+        if (req.body.address.trim() == '') {
+            req.session.addressError = '(*) Address is required!';
+            valid = false;
+        }
+        if (valid) {
+            // Handle create order and go to pay
+        } else {
+            res.redirect('back');
+        }
     },
 
     userOrderController: async (req, res, next) => {
@@ -28,7 +73,7 @@ module.exports = {
         }
     },
 
-    orderSummaryController: async (req, res, next) => {
+    adminOrderSummaryController: async (req, res, next) => {
         try {
             const order = await orderModel.get(req.params.orderId);
             order.order_by = await userModel.get(order.order_by);
@@ -54,7 +99,7 @@ module.exports = {
         }
     },
 
-    updateOrderSummaryController: async (req, res, next) => {
+    adminUpdateOrderSummaryController: async (req, res, next) => {
         try {
             const data = {
                 delivery_address: req.body.delivery_address,
@@ -67,7 +112,7 @@ module.exports = {
         }
     },
 
-    updateOrderStatusController: async (req, res, next) => {
+    adminUpdateOrderStatusController: async (req, res, next) => {
         try {
             const data = {
                 delivery_status: req.body.delivery_status,

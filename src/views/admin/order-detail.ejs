@@ -6,6 +6,16 @@
         <title>Admin - Order detail</title>
 
         <%- include('../partials/cdn') %>
+
+        <style>
+            .one-line-ellipsis {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1; /* Number of lines to show */
+                -webkit-box-orient: vertical;
+            }
+        </style>
     </head>
     <body>
         <main class="d-flex flex-nowrap h-100">
@@ -40,7 +50,11 @@
                                     <div class="card-body">
                                         <div class="container rounded p-2">
                                             <div class="row">
-                                                <form id="update-info-form" class="col-12 col-lg-6 pb-4" method="POST">
+                                                <form
+                                                    id="update-info-form"
+                                                    class="col-12 col-lg-6 pb-4"
+                                                    method="POST"
+                                                >
                                                     <div class="row">
                                                         <h4
                                                             class="d-flex justify-content-between align-items-center mb-3"
@@ -191,12 +205,17 @@
                                                         ORDER STATUS - <%= order.delivery_status %>
                                                     </button>
                                                     <ul class="list-group mb-3">
-                                                        <% order.order_details.forEach((order_detail, index) => { %>
+                                                        <%
+                                                        order.order_details.forEach((order_detail,
+                                                        index) => { %>
                                                         <li
                                                             class="list-group-item d-flex justify-content-between"
                                                         >
                                                             <div class="flex-fill">
-                                                                <h6 class="my-0">
+                                                                <h6
+                                                                    class="my-0 one-line-ellipsis"
+                                                                    title="<%= order_detail.book_title %>"
+                                                                >
                                                                     <%= order_detail.book_title %>
                                                                 </h6>
                                                                 <small class="text-muted d-block">
@@ -292,16 +311,16 @@
                     nextAction = 'Complete';
                     nextStatus = 'Shipped';
                     $('#cancel-action-btn').remove();
-                    $('#update-info-form').submit(e => {
-                        e.preventDefault()
-                    })
+                    $('#update-info-form').submit((e) => {
+                        e.preventDefault();
+                    });
                     $('#submit-update-info-btn').attr('disabled', true);
                 } else {
                     $('#next-action-btn').remove();
                     $('#cancel-action-btn').remove();
-                    $('#update-info-form').submit(e => {
-                        e.preventDefault()
-                    })
+                    $('#update-info-form').submit((e) => {
+                        e.preventDefault();
+                    });
                     $('#submit-update-info-btn').attr('disabled', true);
                 }
 

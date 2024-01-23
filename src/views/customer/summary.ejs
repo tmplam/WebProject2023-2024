@@ -4,7 +4,17 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <%- include('../partials/cdn') %>
-        <title>Books</title>
+        <title>Order summary</title>
+
+        <style>
+            .one-line-ellipsis {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1; /* Number of lines to show */
+                -webkit-box-orient: vertical;
+            }
+        </style>
     </head>
     <body>
         <%- include('../partials/header') %>
@@ -12,7 +22,7 @@
         <main>
             <div class="py-2 bg-body-secondary">
                 <div class="container">
-                    <div class="card shadow border-0 my-3">
+                    <form class="card shadow border-0 my-3" method="POST">
                         <div class="card-header text-bg-dark py-3">
                             <div class="row px-4 align-items-center">
                                 <div class="col-6 ps-0">
@@ -41,7 +51,9 @@
                                         </div>
                                         <div class="row my-1">
                                             <div class="col-3">
-                                                <label class="fw-semibold">Fullname</label>
+                                                <label for="name" class="fw-semibold"
+                                                    >Fullname</label
+                                                >
                                             </div>
                                             <div class="col-9">
                                                 <input
@@ -49,20 +61,23 @@
                                                     type="text"
                                                     data-val="true"
                                                     data-val-required="The Name field is required."
-                                                    id="OrderHeader_Name"
-                                                    name="OrderHeader.Name"
-                                                    value="Bhrugen Patel"
+                                                    id="name"
+                                                    name="name"
+                                                    value="<%= loginUser.name %>"
+                                                    required
                                                 />
                                                 <span
                                                     class="text-danger field-validation-valid"
                                                     data-valmsg-for="OrderHeader.Name"
                                                     data-valmsg-replace="true"
-                                                ></span>
+                                                ><%= typeof nameError !== 'undefined' ? nameError : '' %></span>
                                             </div>
                                         </div>
                                         <div class="row my-1">
                                             <div class="col-3">
-                                                <label class="fw-semibold">Phone</label>
+                                                <label for="phone_number" class="fw-semibold"
+                                                    >Phone</label
+                                                >
                                             </div>
                                             <div class="col-9">
                                                 <input
@@ -70,20 +85,22 @@
                                                     type="text"
                                                     data-val="true"
                                                     data-val-required="The PhoneNumber field is required."
-                                                    id="OrderHeader_PhoneNumber"
-                                                    name="OrderHeader.PhoneNumber"
-                                                    value="1112223333"
+                                                    id="phone_number"
+                                                    name="phone_number"
+                                                    value="<%= loginUser.phone_number %>"
                                                 />
                                                 <span
                                                     class="text-danger field-validation-valid"
-                                                    data-valmsg-for="OrderHeader.PhoneNumber"
+                                                    data-valmsg-for="phone_number"
                                                     data-valmsg-replace="true"
-                                                ></span>
+                                                ><%= typeof phoneError !== 'undefined' ? phoneError : '' %></span>
                                             </div>
                                         </div>
                                         <div class="row my-1">
                                             <div class="col-3">
-                                                <label class="fw-semibold">Address</label>
+                                                <label for="address" class="fw-semibold"
+                                                    >Address</label
+                                                >
                                             </div>
                                             <div class="col-9">
                                                 <input
@@ -91,15 +108,16 @@
                                                     type="text"
                                                     data-val="true"
                                                     data-val-required="The StreetAddress field is required."
-                                                    id="OrderHeader_StreetAddress"
-                                                    name="OrderHeader.StreetAddress"
-                                                    value="test 123 Ave"
+                                                    id="address"
+                                                    name="address"
+                                                    value="<%= loginUser.address %>"
+                                                    required
                                                 />
                                                 <span
                                                     class="text-danger field-validation-valid"
-                                                    data-valmsg-for="OrderHeader.StreetAddress"
+                                                    data-valmsg-for="address"
                                                     data-valmsg-replace="true"
-                                                ></span>
+                                                ><%= typeof addressError !== 'undefined' ? addressError : '' %></span>
                                             </div>
                                         </div>
                                     </div>
@@ -110,30 +128,37 @@
                                             <span class="text-info">Order Summary:</span>
                                         </h4>
                                         <ul class="list-group mb-3">
+                                            <% cartInfo.books.forEach((book, index) => { %>
                                             <li
                                                 class="list-group-item d-flex justify-content-between"
                                             >
-                                                <div>
-                                                    <h6 class="my-0">Dark Skies</h6>
-                                                    <small class="text-muted">Quantity: 2</small>
+                                                <div class="flex-fill">
+                                                    <h6
+                                                        class="my-0 one-line-ellipsis"
+                                                        title="<%= book.bookInfo.title %>"
+                                                    >
+                                                        <%= book.bookInfo.title %>
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        Quantity: <%= book.quantity %>
+                                                    </small>
                                                 </div>
-                                                <span class="text-muted">$60.00 </span>
+                                                <span class="text-muted">
+                                                    <% let itemPrice = (book.bookInfo.price *
+                                                    book.quantity).toFixed(2) %> $<%= itemPrice %>
+                                                </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between"
-                                            >
-                                                <div>
-                                                    <h6 class="my-0">Vanish in the Sunset</h6>
-                                                    <small class="text-muted">Quantity: 1</small>
-                                                </div>
-                                                <span class="text-muted">$50.00 </span>
-                                            </li>
-
+                                            <% }); %>
                                             <li
                                                 class="list-group-item d-flex justify-content-between bg-light"
                                             >
                                                 <span class="text-success">Total (USD)</span>
-                                                <strong class="text-success">$110.00</strong>
+                                                <strong class="text-success">
+                                                    <% let total = 0; for (let book of
+                                                    cartInfo.books) { total = total +
+                                                    book.bookInfo.price * book.quantity; } total =
+                                                    total.toFixed(2); %> $<%= total %>
+                                                </strong>
                                             </li>
                                         </ul>
                                     </div>
