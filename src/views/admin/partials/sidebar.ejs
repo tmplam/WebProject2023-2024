@@ -1,5 +1,5 @@
 <style>
-    @media screen and (min-width: 816.5px) {
+    @media screen and (min-width: 900px) {
         #close-sidebar-btn {
             display: none;
         }
@@ -64,7 +64,7 @@
                 href="/admin/customers"
                 class="nav-link <%= typeof customers !== 'undefined' && customers ? 'active' : 'link-body-emphasis' %> text-nowrap"
             >
-                <span class="me-2"><i class="fa-solid fa-users"></i></i></span>
+                <span class="me-2"><i class="fa-solid fa-user"></i></i></span>
                 Customers
             </a>
         </li>
@@ -73,6 +73,19 @@
 
 <script>
     $(() => {
+        if (window.matchMedia('(max-width: 899.5px)').matches) {
+            $('#sidebar').addClass('hide');
+
+            document.addEventListener('click', function(event) {
+                const sidebar = document.getElementById('sidebar');
+                const toggle = document.getElementById('toggle-btn');
+
+                if (!toggle.contains(event.target) && !sidebar.contains(event.target)) {
+                    $('#sidebar').addClass('hide');
+                }
+            });
+        }
+        
         $('#sidebar-nav li').click((e) => {
             $('#sidebar-nav li a.active').addClass('link-body-emphasis').removeClass('active');
         });

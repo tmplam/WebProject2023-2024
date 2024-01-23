@@ -6,11 +6,23 @@ module.exports = {
     genresController: async (req, res, next) => {
         try {
             const genreList = await genreModel.getAll();
+
+            const successMessage = req.session.successMessage;
+            const failMessage = req.session.failMessage;
+            delete req.session.successMessage;
+            delete req.session.failMessage;
+
             for (let i = 0; i < genreList.length; i++) {
                 genreList[i].numOfBooks = await genreModel.getNumOfBooks(genreList[i].id);
             }
 
-            res.render('admin/genres', { loginUser: req.user, genreList, genres: true });
+            res.render('admin/genres', {
+                loginUser: req.user,
+                genreList,
+                genres: true,
+                successMessage,
+                failMessage,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -54,7 +66,13 @@ module.exports = {
 
     deleteGenreController: async (req, res, next) => {
         try {
-            await genreModel.delete(req.params.genreId);
+            const numOfBooks = await genreModel.getNumOfBooks(req.params.genreId);
+            if (numOfBooks > 0) {
+                req.session.failMessage = 'Fail to delete genre that has books!';
+            } else {
+                await genreModel.delete(req.params.genreId);
+                req.session.successMessage = 'Delete genre successfully!';
+            }
             res.redirect('back');
         } catch (error) {
             next(new customError(error.message, 503));

@@ -64,7 +64,7 @@ const emailValidate = (email) => {
 }
 
 const phoneValidate = (phone) => {
-    const PHONE_REGEX = /(84|0[3|5|7|8|9])+([0-9]{8})/;
+    const PHONE_REGEX = /^(84|0[3|5|7|8|9])\d{8}$/;
     if (phone === null || phone === undefined) {
         throw new Error("invalid phone number");
     }
