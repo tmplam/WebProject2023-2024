@@ -18,8 +18,75 @@
                 cursor: pointer;
                 text-decoration: underline;
             }
-        </style>
 
+            /* Custom carousel */
+            .carousel-inner.related-book {
+                display: flex;
+            }
+
+            .carousel-item.related-book {
+                display: block;
+                margin-right: 0;
+                cursor: pointer;
+                flex: 0 0 calc(100% / 2);
+            }
+
+            @media screen and (min-width: 768px) {
+                .carousel-inner.related-book {
+                    display: flex;
+                }
+
+                .carousel-item.related-book {
+                    display: block;
+                    margin-right: 0;
+                    cursor: pointer;
+                    flex: 0 0 calc(100% / 4);
+                }
+            }
+
+            @media screen and (min-width: 992px) {
+                .carousel-inner.related-book {
+                    display: flex;
+                }
+
+                .carousel-item.related-book {
+                    display: block;
+                    margin-right: 0;
+                    cursor: pointer;
+                    flex: 0 0 calc(100% / 6);
+                }
+            }
+
+            .carousel-inner.related-book {
+                padding: 1em;
+            }
+
+            .related-cover-wrapper {
+                margin: 0 0.5em;
+            }
+
+            .related-cover-wrapper img {
+                max-width: 100%;
+                aspect-ratio: 8 / 11;
+                object-fit: cover;
+            }
+
+            .carousel-control-prev.related-book,
+            .carousel-control-next.related-book {
+                width: 50px;
+                height: 50px;
+                background-color: #e1e1e1;
+                border-radius: 50%;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0.5;
+            }
+
+            .carousel-control-prev.related-book:hover,
+            .carousel-control-next.related-book:hover {
+                opacity: 1;
+            }
+        </style>
     </head>
     <body>
         <%- include('../partials/header') %>
@@ -104,7 +171,7 @@
                                     <div class="col-12 col-lg-6 offset-lg-1">
                                         <div class="col-12 col-md-6 pb-4">
                                             <span class="badge rounded-pill bg-warning px-3 py-2">
-                                                Action
+                                                <%= book.genre.name %>
                                             </span>
                                         </div>
                                         <div class="row">
@@ -130,7 +197,7 @@
                                             ></p>
                                         </div>
 
-                                        <form action="" method="post">
+                                        <form id="add-to-cart-form" action="" method="post">
                                             <div class="row">
                                                 <div class="col">
                                                     <h6 class="text-body-emphasis">Quantity:</h6>
@@ -148,11 +215,11 @@
                                                         </span>
 
                                                         <input
-                                                            min="1"
-                                                            max="<%= book.stock_quantity %>"
+                                                            min="<%= book.max_quantity > 0 ? 1 : 0 %>"
+                                                            max="<%= book.max_quantity %>"
                                                             class="form-control text-center border-success border-start-0"
                                                             name="quantity"
-                                                            value="1"
+                                                            value="<%= book.max_quantity > 0 ? 1 : 0 %>"
                                                             type="number"
                                                             id="input-quantity"
                                                         />
@@ -180,7 +247,9 @@
 
                                             <div class="row">
                                                 <div class="col-12 col-lg-5 pb-1">
-                                                    <button class="btn bg-warning text-light form-control bg-gradient py-2 text-uppercase fw-semibold">
+                                                    <button
+                                                        class="btn bg-warning text-light form-control bg-gradient py-2 text-uppercase fw-semibold"
+                                                    >
                                                         <span class="me-1">Add to Cart</span>
                                                         <i class="fa-solid fa-cart-shopping"></i>
                                                     </button>
@@ -192,6 +261,73 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="card shadow border-0 my-2">
+                        <div
+                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                        >
+                            <h5 class="m-0 text-danger">
+                                <i class="fa-solid fa-book-bible"></i> Related books
+                            </h5>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="datatable-area scroll-container overflow-auto">
+                                <div id="carouselRelatedBooks" class="carousel">
+                                    <div class="carousel-inner related-book">
+                                        <% relatedBooks.forEach((book, index) => { %>
+                                        <a
+                                            class="carousel-item <%= index == 1 ? 'active' : '' %> related-book"
+                                            href="/customer/detail/<%= book.id %>"
+                                            title="<%= book.title %>"
+                                        >
+                                            <div class="related-cover-wrapper">
+                                                <img
+                                                    src="<%= book.front_cover_image %>"
+                                                    class="d-block w-100"
+                                                    alt="Book cover"
+                                                />
+                                            </div>
+                                            <div class="carousel-caption d-none d-md-block p-0">
+                                                <h5
+                                                    class="m-0 text-light"
+                                                    style="
+                                                        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                                                    "
+                                                >
+                                                    <%= book.title %>
+                                                </h5>
+                                            </div>
+                                        </a>
+                                        <% }); %>
+                                    </div>
+                                    <button
+                                        class="carousel-control-prev related-book"
+                                        type="button"
+                                        data-bs-target="#carouselRelatedBooks"
+                                        data-bs-slide="prev"
+                                    >
+                                        <span
+                                            class="carousel-control-prev-icon"
+                                            aria-hidden="true"
+                                        ></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button
+                                        class="carousel-control-next related-book"
+                                        type="button"
+                                        data-bs-target="#carouselRelatedBooks"
+                                        data-bs-slide="next"
+                                    >
+                                        <span
+                                            class="carousel-control-next-icon"
+                                            aria-hidden="true"
+                                        ></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -199,6 +335,7 @@
         <%- include('../partials/footer') %>
         <script>
             $(() => {
+                // Handle read more / less
                 let content = `<%= book.description %>`;
                 const contentArray = content.split(/\s+/);
 
@@ -236,32 +373,73 @@
                     $('#description').html(`${contentArray.join(' ')}`);
                 }
 
-
+                // Handle quantity
                 const inputQuantity = $('#input-quantity');
                 const maxQuantity = Number(inputQuantity.attr('max'));
                 inputQuantity.blur((e) => {
                     const value = inputQuantity.val();
-                    if(value < 1) {
-                        inputQuantity.val(1);
-                    }
-                    else if(value > maxQuantity) {
+                    if (value < 0) {
+                        inputQuantity.val(0);
+                    } else if (value > maxQuantity) {
                         inputQuantity.val(maxQuantity);
                     }
-                })
+                });
+
+                $('#add-to-cart-form').submit((e) => {
+                    if (inputQuantity.val() == 0) {
+                        e.preventDefault();
+                    }
+                });
+
+                // Handle carousel
+                let multipleCardCarousel = document.querySelector('#carouselRelatedBooks');
+                let numOfCard = 3;
+                if (window.matchMedia('(min-width: 768px)').matches) {
+                    numOfCard = 5;
+                } else if (window.matchMedia('(min-width: 992px)').matches) {
+                    numOfCard = 7;
+                }
+                let carouselWidth = $('.carousel-inner.related-book')[0].scrollWidth;
+                let cardWidth = $('.carousel-item.related-book').width();
+                let scrollPosition = 0;
+
+                $('.carousel-control-next.related-book').click((e) => {
+                    if (scrollPosition < carouselWidth - cardWidth * numOfCard) {
+                        //check if you can go any further
+                        scrollPosition += cardWidth; //update scroll position
+                        $('.carousel-inner.related-book').animate(
+                            { scrollLeft: scrollPosition },
+                            600
+                        ); //scroll left
+                    }
+                });
+
+                $('.carousel-control-prev.related-book').on('click', function () {
+                    if (scrollPosition > 0) {
+                        scrollPosition -= cardWidth;
+                        $('.carousel-inner.related-book').animate(
+                            { scrollLeft: scrollPosition },
+                            600
+                        );
+                    }
+                });
+
+                let carousel = new bootstrap.Carousel(multipleCardCarousel, {
+                    interval: false,
+                });
             });
         </script>
 
-        <% if(typeof successAddToCart !== 'undefined') { %>
-            <script>
-                toastr.options.timeOut=5000;
-                toastr.success('Add to cart successfully');
-            </script>
-        <% } %>
-        <% if(typeof failureAddToCart !== 'undefined') { %>
-            <script>
-                toastr.options.timeOut=5000;
-                toastr.success('Fail to add to cart');
-            </script>
+        <% if(typeof successMessage !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 1500;
+            toastr.success('<%= successMessage %>');
+        </script>
+        <% } %> <% if(typeof failMessage !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 1500;
+            toastr.error('<%= failMessage %>');
+        </script>
         <% } %>
     </body>
 </html>

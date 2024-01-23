@@ -29,7 +29,8 @@
                             </div>
                         </div>
                         <div class="card-body pb-0">
-                            <div class="container" style="min-height: 360px;">
+                            <div class="container" style="min-height: 360px">
+                                <% if (cartInfo.books.length > 0) { %>
                                 <div class="row justify-content-center">
                                     <div class="col-10">
                                         <% for(let book of cartInfo.books) { %>
@@ -46,19 +47,19 @@
                                                     class="text-uppercase text-secondary text-truncate fs-5"
                                                     style="font-size: 12px"
                                                 >
-                                                <%=  book.bookInfo.title %>
+                                                    <%= book.bookInfo.title %>
                                                 </h5>
                                                 <p class="text-secondary mb-0">
                                                     <span class="fw-semibold text-success"
                                                         >Author:</span
                                                     >
-                                                    <%=  book.bookInfo.author %>
+                                                    <%= book.bookInfo.author %>
                                                 </p>
                                                 <p class="text-secondary">
                                                     <span class="fw-semibold text-warning"
                                                         >Genre:</span
                                                     >
-                                                    <%=  book.bookInfo.genre %>
+                                                    <%= book.bookInfo.genre.name %>
                                                 </p>
                                             </div>
                                             <div
@@ -66,26 +67,35 @@
                                             >
                                                 <div class="col-4">
                                                     <h6 class="fw-semibold d-flex mb-0 py-2">
-                                                        <span><%=  book.bookInfo.price %></span>
+                                                        <span>$<%= book.bookInfo.price %></span>
                                                         <span>&nbsp;x&nbsp;</span>
-                                                        <span><%=  book.quantity %></span>
+                                                        <span><%= book.quantity %></span>
                                                     </h6>
                                                 </div>
 
                                                 <div class="col-6 col-lg-6">
                                                     <div class="w-75 btn-group">
-                                                        <a class="btn btn-outline-success py-2" href="/customer/cart/descrease?bookId=<%= book.book_id %>" >
+                                                        <a
+                                                            class="btn btn-outline-success py-2"
+                                                            href="/customer/cart/descrease?bookId=<%= book.book_id %>"
+                                                        >
                                                             <i class="fas fa-minus"></i>
                                                         </a>
                                                         &nbsp;&nbsp;&nbsp;
-                                                        <a class="btn btn-outline-success py-2" href="/customer/cart/increase?bookId=<%= book.book_id %>" >
+                                                        <a
+                                                            class="btn btn-outline-success py-2"
+                                                            href="/customer/cart/increase?bookId=<%= book.book_id %>"
+                                                        >
                                                             <i class="fas fa-plus"></i>
                                                         </a>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-2 text-end">
-                                                    <a class="btn btn-danger bg-gradient py-2" href="/customer/cart/delete?bookId=<%= book.book_id %>" >
+                                                    <a
+                                                        class="btn btn-danger py-2"
+                                                        href="/customer/cart/delete?bookId=<%= book.book_id %>"
+                                                    >
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </a>
                                                 </div>
@@ -94,8 +104,22 @@
                                         <% } %>
                                     </div>
                                 </div>
+                                <% } else { %>
+                                <div
+                                    style="min-height: 360px"
+                                    class="d-flex justify-content-center align-items-center"
+                                >
+                                    <h4 class="text-danger fst-italic mb-0">
+                                        Your cart is empty now!
+                                    </h4>
+                                    <a href="/" class="btn btn-warning text-light ms-2">
+                                        <i class="fa-solid fa-house"></i> Home
+                                    </a>
+                                </div>
+                                <% }; %>
                             </div>
                         </div>
+                        <% if (cartInfo.books.length > 0) { %>
                         <div class="card-footer">
                             <div class="row justify-content-center g-0">
                                 <div class="col-10">
@@ -106,15 +130,14 @@
                                                     Total:
                                                 </h5>
                                                 &nbsp;&nbsp;&nbsp;
-                                                <h4>$
-                                                    <% 
-                                                    let total = 0;
-                                                    for(let book of cartInfo.books) {
-                                                        total = total + book.bookInfo.price * book.quantity;
-                                                    }
-                                                    %>
-                                                    <%= total %>
-                                                 </h4>
+                                                <h4>
+                                                    <% let total = 0; 
+                                                    for (let book of cartInfo.books) { 
+                                                        total = total + book.bookInfo.price * book.quantity; 
+                                                    } 
+                                                    total = total.toFixed(2); %> 
+                                                    $<%= total %>
+                                                </h4>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-3">
@@ -129,11 +152,23 @@
                                 </div>
                             </div>
                         </div>
+                        <% }; %>
                     </div>
                 </div>
             </div>
         </main>
         <%- include('../partials/footer') %>
-        
+        <!--  -->
+        <% if(typeof successMessage !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 1500;
+            toastr.success('<%= successMessage %>');
+        </script>
+        <% } %> <% if(typeof failMessage !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 1500;
+            toastr.error('<%= failMessage %>');
+        </script>
+        <% } %>
     </body>
 </html>
