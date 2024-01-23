@@ -75,4 +75,12 @@ module.exports = class Cart {
             { fieldName: 'quantity', value: 0 }
         ])
     }
+
+    static async getNumItem(user_id) {
+        const data = await db.getCount(tableName, [{ fieldName: 'user_id', value: user_id }]);
+        if(data) {
+            return Number(data.count);
+        }
+        return 0;
+    }
 }

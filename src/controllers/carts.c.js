@@ -16,12 +16,14 @@ module.exports = {
 
             const failMessage = req.session.failMessage;
             delete req.session.failMessage;
-
+  
+            const numCartItem = await cartModel.getNumItem(req.user.id);
             res.render('customer/cart', {
                 loginUser: req.user,
                 cart: true,
                 cartInfo: cartInfo,
                 failMessage,
+                numCartItem
             });
         } catch (err) {
             throw new customError(err.message, 503);
@@ -38,6 +40,9 @@ module.exports = {
             if (book.stock_quantity < quantity) {
                 throw new customError('The stock quantity is insufficient!', 400);
             }
+            else if(book.status === 'delete') {
+                throw new customError('This was deleted!', 400);
+            }
 
             await cartModel.add({
                 user_id: userId,
@@ -45,10 +50,11 @@ module.exports = {
                 quantity: quantity,
             });
             req.session.successMessage = 'Add to cart successfully!';
+          
             //re render book detail
             res.redirect('back');
         } catch (err) {
-            req.session.failMessage = 'Fail to cart successfully!';
+            req.session.failMessage = 'Fail to add to cart successfully!';
             res.redirect('back');
         }
     },
@@ -80,9 +86,11 @@ module.exports = {
                 });
                 await cartModel.deleteZeroQuantity(userId, bookId);
             }
-            res.redirect('back');
-        } catch (err) {
-            throw new customError(err.message, 503);
+
+            res.redirect('back')
+        }
+        catch(err) {
+            next(new customError(err.message, 503));
         }
     },
 
@@ -91,9 +99,11 @@ module.exports = {
             const bookId = req.query.bookId;
             const userId = req.user.id;
             await cartModel.delete(userId, bookId);
-            res.redirect('/customer/cart');
-        } catch (err) {
-            throw new customError(err.message, 503);
+
+            res.redirect('/customer/cart')
+        } catch(err) {
+            next(new customError(err.message, 503));
+
         }
     },
 };

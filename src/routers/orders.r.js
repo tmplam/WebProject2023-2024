@@ -12,5 +12,4 @@ router.get('/customer/orders', ordersController.userOrderController);
 router.get('/customer/summary', ordersController.orderSummaryController);
 router.post('/customer/summary', ordersController.placeOrderController);
 
-
 module.exports = router;

@@ -5,10 +5,9 @@ const passport = require('passport');
 const customError = require('../utils/custom-error');
 
 router.get('/login', authController.getLoginPage);
-router.post(
-    '/login',
+router.post( '/login',
     passport.authenticate('MyStrategy', {
-        failureRedirect: '/login?status=fail',
+        failureRedirect: '/auth/login?status=fail',
     }),
     (req, res, next) => {
         if (req.user.role === 2) {
@@ -23,7 +22,7 @@ router.post(
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get(
     '/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', { failureRedirect: '/auth/login?status=block' }),
     (req, res) => {
         res.redirect('/');
     }

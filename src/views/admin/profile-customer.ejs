@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin - Customer's profile</title>
+
+        <%- include('../partials/cdn') %>
+    </head>
+    <body>
+        <main class="d-flex flex-nowrap h-100">
+            <%- include('./partials/sidebar') %>
+
+            <div id="content" class="w-100 h-100">
+                <%- include('./partials/header') %>
+
+                <div class="bg-body-secondary p-3">
+                    <div class="container">
+                        <!-- Change the content of page here -->
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="card row g-0 border rounded overflow-hidden flex-md-row shadow">
+                                    <div class="col col-12 col-md-5 col-xl-4 d-lg-block">
+                                        <img
+                                            src="<%= user.avatar  %>"
+                                            class="w-100 h-100 shadow"
+                                            style="object-fit: cover"
+                                            id="img-avatar"
+                                            role="button"
+                                        />
+                                    </div>
+                                    <form method="post" action="" class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column">
+                                        <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
+                                        <div class="form-floating mb-2">
+                                            <input
+                                                class="form-control border-info bg-white"
+                                                required
+                                                name="name"
+                                                id="name"
+                                                value="<%= user.name  %>"
+                                                spellcheck="false"
+                                                disabled
+                                            />
+                                            <label for="name">Name</label>
+                                        </div>
+                                        <div class="form-floating mb-2">
+                                            <input
+                                                class="form-control border-info bg-white"
+                                                type="email"
+                                                required
+                                                name="email"
+                                                id="email"
+                                                value="<%= user.email  %>"
+                                                spellcheck="false"
+                                                disabled
+                                            />
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <div class="form-floating mb-2">
+                                            <input
+                                                class="form-control border-info bg-white"
+                                                id="phone"
+                                                required
+                                                value="<%= user.phone_number  %>"
+                                                spellcheck="false"
+                                                disabled
+                                            />
+                                            <label for="phone">Phone</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input
+                                                class="form-control border-info bg-white"
+                                                name="address"
+                                                id="address"
+                                                value="<%= user.address  %>"
+                                                spellcheck="false"
+                                                disabled
+                                            />
+                                            <label for="address">Address</label>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-floating col-6 col-lg-3 mb-3">
+                                                <select name="role" id="role" class="form-select">
+                                                    <option value="1" <% if(user.role == 1) { %> <%= 'selected'  %> <% } %>>Customer</option>
+                                                    <option value="2" <% if(user.role == 2) { %> <%= 'selected'  %> <% } %>>Admin</option>
+                                                </select>
+                                                <label class="ms-2" for="role">Role</label>
+                                            </div>
+    
+                                            <div class="form-floating col-6 col-lg-3 mb-3">
+                                                <select name="status" id="status" class="form-select">
+                                                    <option value="active" <% if(user.status == 'active') { %> <%= 'selected'  %> <% } %>>Active</option>
+                                                    <option value="block" <% if(user.status == 'block') { %> <%= 'selected'  %> <% } %>>Blocked</option>
+                                                </select>
+                                                <label class="ms-2" for="status">Status</label>
+                                            </div>
+                                        </div>
+        
+                                        <div class="text-end">
+                                            <a class="btn btn-secondary" href="/admin/customers">
+                                                &nbsp;&nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </a>
+                                            <button type="submit" class="btn btn-primary">
+                                                Save changes
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <%- include('../partials/footer') %>
+
+                <% if((typeof update !== 'undefined') && update === 'true') { %>
+                <script>
+                    toastr.options.timeOut=3000;
+                    toastr.success('Update profile successfully');
+                </script>
+                <% } %>
+            </div>
+        </main>
+
+        <script>
+            $(() => {
+
+            })
+
+        </script>
+    </body>
+</html>

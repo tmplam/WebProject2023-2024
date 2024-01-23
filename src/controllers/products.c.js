@@ -2,6 +2,7 @@ const bookModel = require('../models/book.m');
 const cartModel = require('../models/cart.m');
 const genreModel = require('../models/genre.m');
 const orderModel = require('../models/order.m');
+
 const customError = require('../utils/custom-error');
 const fs = require('fs');
 const path = require('path');
@@ -26,7 +27,11 @@ module.exports = {
             bookData.genre = req.query.genre;
             bookData.page = page;
 
-            res.render('customer/home', { loginUser: req.user, genreList, bookData, home: true });
+            let numCartItem = 0;
+            if(req.user) {
+                numCartItem = await cartModel.getNumItem(req.user.id);
+            }
+            res.render('customer/home', { loginUser: req.user, genreList, bookData, home: true, numCartItem });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -35,6 +40,12 @@ module.exports = {
     bookDetailController: async (req, res, next) => {
         try {
             const book = await bookModel.get(req.params.bookId);
+
+            let numCartItem = 0;
+            if (req.user) {
+                numCartItem = await cartModel.getNumItem(req.user.id);
+            }
+
             book.genre = await genreModel.get(book.genre);
             // let relatedBooks = await bookModel.getAll();
             let relatedBooks = await bookModel.getManyOrNone([
@@ -62,6 +73,7 @@ module.exports = {
                 relatedBooks,
                 successMessage,
                 failMessage,
+                numCartItem
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -286,4 +298,21 @@ module.exports = {
             next(new customError(error.message, 503));
         }
     },
+
+    deleteProductController: async (req, res, next) => {
+        try {
+            const bookId = req.params.productId;
+            const book = await bookModel.get(bookId);
+            if(book) {
+                book.status = 'delete';
+                await bookModel.update(book, bookId);
+                res.redirect('/admin/products')
+            }
+            else {
+                throw new customError('Can not find this book!', 404);
+            }
+        } catch (error) {
+            next(new customError(error.message, 503));
+        }
+    }
 };

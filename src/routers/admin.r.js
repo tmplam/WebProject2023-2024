@@ -20,6 +20,7 @@ router.get('/products/create',productsController.createProductController);
 router.post('/products/create', upload.array('cover-img', 2),productsController.createProductControllerPost);
 router.get('/products/:productId/edit', productsController.updateProductController);
 router.post('/products/:productId/edit', upload.array('cover-img', 2) ,productsController.updateProductControllerPost);
+router.post('/products/:productId/delete' ,productsController.deleteProductController);
 
 // Genres management
 router.get('/genres', genresController.genresController);
@@ -34,5 +35,10 @@ router.post('/orders/:orderId/detail', ordersController.adminUpdateOrderSummaryC
 router.post('/orders/:orderId/change-status', ordersController.adminUpdateOrderStatusController);
 
 router.get('/customers', usersController.usersController);
+router.get('/customers/create', usersController.getCreatePage);
+router.post('/customers/create', usersController.createUserController);
+router.get('/customers/:customerId/profile', usersController.viewProfileUser);
+router.post('/customers/:customerId/profile', usersController.updateProfileUser);
+router.get('/customers/:customerId/:operate', usersController.blockUnblockController);
 
 module.exports = router;

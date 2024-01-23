@@ -16,6 +16,7 @@ module.exports = class User {
         this.created_date = obj?.created_date;
         this.account_number = obj?.account_number;
         this.phone_number = obj?.phone_number;
+        this.status = obj?.status || 'active';
     }
 
     static async get(id) {
@@ -33,6 +34,20 @@ module.exports = class User {
     static async add(user) {
         const response = await db.insert(tableName, user, tableId);
         return response;
+    }
+
+    static async getAllCustomers() {
+        const response = await db.getManyOrNone(tableName, [{ fieldName: 'role', value: 1 }]);
+        const customerList = response.map((customer) => new User(customer));
+        return customerList;
+    }
+
+    static async updateStatus(user) {
+        await db.update(tableName, user, tableId, user.id);
+    }
+  
+    static async updateRole(user) {
+        await db.update(tableName, user, tableId, user.id);
     }
 
     static async update(user, userId) {
