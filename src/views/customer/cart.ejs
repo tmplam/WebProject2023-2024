@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -131,12 +131,10 @@
                                                 </h5>
                                                 &nbsp;&nbsp;&nbsp;
                                                 <h4>
-                                                    <% let total = 0; 
-                                                    for (let book of cartInfo.books) { 
-                                                        total = total + book.bookInfo.price * book.quantity; 
-                                                    } 
-                                                    total = total.toFixed(2); %> 
-                                                    $<%= total %>
+                                                    <% let total = 0; for (let book of
+                                                    cartInfo.books) { total = total +
+                                                    book.bookInfo.price * book.quantity; } total =
+                                                    total.toFixed(2); %> $<%= total %>
                                                 </h4>
                                             </div>
                                         </div>

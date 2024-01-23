@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,12 +23,17 @@
                         <div class="row g-3">
                             <div class="col-xl-12 col-md-12">
                                 <div class="card shadow">
-                                    <div class="bg-body-dark card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <div
+                                        class="bg-body-dark card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
                                         <h4 class="m-0 text-nowrap">
                                             <i class="fa-solid fa-users"></i> CUSTOMERS
                                         </h4>
                                         <div class="w-100 d-flex justify-content-end">
-                                            <a href="/admin/customers/create" class="btn btn-primary fw-semibold text-uppercase">
+                                            <a
+                                                href="/admin/customers/create"
+                                                class="btn btn-primary fw-semibold text-uppercase"
+                                            >
                                                 <i class="fa-solid fa-circle-plus me-1"></i>
                                                 NEW
                                             </a>
@@ -48,34 +53,53 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <%  const length = customerList.length;
-                                                    for(let i = 0; i < length; i++) { %>
-                                                        <tr>
-                                                            <td><%= i+1 %></td>
-                                                            <td><%= customerList[i].name %></td>
-                                                            <td><%= customerList[i].email %></td>
-                                                            <td><%= customerList[i].phone_number %></td>
-                                                            <td><%= customerList[i].address %></td>
-                                                            <td>
-                                                                <div class="text-nowrap">
-                                                                    <% if(customerList[i].status == 'active') { %>
-                                                                        <a class="btn btn-success py-1 btn-block-unblock" href="/admin/customers/<%= customerList[i].id %>/block">
-                                                                            <i class="fa-solid fa-lock mx-1"></i>
-                                                                        </a>
-                                                                    <% } else { %>
-                                                                        <a class="btn btn-danger py-1 btn-block-unblock" href="/admin/customers/<%= customerList[i].id %>/unblock">
-                                                                            <i class="fa-solid fa-lock-open ms-1"></i>
-                                                                        </a>
-                                                                    <% } %>
-                                                                    <a class="btn btn-primary py-1" title="Detail" href="/admin/customers/<%= customerList[i].id %>/profile">
-                                                                        <i class="fa-solid fa-eye" style="margin-left: 2px;margin-right: 2px;"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                    <% const length = customerList.length; for(let i
+                                                    = 0; i < length; i++) { %>
+                                                    <tr>
+                                                        <td><%= i+1 %></td>
+                                                        <td><%= customerList[i].name %></td>
+                                                        <td><%= customerList[i].email %></td>
+                                                        <td><%= customerList[i].phone_number %></td>
+                                                        <td><%= customerList[i].address %></td>
+                                                        <td>
+                                                            <div class="text-nowrap">
+                                                                <% if(customerList[i].status ==
+                                                                'active') { %>
+                                                                <a
+                                                                    class="btn btn-success py-1 btn-block-unblock"
+                                                                    href="/admin/customers/<%= customerList[i].id %>/block"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-lock mx-1"
+                                                                    ></i>
+                                                                </a>
+                                                                <% } else { %>
+                                                                <a
+                                                                    class="btn btn-danger py-1 btn-block-unblock"
+                                                                    href="/admin/customers/<%= customerList[i].id %>/unblock"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-lock-open ms-1"
+                                                                    ></i>
+                                                                </a>
+                                                                <% } %>
+                                                                <a
+                                                                    class="btn btn-primary py-1"
+                                                                    title="Detail"
+                                                                    href="/admin/customers/<%= customerList[i].id %>/profile"
+                                                                >
+                                                                    <i
+                                                                        class="fa-solid fa-eye"
+                                                                        style="
+                                                                            margin-left: 2px;
+                                                                            margin-right: 2px;
+                                                                        "
+                                                                    ></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                     <% } %>
-                                                    
-                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -98,48 +122,42 @@
                     new simpleDatatables.DataTable(datatablesSimple);
                 }
 
-
-
                 let btnBlock = $('.btn-block-unblock');
-                
+
                 btnBlock.click(async (e) => {
                     e.preventDefault();
 
-                    const aItem = $(e.target).parents('.btn-block-unblock').attr('href') ? $(e.target).parents('.btn-block-unblock') : $(e.target);
-                    let fetchUrl =  aItem.attr('href');
-                    
-                    const isBlock = (fetchUrl.indexOf('unblock') === -1);
+                    const aItem = $(e.target).parents('.btn-block-unblock').attr('href')
+                        ? $(e.target).parents('.btn-block-unblock')
+                        : $(e.target);
+                    let fetchUrl = aItem.attr('href');
+
+                    const isBlock = fetchUrl.indexOf('unblock') === -1;
 
                     const response = await fetch(fetchUrl);
                     const data = await response.json();
-                    if(data) {
-                        toastr.options.timeOut=3000;
+                    if (data) {
+                        toastr.options.timeOut = 3000;
 
                         aItem.toggleClass('btn-success');
                         aItem.toggleClass('btn-danger');
-                        aItem.find('i').toggleClass('fa-lock-open')
+                        aItem.find('i').toggleClass('fa-lock-open');
                         aItem.find('i').toggleClass('fa-lock');
                         aItem.find('i').toggleClass('mx-1');
                         aItem.find('i').toggleClass('ms-1');
-                        if(isBlock) {
+                        if (isBlock) {
                             aItem.attr('href', fetchUrl.replace('block', 'unblock'));
                             toastr.success('Block customer successfully');
-                        }
-                        else {
+                        } else {
                             aItem.attr('href', fetchUrl.replace('unblock', 'block'));
                             toastr.success('Unblock customer successfully');
                         }
+                    } else {
+                        toastr.options.timeOut = 3000;
+                        if (isBlock) toastr.error('Fail to block customer');
+                        else toastr.error('Fail to unblock customer');
                     }
-                    else {
-                        toastr.options.timeOut=3000;
-                        if(isBlock)
-                            toastr.error('Fail to block customer');
-                        else
-                            toastr.error('Fail to unblock customer')
-                    }
-                })
-
-                
+                });
             });
         </script>
     </body>

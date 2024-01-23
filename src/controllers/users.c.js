@@ -4,19 +4,26 @@ const customError = require('../utils/custom-error');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-
-
 module.exports = {
     userProfileController: async (req, res, next) => {
         const numCartItem = await cartModel.getNumItem(req.user.id);
-        res.render('customer/profile', { loginUser: req.user, numCartItem });
+        res.render('customer/profile', {
+            loginUser: req.user,
+            numCartItem,
+            darkMode: req.session.darkMode,
+        });
     },
 
     // JUST FOR ADMIN
     usersController: async (req, res, next) => {
         try {
             const customerList = await userModel.getAllCustomers();
-            res.render('admin/customers', { loginUser: req.user, customers: true, customerList });
+            res.render('admin/customers', {
+                loginUser: req.user,
+                customers: true,
+                customerList,
+                darkMode: req.session.darkMode,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -28,11 +35,10 @@ module.exports = {
             const customer = await userModel.get(user_id);
 
             const operate = req.params.operate;
-            
-            if(operate === 'block') {
+
+            if (operate === 'block') {
                 customer.status = 'block';
-            }
-            else {
+            } else {
                 customer.status = 'active';
             }
             await userModel.updateStatus(customer);
@@ -45,9 +51,10 @@ module.exports = {
 
     getCreatePage: async (req, res, next) => {
         try {
-            res.render('admin/create-customer', { 
-                loginUser: req.user, 
-                customers: true
+            res.render('admin/create-customer', {
+                loginUser: req.user,
+                customers: true,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -63,7 +70,7 @@ module.exports = {
             const fullname = req.body.fullname;
             const email = req.body.email;
             const role = Number(req.body.role);
-            if(role !== 1 && role !== 2) {
+            if (role !== 1 && role !== 2) {
                 role = 1;
             }
             let user = await userModel.getByUsername(username);
@@ -104,46 +111,42 @@ module.exports = {
                 loginUser: req.user,
                 user: user,
                 customers: true,
-                update
+                update,
+                darkMode: req.session.darkMode,
             });
-
         } catch (error) {
             next(new customError(error.message, 503));
         }
-        
     },
-
 
     updateProfileUser: async (req, res, next) => {
         try {
             const user_id = req.params.customerId;
             let role = Number(req.body.role);
             let status = req.body.status;
-            if(role !== 1 && role !== 2) role = 1;
-            if(status !== 'block' && status !== 'active') status = 'active';
+            if (role !== 1 && role !== 2) role = 1;
+            if (status !== 'block' && status !== 'active') status = 'active';
 
             const user = await userModel.get(user_id);
-            if(user) {
-                if(user.status !== status) {
+            if (user) {
+                if (user.status !== status) {
                     user.status = status;
                     await userModel.updateStatus(user);
                 }
 
-                if(user.role !== role) {
+                if (user.role !== role) {
                     user.role = role;
                     await userModel.updateRole(user);
                 }
             }
 
             res.redirect(`/admin/customers/${user_id}/profile?update=true`);
-
         } catch (error) {
             next(new customError(error.message, 503));
         }
     },
-        
 
-    updateProfileController: async(req, res, next) => {
+    updateProfileController: async (req, res, next) => {
         try {
             await userModel.update(req.body, req.params.customerId);
             res.redirect('/customer/profile');
@@ -151,5 +154,5 @@ module.exports = {
             console.log(error);
             next(new customError(error.message, 503));
         }
-    }
+    },
 };

@@ -22,6 +22,7 @@ module.exports = {
                 genres: true,
                 successMessage,
                 failMessage,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));

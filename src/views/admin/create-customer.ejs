@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,16 +20,20 @@
                         <div class="row justify-content-center">
                             <div class="col-12">
                                 <div class="card shadow">
-                                    <div class="text-bg-primary card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                                    <div
+                                        class="text-bg-primary card-header py-3 d-flex flex-row align-items-center justify-content-center"
+                                    >
                                         <h2 class="m-0 text-nowrap">
                                             <i class="fa-solid fa-circle-plus"></i> CREATE NEW USER
                                         </h2>
                                     </div>
-                                    <div class="card-body p-4" style="min-height: 450px;">
+                                    <div class="card-body p-4" style="min-height: 450px">
                                         <div class="datatable-area">
                                             <form method="post" action="" class="row g-3">
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="input-username" class="form-label">Username</label>
+                                                    <label for="input-username" class="form-label"
+                                                        >Username</label
+                                                    >
                                                     <input
                                                         type="text"
                                                         required
@@ -37,10 +41,15 @@
                                                         id="input-username"
                                                         name="username"
                                                     />
-                                                    <span id="notify-username" class="text-danger"></span>
+                                                    <span
+                                                        id="notify-username"
+                                                        class="text-danger"
+                                                    ></span>
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="input-password" class="form-label">Password</label>
+                                                    <label for="input-password" class="form-label"
+                                                        >Password</label
+                                                    >
                                                     <input
                                                         type="password"
                                                         required
@@ -48,10 +57,17 @@
                                                         id="input-password"
                                                         name="password"
                                                     />
-                                                    <span id="notify-password" class="text-danger"></span>
+                                                    <span
+                                                        id="notify-password"
+                                                        class="text-danger"
+                                                    ></span>
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="input-repeat-password" class="form-label">Confirm password</label>
+                                                    <label
+                                                        for="input-repeat-password"
+                                                        class="form-label"
+                                                        >Confirm password</label
+                                                    >
                                                     <input
                                                         type="password"
                                                         required
@@ -59,10 +75,15 @@
                                                         id="input-repeat-password"
                                                         name="confirm-password"
                                                     />
-                                                    <span id="notify-repeat-password" class="text-danger"></span>
+                                                    <span
+                                                        id="notify-repeat-password"
+                                                        class="text-danger"
+                                                    ></span>
                                                 </div>
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="input-fullname" class="form-label">Fullname</label>
+                                                    <label for="input-fullname" class="form-label"
+                                                        >Fullname</label
+                                                    >
                                                     <input
                                                         type="text"
                                                         required
@@ -70,11 +91,16 @@
                                                         id="input-fullname"
                                                         name="fullname"
                                                     />
-                                                    <span id="notify-fullname" class="text-danger"></span>
+                                                    <span
+                                                        id="notify-fullname"
+                                                        class="text-danger"
+                                                    ></span>
                                                 </div>
 
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="input-email" class="form-label">Email</label>
+                                                    <label for="input-email" class="form-label"
+                                                        >Email</label
+                                                    >
                                                     <input
                                                         type="email"
                                                         required
@@ -82,19 +108,31 @@
                                                         id="input-email"
                                                         name="email"
                                                     />
-                                                    <span id="notify-email" class="text-danger"></span>
+                                                    <span
+                                                        id="notify-email"
+                                                        class="text-danger"
+                                                    ></span>
                                                 </div>
 
                                                 <div class="col-md-6 col-lg-4">
-                                                    <label for="role" class="form-label">Role</label>
-                                                    <select name="role" id="role" class="form-select">
+                                                    <label for="role" class="form-label"
+                                                        >Role</label
+                                                    >
+                                                    <select
+                                                        name="role"
+                                                        id="role"
+                                                        class="form-select"
+                                                    >
                                                         <option value="1" selected>Customer</option>
                                                         <option value="2">Admin</option>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="col-12 text-end">
-                                                    <button type="submit" class="btn btn-primary px-5 py-2 fw-semibold">
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-primary px-5 py-2 fw-semibold"
+                                                    >
                                                         CREATE
                                                     </button>
                                                 </div>
@@ -113,7 +151,6 @@
 
         <script>
             $(() => {
-
                 const usernameValidate = (username) => {
                     const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_-]{3,23}$/;
                     if (username === null || username === undefined) {

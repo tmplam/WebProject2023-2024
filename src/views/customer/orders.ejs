@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Manage orders</title>
+        <title>Orders</title>
         <%- include('../partials/cdn') %>
+        <!--  -->
+        <%- include('../admin/partials/datatable-css') %>
     </head>
 
     <body>
@@ -15,9 +17,9 @@
                 <div class="bg-body-secondary p-3">
                     <div class="container">
                         <!-- Change the content of page here -->
-                        <div class="row g-3" >
+                        <div class="row g-3">
                             <div class="col-xl-12 col-md-12">
-                                <div class="card shadow" style="min-height: 450px;">
+                                <div class="card shadow" style="min-height: 450px">
                                     <div
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                                     >
@@ -53,7 +55,7 @@
                                                                 class="btn btn-primary py-1"
                                                                 href="/customer/orders/<%= order.id %>/detail"
                                                             >
-                                                                <i class="fas fa-edit"></i>
+                                                                <i class="fa-solid fa-eye"></i>
                                                             </a>
                                                         </td>
                                                     </tr>

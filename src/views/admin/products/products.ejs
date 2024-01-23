@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +41,9 @@
                         <div class="row g-3">
                             <div class="col-xl-12 col-md-12">
                                 <div class="card shadow">
-                                    <div class="bg-body-dark card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <div
+                                        class="bg-body-dark card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
                                         <h4 class="m-0 text-nowrap">
                                             <i class="fa-solid fa-book"></i> BOOKS
                                         </h4>
@@ -81,54 +83,54 @@
                                                     </tr>
                                                 </tfoot>
                                                 <tbody>
-                                                    
-                                                    <%  const length = productList.length;
-                                                        for(let i = 0; i < length; i++) { %>
-                                                        <tr>
-                                                            <td><%= i+1 %></td>
-                                                            <td>
-                                                                <span
-                                                                    class="two-line-ellipsis"
-                                                                    title="<%= productList[i].title %>"
+                                                    <% const length = productList.length; for(let i
+                                                    = 0; i < length; i++) { %>
+                                                    <tr>
+                                                        <td><%= i+1 %></td>
+                                                        <td>
+                                                            <span
+                                                                class="two-line-ellipsis"
+                                                                title="<%= productList[i].title %>"
+                                                            >
+                                                                <%= productList[i].title %>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span
+                                                                class="one-line-ellipsis"
+                                                                title="<%= productList[i].author %>"
+                                                            >
+                                                                <%= productList[i].author %>
+                                                            </span>
+                                                        </td>
+                                                        <td><%= productList[i].genre %></td>
+                                                        <td>
+                                                            <%= productList[i].stock_quantity %>
+                                                        </td>
+                                                        <td>$<%= productList[i].price %></td>
+                                                        <td>
+                                                            <div class="text-nowrap">
+                                                                <a
+                                                                    class="btn btn-primary py-1"
+                                                                    href="/admin/products/<%= productList[i].id %>/edit"
                                                                 >
-                                                                    <%= productList[i].title %>
-                                                                </span>
-                                                            </td>
-                                                            <td>
-                                                                <span
-                                                                    class="one-line-ellipsis"
-                                                                    title="<%= productList[i].author %>"
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+
+                                                                <button
+                                                                    class="btn btn-danger py-1"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal"
+                                                                    data-bs-id="<%= productList[i].id %>"
                                                                 >
-                                                                    <%= productList[i].author %>
-                                                                </span>
-                                                            </td>
-                                                            <td><%= productList[i].genre %></td>
-                                                            <td><%= productList[i].stock_quantity %></td>
-                                                            <td>$<%= productList[i].price %></td>
-                                                            <td>
-                                                                <div class="text-nowrap">
-                                                                    <a
-                                                                        class="btn btn-primary py-1"
-                                                                        href="/admin/products/<%= productList[i].id %>/edit"
-                                                                    >
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </a>
-    
-                                                                    <button
-                                                                        class="btn btn-danger py-1"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#deleteModal"
-                                                                        data-bs-id="<%= productList[i].id %>"
-                                                                    >
-                                                                        <i
-                                                                            class="fa-solid fa-trash-can"
-                                                                        ></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                                    <i
+                                                                        class="fa-solid fa-trash-can"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                     <% } %>
-                                                      
                                                 </tbody>
                                             </table>
                                         </div>

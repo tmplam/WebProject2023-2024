@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <%- include('../partials/cdn') %>
-        <title>Books</title>
+        <title>Home</title>
         <style>
             .line-clamp {
                 display: -webkit-box;
@@ -87,19 +87,29 @@
 
                     <nav class="mt-4 d-flex justify-content-end">
                         <ul class="pagination">
+                            <li class="page-item first">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </a>
+                            </li>
                             <li class="page-item prev" style="color: black !important">
                                 <a class="page-link" href="#" aria-label="Previous">
                                     <i class="fa-solid fa-angle-left"></i>
                                 </a>
                             </li>
-                            <% for (let i = 1; i <= bookData.totalPage; i++) { %>
-                                <li class="page-item <%= bookData.page == i ? 'active' : '' %>">
+                            <% for (let i of pageRange) { %>
+                                <li class="page-item <%= bookData.page == i ? 'active' : '' %><%= '...' == i ? 'dots' : '' %>">
                                     <a page-value="<%= i %>" class="page-link" href="#"><%= i %></a>
                                 </li>
                             <% } %>
                             <li class="page-item next">
                                 <a class="page-link" href="#" aria-label="Next">
                                     <i class="fa-solid fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item last">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <i class="fa-solid fa-angles-right"></i>
                                 </a>
                             </li>
                         </ul>
@@ -118,7 +128,7 @@
                 });
 
                 // Pagination
-                $('.page-item:not(.prev):not(.next):not(.active)').click(e => {
+                $('.page-item:not(.prev):not(.next):not(.active):not(.first):not(.last):not(.dots)').click(e => {
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -130,6 +140,11 @@
                 })
 
                 $('.page-item.active').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+
+                $('.page-item.dots').click(e => {
                     e.preventDefault();
                     e.stopPropagation();
                 })
@@ -155,6 +170,32 @@
                         const currentUrl = new URL(window.location.href);
                         currentUrl.searchParams.delete('page')
                         currentUrl.searchParams.set('page', currentPage + 1);
+                        window.location.href = currentUrl.toString();
+                    }
+                })
+
+                $('.page-item.first').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentPage = Number.parseInt(`<%= bookData.page %>`);
+                    if (currentPage !== 1) {
+                        const currentUrl = new URL(window.location.href);
+                        currentUrl.searchParams.delete('page')
+                        currentUrl.searchParams.set('page', 1);
+                        window.location.href = currentUrl.toString();
+                    }
+                })
+
+                $('.page-item.last').click(e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentPage = Number.parseInt(`<%= bookData.page %>`);
+                    const totalPage = Number.parseInt(`<%= bookData.totalPage %>`);
+                    console.log(totalPage);
+                    if (currentPage !== totalPage) {
+                        const currentUrl = new URL(window.location.href);
+                        currentUrl.searchParams.delete('page')
+                        currentUrl.searchParams.set('page', totalPage);
                         window.location.href = currentUrl.toString();
                     }
                 })

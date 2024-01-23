@@ -10,11 +10,11 @@ module.exports = {
                 status: req.query.status,
             });
         }
-        res.render('customer/login');
+        res.render('customer/login', { darkMode: req.session.darkMode });
     },
 
     getSignupPage(req, res, next) {
-        res.render('customer/signup');
+        res.render('customer/signup', { darkMode: req.session.darkMode });
     },
 
     async signUpController(req, res, next) {

@@ -1,48 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <%- include('../partials/cdn') %>
+        <title>Profile</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%- include('../partials/cdn') %>
-        <title>Document</title>
-</head>
-
-<body>
-    <%- include('../partials/header') %>
+    <body>
+        <%- include('../partials/header') %>
 
         <main class="bg-body-secondary">
             <div class="container py-2">
                 <div class="row justify-content-center align-items-center my-3">
                     <div class="col col-12 col-lg-10">
                         <div class="card row g-0 border rounded overflow-hidden flex-md-row shadow">
-                            <div class="col col-12 col-md-5 col-xl-4 d-lg-block" id="img-avatar" role="button">
-                                <img src="<%= loginUser.avatar ? loginUser.avatar : '/images/users/avatars/default.jpg' %>"
-                                    class="w-100 h-100 shadow" style="object-fit: cover" />
+                            <div
+                                class="col col-12 col-md-5 col-xl-4 d-lg-block"
+                                id="img-avatar"
+                                role="button"
+                            >
+                                <img
+                                    src="<%= loginUser.avatar ? loginUser.avatar : '/images/users/avatars/default.jpg' %>"
+                                    class="w-100 h-100 shadow"
+                                    style="object-fit: cover"
+                                />
                             </div>
-                            <form action="/customer/profile/<%= loginUser.id %>" method="post"
+                            <form
+                                action="/customer/profile/<%= loginUser.id %>"
+                                method="post"
                                 class="col col-12 col-md-7 col-xl-8 px-4 py-3 d-flex flex-column needs-validation"
-                                novalidate enctype="multipart/form-data" id="update-profile">
+                                novalidate
+                                enctype="multipart/form-data"
+                                id="update-profile"
+                            >
                                 <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
-                                <input type="file" accept="image/*" name="avatar" id="input-avatar" class="d-none" />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    name="avatar"
+                                    id="input-avatar"
+                                    class="d-none"
+                                />
                                 <div class="form-floating mb-2">
-                                    <input class="form-control border-info" required name="name" id="name"
-                                        value="<%= loginUser.name %>" spellcheck="false" />
+                                    <input
+                                        class="form-control border-info"
+                                        required
+                                        name="name"
+                                        id="name"
+                                        value="<%= loginUser.name %>"
+                                        spellcheck="false"
+                                    />
                                     <label for="name">Name</label>
                                 </div>
                                 <div class="form-floating mb-2">
-                                    <input class="form-control border-info" type="email" required name="email"
-                                        id="email" value="<%= loginUser.email %>" spellcheck="false" />
+                                    <input
+                                        class="form-control border-info"
+                                        type="email"
+                                        required
+                                        name="email"
+                                        id="email"
+                                        value="<%= loginUser.email %>"
+                                        spellcheck="false"
+                                    />
                                     <label for="email">Email</label>
                                 </div>
                                 <div class="form-floating mb-2">
-                                    <input class="form-control border-info" name="phone_number" id="phone_number"
-                                        required value="<%= loginUser.phone_number %>" spellcheck="false" />
+                                    <input
+                                        class="form-control border-info"
+                                        name="phone_number"
+                                        id="phone_number"
+                                        required
+                                        value="<%= loginUser.phone_number %>"
+                                        spellcheck="false"
+                                    />
                                     <label for="phone_number">Phone</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control border-info" name="address" id="address"
-                                        value="<%= loginUser.address %>" spellcheck="false" />
+                                    <input
+                                        class="form-control border-info"
+                                        name="address"
+                                        id="address"
+                                        value="<%= loginUser.address %>"
+                                        spellcheck="false"
+                                    />
                                     <label for="address">Address</label>
                                 </div>
 
@@ -61,49 +102,55 @@
 
         <%- include('../partials/footer') %>
 
-            <script>
-                function fullnameValidate(fullName) {
-                    const FULLNAME_REGEX = /^[A-ZÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÚÙỦŨỤƯỨỪỬỮỰÍÌỈĨỊÓÒỎÕỌƠỚỜỞỠỢÔỐỒỔỖỘÝỲỶỸỴ][a-záàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịóòỏõọơớờởỡợôốồổỗộýỳỷỹỵ]*$/;
-                    const names = fullName.trim().split(/\s+/);
-                    for (let i = 0; i < names.length; i++) {
-                        if (!FULLNAME_REGEX.test(names[i])) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                function emailValidate(email) {
-                    const EMAIL_REGEX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                    if (!EMAIL_REGEX.test(email)) {
+        <script>
+            function fullnameValidate(fullName) {
+                const FULLNAME_REGEX =
+                    /^[A-ZÁÀẢÃẠÂẤẦẨẪẬĂẮẰẲẴẶĐÉÈẺẼẸÊẾỀỂỄỆÚÙỦŨỤƯỨỪỬỮỰÍÌỈĨỊÓÒỎÕỌƠỚỜỞỠỢÔỐỒỔỖỘÝỲỶỸỴ][a-záàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệúùủũụưứừửữựíìỉĩịóòỏõọơớờởỡợôốồổỗộýỳỷỹỵ]*$/;
+                const names = fullName.trim().split(/\s+/);
+                for (let i = 0; i < names.length; i++) {
+                    if (!FULLNAME_REGEX.test(names[i])) {
                         return false;
                     }
-                    return true;
                 }
-                function phoneValidate(phone) {
-                    const PHONE_REGEX = /(84|0[3|5|7|8|9])+([0-9]{8})/;
-                    if (!PHONE_REGEX.test(phone)) {
-                        return false;
-                    }
-                    return true;
-                }
-                function handleSubmit(fullName, email, phone) {
-                    if (!fullnameValidate(fullName) || !emailValidate(email) || !phoneValidate(phone)) {
-                        return false;
-                    }
-                    return true;
-                }
-                $(() => {
-                    $('#img-avatar').on('click', () => {
-                        $('#input-avatar').click();
-                    });
-                    $('#input-avatar').change(function (event) {
-                        const file = event.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
+                return true;
+            }
 
-                            reader.onload = function (e) {
-                                const imagePreview = $('#img-avatar');
-                                imagePreview.html(`
+            function emailValidate(email) {
+                const EMAIL_REGEX =
+                    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                if (!EMAIL_REGEX.test(email)) {
+                    return false;
+                }
+                return true;
+            }
+
+            function phoneValidate(phone) {
+                const PHONE_REGEX = /(84|0[3|5|7|8|9])+([0-9]{8})/;
+                if (!PHONE_REGEX.test(phone)) {
+                    return false;
+                }
+                return true;
+            }
+
+            function handleSubmit(fullName, email, phone) {
+                if (!fullnameValidate(fullName) || !emailValidate(email) || !phoneValidate(phone)) {
+                    return false;
+                }
+                return true;
+            }
+
+            $(() => {
+                $('#img-avatar').on('click', () => {
+                    $('#input-avatar').click();
+                });
+                $('#input-avatar').change(function (event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            const imagePreview = $('#img-avatar');
+                            imagePreview.html(`
                                 <img
                                     role = "button"
                                     class="w-100 h-100 shadow"
@@ -113,98 +160,79 @@
                                     src="${e.target.result}"
                                 />
                             `);
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    })
-                    $('#name').on('input', (e) => {
-                        $(e.target).removeClass('border-info');
-                        const fullName = e.target.value;
-                        if (!fullnameValidate(fullName)) {
-                            $(e.target).addClass('is-invalid').removeClass('is-valid');
-                            var newDiv = $("<div>", {
-                                "class": "invalid-tooltip w-100",
-                                "text": "4 - 24 characters and in Capital format"
-                            });
-                            $(e.target).parent().append(newDiv);
-                        }
-                        else {
-                            $(e.target).addClass('is-valid').removeClass('is-invalid');
-                        }
-                    });
-                    $('#email').on('input', (e) => {
-                        $(e.target).removeClass('border-info');
-                        const email = e.target.value;
-                        if (!emailValidate(email)) {
-                            $(e.target).addClass('is-invalid').removeClass('is-valid');
-                            var newDiv = $("<div>", {
-                                "class": "invalid-tooltip w-100",
-                                "text": "Email is invalid"
-                            });
-                            $(e.target).parent().append(newDiv);
-                        }
-                        else {
-                            $(e.target).addClass('is-valid').removeClass('is-invalid');
-                        }
-                    });
-                    $('#phone_number').on('input', (e) => {
-                        $(e.target).removeClass('border-info');
-                        const phone = e.target.value;
-                        if (!phoneValidate(phone)) {
-                            $(e.target).addClass('is-invalid').removeClass('is-valid');
-                            var newDiv = $("<div>", {
-                                "class": "invalid-tooltip w-100",
-                                "text": "Phone number is invalid"
-                            });
-                            $(e.target).parent().append(newDiv);
-                        }
-                        else {
-                            $(e.target).addClass('is-valid').removeClass('is-invalid');
-                        }
-                    });
-
-                    $('#update-profile').submit(async (e) => {
-                        const fullName = $('#name').val();
-                        const email = $('#email').val();
-                        const phone = $('#phone_number').val();
-                        if (!handleSubmit(fullName, email, phone)) {
-                            e.preventDefault();
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            Command: toastr["error"]("Failed! Please check your information")
-                        }
-                    })
-                    // $('#input-avatar').change((e) => {
-                    //     $('#form-update-avatar').submit();
-                    // });
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 });
-            </script>
-            <script>
-                const fullName = $('#name').val();
-                const email = $('#email').val();
-                const phone = $('#phone_number').val();
-                if (handleSubmit(fullName, email, phone)) {
-                    $('.form-control').addClass('border-info').removeClass('is-valid').removeClass('is-invalid');
-                    toastr.options.timeOut = 3000;
-                    toastr.success('Successfully! Your profile had been update');
-                }
-            </script>
 
-</body>
+                $('#name').on('input', (e) => {
+                    $(e.target).removeClass('border-info');
+                    const fullName = e.target.value;
+                    if (!fullnameValidate(fullName)) {
+                        $(e.target).addClass('is-invalid').removeClass('is-valid');
+                        var newDiv = $('<div>', {
+                            class: 'invalid-tooltip w-100',
+                            text: '4 - 24 characters and in Capital format',
+                        });
+                        $(e.target).parent().append(newDiv);
+                    } else {
+                        $(e.target).addClass('is-valid').removeClass('is-invalid');
+                    }
+                });
 
+                $('#email').on('input', (e) => {
+                    $(e.target).removeClass('border-info');
+                    const email = e.target.value;
+                    if (!emailValidate(email)) {
+                        $(e.target).addClass('is-invalid').removeClass('is-valid');
+                        var newDiv = $('<div>', {
+                            class: 'invalid-tooltip w-100',
+                            text: 'Email is invalid',
+                        });
+                        $(e.target).parent().append(newDiv);
+                    } else {
+                        $(e.target).addClass('is-valid').removeClass('is-invalid');
+                    }
+                });
+
+                $('#phone_number').on('input', (e) => {
+                    $(e.target).removeClass('border-info');
+                    const phone = e.target.value;
+                    if (!phoneValidate(phone)) {
+                        $(e.target).addClass('is-invalid').removeClass('is-valid');
+                        var newDiv = $('<div>', {
+                            class: 'invalid-tooltip w-100',
+                            text: 'Phone number is invalid',
+                        });
+                        $(e.target).parent().append(newDiv);
+                    } else {
+                        $(e.target).addClass('is-valid').removeClass('is-invalid');
+                    }
+                });
+
+                $('#update-profile').submit(async (e) => {
+                    const fullName = $('#name').val();
+                    const email = $('#email').val();
+                    const phone = $('#phone_number').val();
+                    if (!handleSubmit(fullName, email, phone)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            const fullName = $('#name').val();
+            const email = $('#email').val();
+            const phone = $('#phone_number').val();
+            if (handleSubmit(fullName, email, phone)) {
+                $('.form-control')
+                    .addClass('border-info')
+                    .removeClass('is-valid')
+                    .removeClass('is-invalid');
+                toastr.options.timeOut = 3000;
+                toastr.success('Successfully! Your profile had been update!');
+            }
+        </script>
+    </body>
 </html>

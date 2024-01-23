@@ -1,61 +1,146 @@
 <header class="p-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center">
-            <a href="/" class="d-flex align-items-center mb-lg-0 link-body-emphasis text-decoration-none me-2 fs-3">
+            <a
+                href="/"
+                class="d-flex align-items-center mb-lg-0 link-body-emphasis text-decoration-none me-2 fs-3"
+            >
                 <i class="fa-solid fa-book"></i>
             </a>
 
             <ul class="nav nav-pills col-auto me-auto justify-content-center mb-md-0 fw-bold">
                 <li class="nav-item">
-                    <a href="/"
-                        class="nav-link px-2 <%= typeof home !== 'undefined' && home ? 'link-secondary' : 'link-body-emphasis' %>">
+                    <a
+                        href="/"
+                        class="nav-link px-2 <%= typeof home !== 'undefined' && home ? 'link-secondary' : 'link-body-emphasis' %>"
+                    >
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <% if (typeof loginUser !=='undefined' && loginUser) { %>
-                        <a href="/customer/orders/<%= loginUser.id  %>"
-                            class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>">Order</a>
-                        <% } else { %>
-                            <a href="/auth/login"
-                                class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>">Order</a>
-                            <% } %>
+                    <a
+                        href="/customer/orders"
+                        class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>"
+                        >Order</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a href="/customer/cart"
-                        class="nav-link px-2 <%= typeof cart !== 'undefined' && cart ? 'link-secondary' : 'link-body-emphasis' %> position-relative" >
+                    <a
+                        href="/customer/cart"
+                        class="nav-link px-2 <%= typeof cart !== 'undefined' && cart ? 'link-secondary' : 'link-body-emphasis' %> position-relative"
+                    >
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <% if(typeof numCartItem !== 'undefined' && numCartItem) {  %>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <%= numCartItem  %>
+                        <% if(typeof numCartItem !== 'undefined' && numCartItem) { %>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        >
+                            <%= numCartItem %>
                         </span>
                         <% } %>
                     </a>
                 </li>
             </ul>
 
+            <div class="form-check form-switch mb-0 me-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="darkMode" <%=
+                typeof darkMode !== 'undefined' && darkMode ? 'checked' : '' %>/>
+                <label class="form-check-label" for="darkMode">
+                    <% if (typeof darkMode !== 'undefined' && darkMode) { %>
+                    <i id="dark-mode-icon" class="fa-solid fa-moon fa-lg"></i>
+                    <% } else { %>
+                    <i id="dark-mode-icon" class="fa-solid fa-sun fa-lg"></i>
+                    <% }; %>
+                </label>
+            </div>
             <% if (typeof loginUser !=='undefined' && loginUser) { %>
-                <div class="dropdown text-end">
-                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="<%= loginUser.avatar%>" alt="mdo" width="32" height="32" class="rounded-circle" />
-                    </a>
-                    <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                        <li><a class="dropdown-item" href="/customer/profile">Settings</a></li>
-                        <li><a class="dropdown-item" href="/customer/profile">Profile</a></li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" href="/auth/logout">Sign out</a></li>
-                    </ul>
-                </div>
-                <% } else { %>
-                    <div>
-                        <a class="btn btn-outline-primary" href="/auth/login">Login</a>
-                        <a class="btn btn-primary" href="/auth/signup">Sign-up</a>
-                    </div>
-                    <% } %>
+            <div class="dropdown text-end">
+                <a
+                    href="#"
+                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    <img
+                        src="<%= loginUser.avatar%>"
+                        alt="mdo"
+                        width="32"
+                        height="32"
+                        class="rounded-circle"
+                    />
+                </a>
+                <ul class="dropdown-menu text-small">
+                    <li>
+                        <a class="dropdown-item" href="/customer/orders">
+                            <span
+                                style="width: 20px"
+                                class="d-inline-flex justify-content-center me-2"
+                            >
+                                <i class="fa-solid fa-table"></i></span
+                            >Orders</a
+                        >
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="/customer/cart"
+                            ><span
+                                style="width: 20px"
+                                class="d-inline-flex justify-content-center me-2"
+                                ><i class="fa-solid fa-cart-shopping"></i></span
+                            >Cart
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="/customer/profile"
+                            ><span
+                                style="width: 20px"
+                                class="d-inline-flex justify-content-center me-2"
+                                ><i class="fa-solid fa-user"></i></span
+                            >Profile</a
+                        >
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="/auth/logout">
+                            <span
+                                style="width: 20px"
+                                class="d-inline-flex justify-content-center me-2"
+                            >
+                                <i class="fa-solid fa-right-from-bracket"></i></span
+                            >Sign out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <% } else { %>
+            <div>
+                <a class="btn btn-outline-primary" href="/auth/login">Login</a>
+                <a class="btn btn-primary" href="/auth/signup">Sign-up</a>
+            </div>
+            <% } %>
         </div>
     </div>
 </header>
+
+<script>
+    $('#darkMode').change(async (e) => {
+        const darkMode = $('#darkMode').is(':checked');
+        const response = await fetch('/utils/dark-mode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ darkMode }),
+        });
+        const result = await response.json();
+        if (result.success) {
+            if (darkMode) {
+                $('html').attr('data-bs-theme', 'dark');
+                $('#dark-mode-icon').removeClass('fa-sun').addClass('fa-moon');
+            } else {
+                $('html').attr('data-bs-theme', 'light');
+                $('#dark-mode-icon').removeClass('fa-moon').addClass('fa-sun');
+            }
+        }
+    });
+</script>
