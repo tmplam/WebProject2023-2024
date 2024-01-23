@@ -3,13 +3,17 @@ const cartModel = require('../models/cart.m');
 const customError = require('../utils/custom-error');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const fs = require('fs');
+const path = require('path');
 
 
 
 module.exports = {
     userProfileController: async (req, res, next) => {
         const numCartItem = await cartModel.getNumItem(req.user.id);
-        res.render('customer/profile', { loginUser: req.user, numCartItem });
+        const updateSuccess = req.session.updateSuccess;
+        delete req.session.updateSuccess;
+        res.render('customer/profile', { loginUser: req.user, numCartItem, updateSuccess });
     },
 
     // JUST FOR ADMIN
@@ -154,7 +158,19 @@ module.exports = {
 
     updateProfileController: async(req, res, next) => {
         try {
-            await userModel.update(req.body, req.params.customerId);
+            if(req.file) {
+                const file = req.file
+                const ext = file.mimetype.substring(file.mimetype.indexOf('/') + 1);
+                const oldPath = file.path;
+                const newPath = `${oldPath}.${ext}`;
+                fs.renameSync(oldPath, newPath);
+                if(req.user.avatar.indexOf('/default.jpg') === -1) {
+                    fs.unlinkSync(path.join(__dirname, '../', `/public${req.user.avatar}`));
+                }
+                req.body.avatar = `/images/users/avatars/${file.filename}.${ext}`;
+            }
+            await userModel.update(req.body, req.user.id);
+            req.session.updateSuccess = 'success';
             res.redirect('/customer/profile');
         } catch (error) {
             console.log(error);
