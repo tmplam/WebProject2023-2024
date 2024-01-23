@@ -29,7 +29,7 @@ router.post('/genres/:genreId/delete', genresController.deleteGenreController);
 
 router.get('/orders', ordersController.ordersController);
 router.get('/orders/:orderId/detail', ordersController.orderSummaryController);
-router.post('/orders/:orderId/detail', ordersController.updateOrderSummaryController);
+router.post('/orders/:orderId/detail', ordersController.adminUpdateOrderSummaryController);
 router.post('/orders/:orderId/change-status', ordersController.updateOrderStatusController);
 
 router.get('/customers', usersController.usersController);

@@ -1,74 +1,59 @@
 <header class="p-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center">
-            <a
-                href="/"
-                class="d-flex align-items-center mb-lg-0 link-body-emphasis text-decoration-none me-2 fs-3"
-            >
+            <a href="/" class="d-flex align-items-center mb-lg-0 link-body-emphasis text-decoration-none me-2 fs-3">
                 <i class="fa-solid fa-book"></i>
             </a>
 
             <ul class="nav nav-pills col-auto me-auto justify-content-center mb-md-0 fw-bold">
                 <li class="nav-item">
-                    <a
-                        href="/"
-                        class="nav-link px-2 <%= typeof home !== 'undefined' && home ? 'link-secondary' : 'link-body-emphasis' %>"
-                    >
+                    <a href="/"
+                        class="nav-link px-2 <%= typeof home !== 'undefined' && home ? 'link-secondary' : 'link-body-emphasis' %>">
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a
-                        href="/customer/orders"
-                        class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>"
-                        >Order</a
-                    >
+                    <% if (typeof loginUser !=='undefined' && loginUser) { %>
+                        <a href="/customer/orders/<%= loginUser.id  %>"
+                            class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>">Order</a>
+                        <% } else { %>
+                            <a href="/auth/login"
+                                class="nav-link px-2 <%= typeof order !== 'undefined' && order ? 'link-secondary' : 'link-body-emphasis' %>">Order</a>
+                            <% } %>
                 </li>
                 <li class="nav-item">
-                    <a
-                        href="/customer/cart"
-                        class="nav-link px-2 <%= typeof cart !== 'undefined' && cart ? 'link-secondary' : 'link-body-emphasis' %> position-relative"
-                    >
+                    <a href="/customer/cart"
+                        class="nav-link px-2 <%= typeof cart !== 'undefined' && cart ? 'link-secondary' : 'link-body-emphasis' %> position-relative">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <span
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        >
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             12
                         </span>
                     </a>
                 </li>
             </ul>
 
-            <% if (typeof loginUser !== 'undefined' && loginUser) { %>
-            <div class="dropdown text-end">
-                <a
-                    href="#"
-                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                >
-                    <img
-                        src="<%= loginUser.avatar%>"
-                        alt="mdo"
-                        width="32"
-                        height="32"
-                        class="rounded-circle"
-                    />
-                </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="/customer/profile">Settings</a></li>
-                    <li><a class="dropdown-item" href="/customer/profile">Profile</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="/auth/logout">Sign out</a></li>
-                </ul>
-            </div>
-            <% } else { %>
-            <div>
-                <a class="btn btn-outline-primary" href="/auth/login">Login</a>
-                <a class="btn btn-primary" href="/auth/signup">Sign-up</a>
-            </div>
-            <% } %>
+            <% if (typeof loginUser !=='undefined' && loginUser) { %>
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="<%= loginUser.avatar%>" alt="mdo" width="32" height="32" class="rounded-circle" />
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="/customer/profile">Settings</a></li>
+                        <li><a class="dropdown-item" href="/customer/profile">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" href="/auth/logout">Sign out</a></li>
+                    </ul>
+                </div>
+                <% } else { %>
+                    <div>
+                        <a class="btn btn-outline-primary" href="/auth/login">Login</a>
+                        <a class="btn btn-primary" href="/auth/signup">Sign-up</a>
+                    </div>
+                    <% } %>
         </div>
     </div>
 </header>
