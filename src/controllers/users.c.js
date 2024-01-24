@@ -3,20 +3,31 @@ const cartModel = require('../models/cart.m');
 const customError = require('../utils/custom-error');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const fs = require('fs');
+const path = require('path');
 
 
 
 module.exports = {
     userProfileController: async (req, res, next) => {
         const numCartItem = await cartModel.getNumItem(req.user.id);
-        res.render('customer/profile', { loginUser: req.user, numCartItem });
+        const updateSuccess = req.session.updateSuccess;
+        delete req.session.updateSuccess;
+        res.render('customer/profile', { loginUser: req.user, numCartItem, updateSuccess });
     },
 
     // JUST FOR ADMIN
     usersController: async (req, res, next) => {
         try {
+            const addSuccess = req.session.addSuccess;
+            delete req.session.addSuccess;
             const customerList = await userModel.getAllCustomers();
-            res.render('admin/customers', { loginUser: req.user, customers: true, customerList });
+            res.render('admin/customers', { 
+                loginUser: req.user,
+                customers: true,
+                customerList, 
+                addSuccess 
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -89,6 +100,7 @@ module.exports = {
             delete user.created_date;
             await userModel.add(user);
 
+            req.session.addSuccess = 'success';
             res.redirect('/admin/customers');
         } catch (error) {
             next(new customError(error.message, 503));
@@ -97,14 +109,14 @@ module.exports = {
 
     viewProfileUser: async (req, res, next) => {
         try {
-            const update = req.query.update;
+            const updateSuccess = req.session.updateSuccess;
             const user_id = req.params.customerId;
             const user = await userModel.get(user_id);
             res.render('admin/profile-customer', {
                 loginUser: req.user,
                 user: user,
                 customers: true,
-                update
+                updateSuccess
             });
 
         } catch (error) {
@@ -135,7 +147,8 @@ module.exports = {
                 }
             }
 
-            res.redirect(`/admin/customers/${user_id}/profile?update=true`);
+            req.session.updateSuccess = 'success';
+            res.redirect(`/admin/customers/${user_id}/profile`);
 
         } catch (error) {
             next(new customError(error.message, 503));
@@ -145,7 +158,19 @@ module.exports = {
 
     updateProfileController: async(req, res, next) => {
         try {
-            await userModel.update(req.body, req.params.customerId);
+            if(req.file) {
+                const file = req.file
+                const ext = file.mimetype.substring(file.mimetype.indexOf('/') + 1);
+                const oldPath = file.path;
+                const newPath = `${oldPath}.${ext}`;
+                fs.renameSync(oldPath, newPath);
+                if(req.user.avatar.indexOf('/default.jpg') === -1) {
+                    fs.unlinkSync(path.join(__dirname, '../', `/public${req.user.avatar}`));
+                }
+                req.body.avatar = `/images/users/avatars/${file.filename}.${ext}`;
+            }
+            await userModel.update(req.body, req.user.id);
+            req.session.updateSuccess = 'success';
             res.redirect('/customer/profile');
         } catch (error) {
             console.log(error);

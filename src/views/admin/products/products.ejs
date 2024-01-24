@@ -204,5 +204,20 @@
                 });
             });
         </script>
+
+
+        <% if(typeof addSuccess !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut = 3000;
+                toastr.success('Add new book successfully');
+            </script>
+        <% } %>
+
+        <% if(typeof deleteSuccess !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut = 3000;
+                toastr.success('Delete this book successfully');
+            </script>
+        <% } %>
     </body>
 </html>
