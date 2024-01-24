@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%- include('../partials/cdn')  %>
+<body class="bg-light">
+    <div class="container" style="height: 100vh;">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-sm-10 col-lg-6 col-xl-5">
+                <div class="rounded-4 bg-white shadow p-5">
+                    <h2 class="text-center text-danger">Payment Error</h2>
+                    <p class="text-center text-danger fs-1">
+                        <i class="fa-regular fa-circle-xmark"></i>
+                    </p>
+                    <div class="px-3 mt-5">
+                        <h4>Payment System</h4>
+                        <p>System is currently unavailable. Please try again later.</p>
+                    </div>
+
+                    <div class="text-end mt-5">
+                        <a class="btn btn-outline-primary text-uppercase px-5" href="#">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,185 +3,108 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Error</title>
-    <%- include('../partials/cdn') %>
+    <title>Payment</title>
+    <%- include('../partials/cdn')  %>
+    <style>
+
+        #ticket:before {
+            content: "";
+            background: #fff;
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: -16px;
+            left: -24px;
+            border-radius: 100%;
+        }
+    
+        #ticket:after {
+            content: "";
+            background: #fff;
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: -16px;
+            right: -24px;
+            border-radius: 100%;
+        }
+    
+        #ticket {
+            border-top: 1px dashed #bdbdbd;
+            position: relative;
+        }
+    
+    </style>
 </head>
 
 
-<style>
-    .form-control {
-        min-height: 48px;
-        border-radius: 8px;
-    }
 
-    button.btn {
-        min-height: 54px;
-    }
 
-    #cartTable td {
-        padding: 6px;
-    }
-
-    #cartTable td:nth-of-type(2) {
-        text-align: right
-    }
-
-    #ticket:before {
-        content: "";
-        background: #fff;
-        width: 32px;
-        height: 32px;
-        position: absolute;
-        top: -16px;
-        left: -16px;
-        border-radius: 100%;
-    }
-
-    #ticket:after {
-        content: "";
-        background: #fff;
-        width: 32px;
-        height: 32px;
-        position: absolute;
-        top: -16px;
-        right: -16px;
-        border-radius: 100%;
-    }
-
-    #ticket {
-        background: #dde8f0;
-        border-top: 1px dashed #bdbdbd;
-        position: relative;
-        border-bottom-left-radius: 12px;
-        border-bottom-right-radius: 12px;
-    }
-
-    #cardNumber {
-        padding-right: 60px;
-    }
-
-    #cardType {
-        width: 58px;
-        height: 36px;
-        background: url('/static_files/images/cardLogos.png') no-repeat;
-        background-size: auto 100%;
-        background-position: -59px;
-        position: absolute;
-        right: 10px;
-        top: 5px;
-    }
-</style>
-
-<body>
-
-    <div class="p-4">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-md-8 col-sm-6 col-xs-12">
-                    <div class="p-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div><img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAABQVBMVEX///8REiQBmTQAAADt7u6BgYI1oypLpyMeni0/oyUloCtHpiRCpic4pSj///2YtQBXqSF0rxx+sRplrB8AjgAAliyQtBjEvgAAkRenuAC6vg4AkgAAABsICR/2+vcAlCOutwAAZjTa692IsADq9OxzrQD4+Ozu9OaVlpkAABRSU1yGp5OIwpOx1becy6QjmwBCoQBZpwDJ2Z3l7tlqtXnM48/Z58fq68iozZGMvmRmqACsvC8AAAw7PUZISFFsbXIxMT0hIzKpqa26u70cHCXP29IyeFAAVxMAOwB2nYVhknOXtaNLeFAASwCuxbYsbkBTqFZfrmgrnUGDv3RhsFOv06OSxYJ+uEmhxnPH3K9drjuZwE2VuzS4z3+BtTm2ym62xlTKzmrg5bXO1ovOxznIyE6ew2Dm357Y1X3a2twsLC7aG3kRAAANy0lEQVR4nO1aCVva2haNpLFoa+pALLdIaGNMIpdQSRicIEy93undC1RlUAahDu3//wFvn5yEhIDF90QBv6y2VCTiWVl73hCECxcuXLhw4cKFCxcuXLhw4cKFCxcuXLhw4cKFCxcuXFig4R/75cuXaZ9jQvjy28nJ779O+xSTwR8nnz6d/DntU0wGf30CnEz7FJMB+zdw+c8L8BiaZYl//gUy/077JBNAIsHqVnbyDz3tozwe8ShL/IqsjJ/2SR4PrhTBZH5jp32UxyPii/DIZ07+nH8r48r+Ekd8+fvTya/zTybKMP4EQQOZv+aeDFcOeXwycpoXQCYa8nhCZR7s7OSvaZ/lcaB1YTwef4KG2uyPOVeGRsIAmQiS5u85D82Jkk7G45cJ4p+T+SZDRxmdiycE0Zn4g5v2eR4F7DEIPqgC+LkumvvCeDyMX55z97eEATYeedrHeRRo2eICblOZazZ2YRAbzxxb2qAwuqVF5jY4O4TRo0AkgSdo8wZaZjxD8Jfm03H4uH+YDIQBJM7cIcGMUAaZWikyd5UAHxkljE6HKUe5+XIdzjNSGCNIl+dKHTZ6nzB9Osh36LnQhyvdL4xhbKW4PB9ph5V/KoxBp1KKzAMffihhjqaD+CRmnU9ivDAGnxDwicuzPLgd4/4OOsteb6UcndlcylfGuL/d0hiv17vsZYDQ2UwSSvgerAsmg/gggELcjEVr9t7sP2xjXpOMQScQ8J9GktiHZiIL8aPLshFcKiWv3ztAZnlxcXElEFj8ejYjNcJDrMzvQyjzoKLdzjCZlaWVlb3Pn0/3k4L+hvT0NHqAlYX8EeQbPEckSgGnMIsri0tLS2/fvnkDhPZOz9RpWtv4WBYq9RMlLVcCDmEsMq8Be4DGeV3EVz87L36clTFx++V0xO+0skXMRSfzehUQA0bV/eTzS0TLY8gwFXQZy0XiMu5qIqFBK1tZedsXRucC2NjYiMX21mp1ATnQszkRO7JftpNBuZEv+3wemUjI+CcGhFmxWZnFBbC2dnh4uHOgqDT7TGzYMS6jCwNcPKEyR0R9iI1csnsM4mKSaeyryfNqnwvC+s7O4c6FkmTZZ9BnnMuEImCKKHr7IwQX95VAJ7YccJB5u4SFOdPfkk6cHVT7ZHTs7OxcNuuq8MQScePIJPToDeW/TMhebwBJE3Eqg4XZa8hWAFPrtWrLJLMJ2Aa8ayspARg90UxhrP+HeNzvgJXR0YA3EKX7ZBatWGZY2dngm4v1/Ztqax3R2MR4B+j0UqIgPAUbelz53ycTJ7iyQSbqtQtjxbK9al3kWeOYxn+CqrQvLi43MaF3On755ajXVcWJExobzHQzi/oYT5RIVEJefyTB8ec2ZZYGYtle4+tZUhUNQuZhabXevAFCJhUdH4+uJl0ssPExHTMDAYDgS74SR8go+QcCAXuRaXjM3p6ZZSBfxg72gZDAGoQMNxK7Svums2mR+fjxWpgwmbHtP4MKfK4UJ/h4wFljolIGrOxN4/S0AYTMJBOLxQ4vmnUkEf4tZlgQkkqz3TkyuHz8IE6YTGksmTg6EQ8ZszJc/eO6rFEXOXn/60EDdInhJLMB+fKwVVOSqmrefiPP0Gq31253EJfnVwYyDb6/Cf/yUMGMzOztm338XmLy7PxrtXUYi5lJBtLL2k2zCxLRxIAbCanb3tVd6rl9RncbZGk0Fyn5R1b/r2XrlHyyvl+DlAl1jJFkdrbXtzvNumCFA8Po2IlnG/oBPTMTinPoztKJsrPG1Mm8OR8MXqwKEtUukC5GxoSwrBC0kEyqRjh+mkJgbNLU4S/jNp+LO4V5i8i83peRIeFT4nOyIpLo5hII6Qlm+4IQeu82O02lmxKfbI74oNEMtGesPofh7GWZEctQj7lXPT+rJ1THKQW1DtHrQi8BmoS6jdNMp93rplSzw54omZ8Wmn6fn8FeAzT0QaZcsXFZMSqZN3qHuXr6dR/CsUnIOCbYnAIJpqliMkaOub7q3XZTEw5mKDbf2wL4o3I0ijoEppIABb1ROCd7HrCTGWzLYnux1sH+WT0pDvAhaBEJIbQtMigwf7i+u+1OVpmfOI2Ph+OgPISsLBJYrqBWM7o8SGbJ0ZZBwtyo1pBEfScyiNEqSNQxyXwAvP/wYcJsuHtjsw9ZjK4MWBlkzECENu1soPh/Y3FZNRPmWuugqdSthIn/sWqqq/Q6fTLv319Nlsz9oyYfgcnoVgalTADVAonTwVLG3vxXV/dQwtww8uVO66a2ryTFvrXhRwEY9a6fhgxIc4/X6MqAmTElGqwMyJyzhjJDwiAu1boK4figBYVZP2FCprm4aSpmWDCDl07o9u7b++uJFwHRe7zGh0auoBsDRWYJpf4oPI+OLP4RGb2o4TnImLUWmmTghlnvzC5v2j0l2Q9epkSp1OQnhnx5tKH59erfhz6uhazMj/p/GgKB4f5Lg+OyRtK88awIEjVvkC5Gh4k65qNOu6mkRIsM4fhyQoCuaxQZhkEvRn0VnoWGeXkZNZlcKXCPla0O9My0AIyU9qZRABh92REw6qWs+ehTlDX0PWx0aVg5gpqzAEoztM3KzKlMn0zVGDNbR8QSXSJdbD3mUXfiBJxsRlqaH3kJwYMhxqMcuqG2WDY8+9uoHkAD41h4siBRXbmx98u9iWd+J5uyb0RMYzx4zkzzvG4bupHdY2V6wtzYaFWhae7PzXEbQ7OimFKujgw2T00GjhvxjzA1JlSSLbuWTwMjkwxq/a2EubbWalVrddXxC1hBgB4TCF2nnpgLgE2URoXokBeKGGQ6rBz32koZx1TmoBrDCXPDaDHXWxdgcw7/ppHRPcnIzAkQhxn2nJCfo2VvpVQZHGQMljINnmV5tV47NBKmMZRdX7+87E14aPFwOlzc56DDMCWCLetj/4G2bGmAjIJ/nGXFem3NkTC3RcLeMT/n0gboDLpOKEqwPvtUpj/IsFmZ9elHOK2Y3IcKALXMOGEipqnLji2/PA9oTMeuDhMqR4bJLBnubxTMpwYRgw5AVW6Mjnkb/F01h7Lqz377kwACWz9OMwyz7HeOy4ypjG3z13AGLwRRaYOddYCfYmaZp06YQ6D1PSyWx/pIxqCVLTkzpr7FxLUxrgDMAZmeU5KbZsbsTWUXDdYG3mPn4h2OZbY1pj6UjaEt5vB70YRisuk9PxMMuezzh0YI4yCz10+YgB2IZTd1s7K3tWWCnjA7z+80FuRKIBBaHiSDQtlKf8H0+Vzeb0C+XN2wZczDnWozyQ5ZFC0+Rc3/QCDbZ2U0KnNkzJV+wfwZF/7JswNkZ7Y9JtpitruinliMMNd/mCbYRNzk0g/MfWGsy9AWcw3oGBnT2GJ2FH0tOxMfeSKMm5mIlJA6ljBGYP7MD1zGJ5WL1hrO/rYtpmJvyGYCvHxe8SIqA7O/U9bpG2xSqV1cmnRwW/auTejlzqwIpIM7+3rqtX/wZ3Vvo1bnRN4qVcylXxOvZY0e80gF91fubo3N+ayATQChRsNqy4wtpujcHtNCUjHXsoiM0NPHste9rioIs/GBYrywwIRe4y3mhj6UjaGGTOyf0lz6JevtTufoqAliHeE5JuDb1W1q8pvzR0BAhKoNY4i5oX+O6bCFBn5DEondFNwE4cok817HxDfnj4Uq1w6AUL/HRAXA+o2StEmEswyaB6Suro8sLu/fP/ks4H8Hq8r6FjOGun+UMNGUefsCSzR4KZ3q9q6uv5lkJr1sngB0W0Ez2YOqucVcR/lyZ/uyrSSHVmS02r29w4xuZ8zM7BCTZ83aRQsRwglz+x2qAPSdn3M/mLrt3d3NnjCDEPBadtv8IJOxxewpqb5E5qUzLIsNxloWJcxN21D2CiRKzVI4fgDMRUASGN0cWWT0NeZ177Y7rdHTIyGoXZDoqM8G55i7afZnj4Ogpup4LdvPmN05cZfRoMVU9xZvMVHCvJ32eR4DXKMJKZQxv6EqZtoHmgzQWrb7MrjMs6e4cOHChQsXLly4cOHChQsXLly4cOHChQsXLly4mGe8ekEgqBcEgnxBIBZeEFwyswoiaH0dhK/tT9HDbtD5EzMMImeedus4myNz/acLwVwO+IQzW9M52P8DgiKDJLm1cExmCoWCpEnk1jF5HFyA2JDXdskspWXnRxvie3pBkjJFTdO+p7UM9V3KUQUtSGqFcEFbyGc0LTe1s4HZb9nv5O6u9YINW8HjLfQtMkjkSSkdljKFrPaqoJFUISPltYIm5alsQftOFbPTEyaYzS6ki8fBrV0SzruwS4Y1cjeInmdzcPrdrd2treOtrd30gpYJZtMklSOknEQGw5JEFsNSIS/lc3mKzEsFaoEsvMr/CC5Mz8iCOS2shcPFTJjK5CgyHM5ntXBOI9OUFs6QYEbhTBa9roXTUlHSqLCkk9lKA5ljktTyBWkByEjSd40kC9Kr7FS9/5iSwvk8RaXzOQkcAJ5KYEMSlYZbnqbC4BkFisqnqR8aBX/yZB7MrJDOSmkJvIQqFOBBKkjf0QN4jfT9xzS9fzecB5MJ5xEniiqQEjq7JklAigpT6DGvaXkqQ0kaXAevEeH0D4rK5rTjLAWcd8NaVpO0haImhak0KWWmG8rSuVymmM7k0rlwMb2bSRczPzLFbCaL/qaz6XQ2l4VXs+FwLpcuhnMESo5FfOSikTaLQUARvqE/TBf6gYL4P3S8oBXKgra/+tPgveXM/GQXCy+rNpv2ASaJF0Xmv1Zhm4RnMqiJAAAAAElFTkSuQmCC"
-                                    alt="Payment Logo" height="48"></div>
-                            <div id="countdown">
-                                <span class="badge p-2 fs-5 bg-dark">0</span>
-                                <span style="margin-left:2px" class="badge p-2 fs-5 bg-dark">0</span>
-                                <span class="fs-5">:</span>
-                                <span class="badge p-2 fs-5 bg-dark">0</span>
-                                <span style="margin-left:2px" class="badge p-2 fs-5 bg-dark">0</span>
-                            </div>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-md-8 col-12 col-xl-7" style="min-width: 600px;">
+                <div class="px-5 py-4 rounded-4 shadow bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="fs-1"><i class="fa-solid fa-building-columns"></i></div>
+                            <h1 class="mb-0 ps-3">Payment System</h2>
                         </div>
-
-                        <div class="mt-5">
-                            <div>
-                                <label class="d-block" for="cardNumber"><strong>Card Number</strong></label>
-                                <small class="text-secondary">Enter the 16 - digit number printed on the card </small>
-                                <div class="position-relative">
-                                    <input type="text" id="cardNumber" class="form-control mt-3"><span
-                                        id="cardType"></span>
-                                </div>
-                            </div>
-                            <div class="mt-5">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-6 col-xs-12">
-                                        <label class="d-block" for="cvv"><strong>CVV Number</strong></label>
-                                        <small class="text-secondary">Enter the 3 or 4 digit number printed at back of
-                                            the
-                                            card </small>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <input type="text" id="cvv" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-6 col-xs-12">
-                                        <label class="d-block" for="expiry_mm"><strong>Expiry Date</strong></label>
-                                        <small class="text-secondary">Enter the expiration date of the card </small>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <div class="d-flex align-items-center">
-                                            <input type="text" id="expiry_mm" class="form-control">
-                                            <span class="fs-4 mx-3">/</span>
-                                            <input type="text" id="expiry_yy" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-6 col-xs-12">
-                                        <label class="d-block" for="postal"><strong>Postal (Zip) Code</strong></label>
-                                        <small class="text-secondary">Enter the postal / Zip code of billing address
-                                        </small>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <div class="d-flex align-items-center">
-                                            <input type="text" id="postal" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary mt-5 w-100" onclick="submitPayment()">Pay Now</button>
+                        <div id="countdown">
+                            <span class="badge p-2 fs-5 bg-dark">0</span>
+                            <span style="margin-left:2px" class="badge p-2 fs-5 bg-dark">0</span>
+                            <span class="fs-5">:</span>
+                            <span class="badge p-2 fs-5 bg-dark">0</span>
+                            <span style="margin-left:2px" class="badge p-2 fs-5 bg-dark">0</span>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
 
-                    <div style="background:#eff4f8;border-radius:16px;">
-                        <div class="p-4">
-                            <table class="w-100" id="cartTable">
-                                <tr>
-                                    <td><span class="text-secondary">Order #</span></td>
-                                    <td><strong>231198</strong></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-secondary">Product</span></td>
-                                    <td><strong>DB Subscription</strong></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-secondary">Tax (10%)</span></td>
-                                    <td><strong>12.88</strong></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-secondary">Total</span></td>
-                                    <td><strong class="text-primary">$ 422.88</strong></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div id="ticket">
-                            <div class="d-flex p-4 align-items-center justify-content-between">
-                                <div>
-                                    <small class="text-secondary">You Have to Pay</small>
-                                    <div class="fs-2"><strong>$ <%= amount %></strong></div>
+                    <div class="mt-4">
+                        <div class="mb-1">Account holder: Vuong Huynh Khai</div>
+                        <div class="mb-1">Account number: 12345678974100</div>
+                        <div class="mb-1">Balance: $1000</div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="bg-light col-9 mt-4 rounded-4">
+                            <div class="p-4">
+                                <div class="row justify-content-between">
+                                    <div class="col-6">Order</div>
+                                    <div class="col-6 text-end fw-semibold">123456789741</div>
                                 </div>
-                                <div>
-                                    <img src="/static_files/svgs/shop.svg" width="48" alt="">
+
+                                <div class="row justify-content-between">
+                                    <div class="col-6">Beneficiary</div>
+                                    <div class="col-6 text-end fw-semibold">Book Store</div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-6">Beneficiary account</div>
+                                    <div class="col-6 text-end fw-semibold">99999999999999</div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-6">Subtotal</div>
+                                    <div class="col-6 text-end fw-semibold">$ 200</div>
+                                </div>
+
+                                <div class="row justify-content-between">
+                                    <div class="col-6">Tax</div>
+                                    <div class="col-6 text-end fw-semibold">0</div>
                                 </div>
                             </div>
+                            <div id="ticket">
+                                <div class="d-flex p-4 align-items-center justify-content-between">
+                                    <div>You Have to Pay</div>
+                                    <div class="fs-2 text-success"><strong>$ 200</strong></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-between mt-5">
+                            <a href="#" class="btn btn-outline-danger py-1 fs-3 col-6 text-center text-uppercase me-3">Cancel</a>
+                            <button id="btn-payment" class="btn btn-outline-success py-1 fs-3 col-6 text-center text-uppercase">Pay</button>
                         </div>
                     </div>
                 </div>
@@ -189,12 +112,14 @@
         </div>
     </div>
 
+    <form id="form-payment" action="" method="post" class="d-none">
+        <input type="text" name="payment" id="" value="">
+    </form>
+
     <script>
         function updateCountdown() {
             const countdownElement = document.getElementById('countdown');
-
             let remainingSeconds = Math.max(0, Math.round((targetTime - Date.now()) / 1000));
-
             const minutes = Math.floor(remainingSeconds / 60);
             const seconds = remainingSeconds % 60;
 
@@ -205,35 +130,21 @@
             // If the countdown reaches 0, you can perform additional actions
             if (remainingSeconds === 0) {
                 clearInterval(countdownInterval);
-                countdownElement.textContent = 'Countdown complete!';
+                window.location.href = '/payment/error';
             }
         }
 
-        const createdTime = new Date('<%= created_time %>')
+        const createdTime = new Date()
         const targetTime = new Date(createdTime.getTime() + 5 * 60 * 1000);
         const countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
 
 
-
-        function submitPayment() {
-            const url = `/transaction/<%= transactionID %>/payment?authorization_code=<%= authorization_code %>`
-            $.ajax({
-                url: url,
-                method: 'post',
-                headers: {
-
-                },
-                data: {
-
-                },
-                success: function (data) {
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                }
-            });
-            return false
-        }
+        $(() => {
+            $('#btn-payment').click((e) => {
+                $('#form-payment').submit();
+            })
+        })
     </script>
 </body>
 
