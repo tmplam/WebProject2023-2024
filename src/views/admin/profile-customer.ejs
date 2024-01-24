@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +33,7 @@
                                         <h1 class="d-inline-block mb-2 text-primary-emphasis">Profile</h1>
                                         <div class="form-floating mb-2">
                                             <input
-                                                class="form-control border-info bg-white"
+                                                class="form-control border-info"
                                                 required
                                                 name="name"
                                                 id="name"
@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="form-floating mb-2">
                                             <input
-                                                class="form-control border-info bg-white"
+                                                class="form-control border-info"
                                                 type="email"
                                                 required
                                                 name="email"
@@ -58,7 +58,7 @@
                                         </div>
                                         <div class="form-floating mb-2">
                                             <input
-                                                class="form-control border-info bg-white"
+                                                class="form-control border-info"
                                                 id="phone"
                                                 required
                                                 value="<%= user.phone_number  %>"
@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input
-                                                class="form-control border-info bg-white"
+                                                class="form-control border-info"
                                                 name="address"
                                                 id="address"
                                                 value="<%= user.address  %>"

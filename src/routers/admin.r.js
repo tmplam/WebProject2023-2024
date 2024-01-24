@@ -6,21 +6,26 @@ const ordersController = require('../controllers/orders.c');
 const usersController = require('../controllers/users.c');
 //multer
 const path = require('path');
-const multer = require('multer')
-const upload = multer({ dest: path.join(__dirname, '../public/images/products') })
-
-
-
+const multer = require('multer');
+const upload = multer({ dest: path.join(__dirname, '../public/images/products') });
 
 router.get('/dashboard', productsController.dashBoardController);
 
 // Products management
 router.get('/products', productsController.productsController);
-router.get('/products/create',productsController.createProductController);
-router.post('/products/create', upload.array('cover-img', 2),productsController.createProductControllerPost);
+router.get('/products/create', productsController.createProductController);
+router.post(
+    '/products/create',
+    upload.array('cover-img', 2),
+    productsController.createProductControllerPost
+);
 router.get('/products/:productId/edit', productsController.updateProductController);
-router.post('/products/:productId/edit', upload.array('cover-img', 2) ,productsController.updateProductControllerPost);
-router.post('/products/:productId/delete' ,productsController.deleteProductController);
+router.post(
+    '/products/:productId/edit',
+    upload.array('cover-img', 2),
+    productsController.updateProductControllerPost
+);
+router.post('/products/:productId/delete', productsController.deleteProductController);
 
 // Genres management
 router.get('/genres', genresController.genresController);

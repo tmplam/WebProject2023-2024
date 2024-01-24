@@ -6,6 +6,7 @@ module.exports = (app) => {
             statusCode: 400,
             message: 'Page not found!',
             description: 'The page you access is not existed!',
+            darkMode: req.session.darkMode,
         });
     });
 
@@ -19,6 +20,7 @@ module.exports = (app) => {
             statusCode: statusCode,
             message: err.message,
             description: err.stack,
+            darkMode: req.session.darkMode,
         });
     });
 };

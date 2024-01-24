@@ -5,11 +5,15 @@ const passport = require('passport');
 const customError = require('../utils/custom-error');
 
 router.get('/login', authController.getLoginPage);
-router.post( '/login',
+router.post(
+    '/login',
     passport.authenticate('MyStrategy', {
         failureRedirect: '/auth/login?status=fail',
     }),
     (req, res, next) => {
+        req.session.darkMode = req.session.passport.user.darkMode;
+        req.session.passport.user = req.session.passport.user.username;
+
         if (req.user.role === 2) {
             res.redirect('/admin/dashboard');
         } else {

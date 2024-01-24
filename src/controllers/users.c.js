@@ -6,14 +6,18 @@ const saltRounds = 10;
 const fs = require('fs');
 const path = require('path');
 
-
-
 module.exports = {
     userProfileController: async (req, res, next) => {
         const numCartItem = await cartModel.getNumItem(req.user.id);
+
         const updateSuccess = req.session.updateSuccess;
         delete req.session.updateSuccess;
-        res.render('customer/profile', { loginUser: req.user, numCartItem, updateSuccess });
+        res.render('customer/profile', {
+            loginUser: req.user,
+            numCartItem,
+            updateSuccess,
+            darkMode: req.session.darkMode,
+        });
     },
 
     // JUST FOR ADMIN
@@ -22,11 +26,13 @@ module.exports = {
             const addSuccess = req.session.addSuccess;
             delete req.session.addSuccess;
             const customerList = await userModel.getAllCustomers();
-            res.render('admin/customers', { 
+
+            res.render('admin/customers', {
                 loginUser: req.user,
                 customers: true,
-                customerList, 
-                addSuccess 
+                customerList,
+                addSuccess,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -39,11 +45,10 @@ module.exports = {
             const customer = await userModel.get(user_id);
 
             const operate = req.params.operate;
-            
-            if(operate === 'block') {
+
+            if (operate === 'block') {
                 customer.status = 'block';
-            }
-            else {
+            } else {
                 customer.status = 'active';
             }
             await userModel.updateStatus(customer);
@@ -56,9 +61,10 @@ module.exports = {
 
     getCreatePage: async (req, res, next) => {
         try {
-            res.render('admin/create-customer', { 
-                loginUser: req.user, 
-                customers: true
+            res.render('admin/create-customer', {
+                loginUser: req.user,
+                customers: true,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -74,7 +80,7 @@ module.exports = {
             const fullname = req.body.fullname;
             const email = req.body.email;
             const role = Number(req.body.role);
-            if(role !== 1 && role !== 2) {
+            if (role !== 1 && role !== 2) {
                 role = 1;
             }
             let user = await userModel.getByUsername(username);
@@ -116,32 +122,30 @@ module.exports = {
                 loginUser: req.user,
                 user: user,
                 customers: true,
-                updateSuccess
+                updateSuccess,
+                darkMode: req.session.darkMode,
             });
-
         } catch (error) {
             next(new customError(error.message, 503));
         }
-        
     },
-
 
     updateProfileUser: async (req, res, next) => {
         try {
             const user_id = req.params.customerId;
             let role = Number(req.body.role);
             let status = req.body.status;
-            if(role !== 1 && role !== 2) role = 1;
-            if(status !== 'block' && status !== 'active') status = 'active';
+            if (role !== 1 && role !== 2) role = 1;
+            if (status !== 'block' && status !== 'active') status = 'active';
 
             const user = await userModel.get(user_id);
-            if(user) {
-                if(user.status !== status) {
+            if (user) {
+                if (user.status !== status) {
                     user.status = status;
                     await userModel.updateStatus(user);
                 }
 
-                if(user.role !== role) {
+                if (user.role !== role) {
                     user.role = role;
                     await userModel.updateRole(user);
                 }
@@ -149,22 +153,20 @@ module.exports = {
 
             req.session.updateSuccess = 'success';
             res.redirect(`/admin/customers/${user_id}/profile`);
-
         } catch (error) {
             next(new customError(error.message, 503));
         }
     },
-        
 
-    updateProfileController: async(req, res, next) => {
+    updateProfileController: async (req, res, next) => {
         try {
-            if(req.file) {
-                const file = req.file
+            if (req.file) {
+                const file = req.file;
                 const ext = file.mimetype.substring(file.mimetype.indexOf('/') + 1);
                 const oldPath = file.path;
                 const newPath = `${oldPath}.${ext}`;
                 fs.renameSync(oldPath, newPath);
-                if(req.user.avatar.indexOf('/default.jpg') === -1) {
+                if (req.user.avatar.indexOf('/default.jpg') === -1) {
                     fs.unlinkSync(path.join(__dirname, '../', `/public${req.user.avatar}`));
                 }
                 req.body.avatar = `/images/users/avatars/${file.filename}.${ext}`;
@@ -176,5 +178,5 @@ module.exports = {
             console.log(error);
             next(new customError(error.message, 503));
         }
-    }
+    },
 };

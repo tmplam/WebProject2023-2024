@@ -34,9 +34,11 @@ const cartsRouter = require('./routers/carts.r');
 const ordersRouter = require('./routers/orders.r');
 const usersRouter = require('./routers/users.r');
 const adminRouter = require('./routers/admin.r');
+const utilsRouter = require('./routers/utils.r');
 
 app.use('/auth', authRouter);
 app.use('/', productsRouter);
+app.use('/utils', utilsRouter);
 
 // AUTHENTICATION
 app.use((req, res, next) => {

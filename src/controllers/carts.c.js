@@ -7,6 +7,7 @@ module.exports = {
     cartController: async (req, res, next) => {
         try {
             const cartInfo = await cartModel.get(req.user.id);
+
             if (cartInfo.books.length > 0) {
                 for (let book of cartInfo.books) {
                     book.bookInfo = await bookModel.get(book.book_id);
@@ -16,14 +17,15 @@ module.exports = {
 
             const failMessage = req.session.failMessage;
             delete req.session.failMessage;
-  
+
             const numCartItem = await cartModel.getNumItem(req.user.id);
             res.render('customer/cart', {
                 loginUser: req.user,
                 cart: true,
                 cartInfo: cartInfo,
                 failMessage,
-                numCartItem
+                numCartItem,
+                darkMode: req.session.darkMode,
             });
         } catch (err) {
             throw new customError(err.message, 503);
@@ -39,8 +41,7 @@ module.exports = {
             const book = await bookModel.get(bookId);
             if (book.stock_quantity < quantity) {
                 throw new customError('The stock quantity is insufficient!', 400);
-            }
-            else if(book.status === 'delete') {
+            } else if (book.status === 'delete') {
                 throw new customError('This was deleted!', 400);
             }
 
@@ -50,7 +51,7 @@ module.exports = {
                 quantity: quantity,
             });
             req.session.successMessage = 'Add to cart successfully!';
-          
+
             //re render book detail
             res.redirect('back');
         } catch (err) {
@@ -87,9 +88,8 @@ module.exports = {
                 await cartModel.deleteZeroQuantity(userId, bookId);
             }
 
-            res.redirect('back')
-        }
-        catch(err) {
+            res.redirect('back');
+        } catch (err) {
             next(new customError(err.message, 503));
         }
     },
@@ -100,10 +100,9 @@ module.exports = {
             const userId = req.user.id;
             await cartModel.delete(userId, bookId);
 
-            res.redirect('/customer/cart')
-        } catch(err) {
+            res.redirect('/customer/cart');
+        } catch (err) {
             next(new customError(err.message, 503));
-
         }
     },
 };

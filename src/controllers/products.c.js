@@ -2,6 +2,7 @@ const bookModel = require('../models/book.m');
 const cartModel = require('../models/cart.m');
 const genreModel = require('../models/genre.m');
 const orderModel = require('../models/order.m');
+const pageUtil = require('../utils/pagination-range');
 
 const customError = require('../utils/custom-error');
 const fs = require('fs');
@@ -9,6 +10,7 @@ const path = require('path');
 
 module.exports = {
     homeController: async (req, res, next) => {
+        // console.log(req.session);
         try {
             const genreList = await genreModel.getAll();
             const constraintValues = [
@@ -25,13 +27,22 @@ module.exports = {
             const bookData = await bookModel.getSearch(constraintValues, page, 8);
             bookData.keyword = req.query.keyword;
             bookData.genre = req.query.genre;
-            bookData.page = page;
+            bookData.page = Number.parseInt(page);
+            const pageRange = pageUtil.paginationRange(bookData.page, bookData.totalPage, 1);
 
             let numCartItem = 0;
-            if(req.user) {
+            if (req.user) {
                 numCartItem = await cartModel.getNumItem(req.user.id);
             }
-            res.render('customer/home', { loginUser: req.user, genreList, bookData, home: true, numCartItem });
+            res.render('customer/home', {
+                loginUser: req.user,
+                genreList,
+                bookData,
+                home: true,
+                numCartItem,
+                pageRange,
+                darkMode: req.session.darkMode,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -73,7 +84,8 @@ module.exports = {
                 relatedBooks,
                 successMessage,
                 failMessage,
-                numCartItem
+                numCartItem,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -83,7 +95,7 @@ module.exports = {
     // JUST FOR ADMIN
     dashBoardController: async (req, res, next) => {
         try {
-            const totalBook = await bookModel.count();
+            const totalBook = await bookModel.count([{ fieldName: 'status', value: 'active' }]);
             const orders = await orderModel.getManyOrNone([
                 { fieldName: 'delivery_status', value: 'Shipped' },
             ]);
@@ -131,6 +143,7 @@ module.exports = {
                 earning,
                 earningByYear: JSON.stringify(earningByYear),
                 dashboard: true,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -153,7 +166,8 @@ module.exports = {
                 products: true,
                 productList: productList,
                 addSuccess,
-                deleteSuccess
+                deleteSuccess,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -167,6 +181,7 @@ module.exports = {
                 loginUser: req.user,
                 products: true,
                 genreList: genreList,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -186,7 +201,7 @@ module.exports = {
                 price: req.body.price,
                 stock_quantity: req.body.quantity,
                 description: req.body.description,
-                status: 'active'
+                status: 'active',
             };
 
             let i = 1;
@@ -241,7 +256,8 @@ module.exports = {
                 products: true,
                 book: book,
                 genreList: genreList,
-                updateSuccess
+                updateSuccess,
+                darkMode: req.session.darkMode,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -305,17 +321,16 @@ module.exports = {
         try {
             const bookId = req.params.productId;
             const book = await bookModel.get(bookId);
-            if(book) {
+            if (book) {
                 book.status = 'delete';
                 await bookModel.update(book, bookId);
                 req.session.deleteSuccess = 'success';
-                res.redirect('/admin/products')
-            }
-            else {
+                res.redirect('/admin/products');
+            } else {
                 throw new customError('Can not find this book!', 404);
             }
         } catch (error) {
             next(new customError(error.message, 503));
         }
-    }
+    },
 };

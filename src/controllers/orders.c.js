@@ -22,7 +22,7 @@ module.exports = {
         for (let book of cartInfo.books) {
             book.bookInfo = await bookModel.get(book.book_id);
         }
-
+        const numCartItem = await cartModel.getNumItem(req.user.id);
         res.render('customer/summary', {
             loginUser: req.user,
             cartInfo,
@@ -30,6 +30,8 @@ module.exports = {
             nameError,
             phoneError,
             addressError,
+            numCartItem,
+            darkMode: req.session.darkMode,
         });
     },
 
@@ -47,26 +49,33 @@ module.exports = {
             req.session.addressError = '(*) Address is required!';
             valid = false;
         }
+
         if (valid) {
             // Handle create order and go to pay
+            res.redirect('back');
         } else {
             res.redirect('back');
         }
     },
 
-    userOrderController: async (req, res, next) => {
-        // Add user order page
-        res.render('customer/summary', { loginUser: req.user, order: true });
-    },
-
     getOrdersOfUserController: async (req, res, next) => {
-        const userId = req.params.userId;
         try {
-            const orderList = await orderModel.getManyOrNone([{ fieldName: 'order_by', value: userId }]);
+            const orderList = await orderModel.getManyOrNone([
+                { fieldName: 'order_by', value: req?.user?.id },
+            ]);
+
             for (let i = 0; i < orderList.length; i++) {
                 orderList[i].order_by = await userModel.get(orderList[i].order_by);
             }
-            res.render('customer/orders', { loginUser: req.user, orderList, order: true });
+
+            const numCartItem = await cartModel.getNumItem(req.user.id);
+            res.render('customer/orders', {
+                loginUser: req.user,
+                orderList,
+                order: true,
+                numCartItem,
+                darkMode: req.session.darkMode,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -92,7 +101,23 @@ module.exports = {
                 ).toFixed(2);
             }
 
-            res.render('customer/order-detail', { loginUser: req.user, orderDetail, order: true });
+            const successMessage = req.session.successMessage;
+            const phoneError = req.session.phoneError;
+            const addressError = req.session.addressError;
+
+            delete req.session.phoneError;
+            delete req.session.addressError;
+            delete req.session.successMessage;
+
+            res.render('customer/order-detail', {
+                loginUser: req.user,
+                orderDetail,
+                order: true,
+                phoneError,
+                addressError,
+                successMessage,
+                darkMode: req.session.darkMode,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -118,7 +143,12 @@ module.exports = {
                 orderList[i].order_by = await userModel.get(orderList[i].order_by);
             }
 
-            res.render('admin/orders', { loginUser: req.user, orderList, orders: true });
+            res.render('admin/orders', {
+                loginUser: req.user,
+                orderList,
+                orders: true,
+                darkMode: req.session.darkMode,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -144,7 +174,23 @@ module.exports = {
                 ).toFixed(2);
             }
 
-            res.render('admin/order-detail', { loginUser: req.user, order, orders: true });
+            const successMessage = req.session.successMessage;
+            const phoneError = req.session.phoneError;
+            const addressError = req.session.addressError;
+
+            delete req.session.phoneError;
+            delete req.session.addressError;
+            delete req.session.successMessage;
+
+            res.render('admin/order-detail', {
+                loginUser: req.user,
+                order,
+                orders: true,
+                phoneError,
+                addressError,
+                successMessage,
+                darkMode: req.session.darkMode,
+            });
         } catch (error) {
             next(new customError(error.message, 503));
         }
@@ -152,11 +198,25 @@ module.exports = {
 
     adminUpdateOrderSummaryController: async (req, res, next) => {
         try {
-            const data = {
-                delivery_address: req.body.delivery_address,
-                phone_number: req.body.phone_number,
-            };
-            await orderModel.update(data, req.params.orderId);
+            let valid = true;
+            if (!/^(84|0[3|5|7|8|9])\d{8}$/.test(req.body.phone_number.trim())) {
+                req.session.phoneError = '(*) Invalid phone number!';
+                valid = false;
+            }
+            if (req.body.delivery_address.trim() == '') {
+                req.session.addressError = '(*) Address is required!';
+                valid = false;
+            }
+
+            if (valid) {
+                const data = {
+                    delivery_address: req.body.delivery_address,
+                    phone_number: req.body.phone_number,
+                };
+                await orderModel.update(data, req.params.orderId);
+                req.session.successMessage = 'Update order successfully!';
+            }
+
             res.redirect('back');
         } catch (error) {
             next(new customError(error.message, 503));

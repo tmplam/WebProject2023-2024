@@ -8,13 +8,14 @@ module.exports = {
         if (req.query.status === 'fail' || req.query.status === 'block') {
             return res.render('customer/login', {
                 status: req.query.status,
+                darkMode: req.session.darkMode,
             });
         }
-        res.render('customer/login');
+        res.render('customer/login', { darkMode: req.session.darkMode });
     },
 
     getSignupPage(req, res, next) {
-        res.render('customer/signup');
+        res.render('customer/signup', { darkMode: req.session.darkMode });
     },
 
     async signUpController(req, res, next) {
@@ -59,11 +60,13 @@ module.exports = {
     },
 
     getLogout(req, res, next) {
+        const darkMode = req.session.darkMode;
         req.logout((err) => {
             if (err) {
                 throw new CustomError(err.message, 500);
             }
         });
+        req.session.darkMode = darkMode;
         res.redirect('/');
     },
 };

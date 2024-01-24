@@ -8,11 +8,16 @@ const GOOGLE_CLIENT_ID = '653529584077-chikp7dkd5ren6i0vtlblmf9g2o3hisa.apps.goo
 const GOOGLE_CLIENT_SECRET = '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';
 
 passport.serializeUser((user, done) => {
-    done(null, user.username);
+    done(null, { username: user.username, darkMode: user.darkMode });
 });
 
 passport.deserializeUser(async (username, done) => {
+    if (typeof username === 'object') {
+        username = username.username;
+    }
+
     const user = await User.getByUsername(username);
+
     if (!user) {
         return done('invalid', null);
     }
@@ -39,7 +44,7 @@ module.exports = (app) => {
                     let user = await User.getByUsername(username);
 
                     if (user && user.username) {
-                        if(user.status !== 'active') {
+                        if (user.status !== 'active') {
                             return done('blocked account');
                         }
                         return done(null, user);
@@ -79,7 +84,7 @@ module.exports = (app) => {
             }
 
             if (auth) {
-                if(user.status !== 'active') {
+                if (user.status !== 'active') {
                     return done('blocked account');
                 }
                 return done(null, user);
