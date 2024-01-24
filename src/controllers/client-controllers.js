@@ -9,10 +9,10 @@ const handleTransactionRequestFromClient = async (req, res) => {
     const userID = req.body['user-id']
     const name = req.body['name']
     const amount = req.body['amount']
+    const orderID = req.body['order-id']
 
     try {
         const clientData = await clientModel.getClientModel({ id: clientID })
-
         if (objectUtils.isEmpty(clientData)) {
             throw {
                 status: 400,
@@ -20,9 +20,9 @@ const handleTransactionRequestFromClient = async (req, res) => {
             }
         }
 
-        const requestID = await requestModel.addRequest({ clientID, userID, name, amount })
+        const requestID = await requestModel.addRequest({ clientID, userID, name, amount, orderID })
 
-        const newToken = tokenUtils.generateNewToken({ id: clientData.id })
+        const newToken = tokenUtils.generateNewToken({ clientID: clientData.id })
 
         await tokenModel.addToken({ token: newToken })
 

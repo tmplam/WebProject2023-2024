@@ -20,7 +20,7 @@ module.exports = class Request {
         return {}
     }
 
-    static addRequest = async ({ clientID, userID, name, amount }) => {
-        return await requestQueries.addClientRequest({ clientID, userID, name, amount })
+    static addRequest = async ({ clientID, userID, name, amount , orderID}) => {
+        return await requestQueries.addClientRequest({ clientID, userID, name, amount, orderID })
     }
 }

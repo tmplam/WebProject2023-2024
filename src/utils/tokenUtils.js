@@ -15,7 +15,10 @@ const generateNewToken = (obj) => {
         return newToken
     }
     catch (err) {
-        throw new Error('Invalid Credentials')
+        throw {
+            status: 404,
+            message: 'Page not found.'
+        }
     }
 }
 
@@ -25,7 +28,10 @@ const getObjectFromToken = (token) => {
         return obj
     }
     catch (err) {
-        throw new Error('Invalid Credentials')
+        throw {
+            status: 404,
+            message: 'Page not found.'
+        }
     }
 }
 

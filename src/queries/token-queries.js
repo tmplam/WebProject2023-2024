@@ -2,7 +2,7 @@ const pg = require('../databases/postgreSQL')
 
 const getToken = async ({ token }) => {
     const queryString = 'select * from tokens where value = $1'
-    const values = [id]
+    const values = [token]
     let postgresConnection
     try {
         postgresConnection = await pg.connect()

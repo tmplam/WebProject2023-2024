@@ -29,4 +29,12 @@ module.exports = class Account {
         }
         return {}
     }
+
+    static addAccountModel = async ({ id, mainSystemID, name, password }) => {
+        await accountQueries.addNewAccount({ id, mainSystemID, name, password })
+    }
+
+    static updateAccountModel = async ({ id, balance }) => {
+        await accountQueries.updateAccount({ id, balance })
+    }
 }

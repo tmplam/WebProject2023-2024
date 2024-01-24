@@ -21,9 +21,9 @@ const getClientRequest = async ({ id }) => {
     }
 }
 
-const addClientRequest = async ({ clientID, userID, name, amount }) => {
-    const queryString = 'insert into client_requests("client_id", "user_id", "name", "amount") values($1, $2, $3, $4) returning id'
-    const values = [clientID, userID, name, amount]
+const addClientRequest = async ({ clientID, userID, name, amount, orderID }) => {
+    const queryString = 'insert into client_requests("client_id", "user_id", "name", "amount", "order_id") values($1, $2, $3, $4, $5) returning id'
+    const values = [clientID, userID, name, amount, orderID]
     let postgresConnection
     try {
         postgresConnection = await pg.connect()

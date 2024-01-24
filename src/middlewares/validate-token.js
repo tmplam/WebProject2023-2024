@@ -4,19 +4,21 @@ const objectUtils = require('../utils/objectUtils')
 const tokenModel = require('../models/token-model')
 const clientModel = require('../models/client-model')
 
-const validateToken = async (req, res) => {
+const validateToken = async (req, res, next) => {
     const token = req.headers['authorization']
     try {
         if (!token) {
             throw {
-
+                status: 404,
+                message: 'Page not found.'
             }
         }
 
         const tokenData = tokenModel.getToken({ token })
         if (objectUtils.isEmpty(tokenData)) {
             throw {
-
+                status: 404,
+                message: 'Page not found.'
             }
         }
 
@@ -26,17 +28,55 @@ const validateToken = async (req, res) => {
 
         if (objectUtils.isEmpty(clientData)) {
             throw {
-
+                status: 404,
+                message: 'Page not found.'
             }
         }
 
         next()
     }
     catch (err) {
-        return res.render('error', {})
+        return res.status(err.status).render('error', {
+            status: err.status,
+            message: err.message
+        })
+    }
+}
+
+
+const validateAuthorizationCode = async (req, res, next) => {
+    const code = req.query['authorization_code'] || req.headers['authorization_code']
+    try {
+        if (!token) {
+            throw {
+                status: 404,
+                message: 'Page not found.'
+            }
+        }
+
+        const tokenData = tokenModel.getToken({ token: code })
+        if (objectUtils.isEmpty(tokenData)) {
+            throw {
+                status: 404,
+                message: 'Page not found.'
+            }
+        }
+
+        const obj = tokenUtils.getObjectFromToken(token)
+
+        next()
+    }
+    catch (err) {
+        return res.status(err.status).render('error', {
+            status: err.status,
+            message: err.message
+        })
     }
 }
 
 
 
-module.exports = validateToken
+module.exports = {
+    validateToken,
+    validateAuthorizationCode
+}
