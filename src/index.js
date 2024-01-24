@@ -22,6 +22,26 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+app.get('/login', (req, res, next) => {
+    const passwordError = '(*) Incorrect password!';
+    return res.render('auth/login', {
+        request: 123,
+        name: 'Trần Mỹ Phú Lâm',
+        token: '123',
+        // passwordError,
+    });
+});
+
+app.get('/sign-up', (req, res, next) => {
+    const passwordError = '(*) Incorrect password!';
+    return res.render('auth/register', {
+        request: 123,
+        name: 'Trần Mỹ Phú Lâm',
+        token: '123',
+        // passwordError,
+    });
+});
+
 const authRouter = require('./routers/auth-router');
 const transactionRouter = require('./routers/transaction-router');
 app.use('/auth', authRouter);
