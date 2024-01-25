@@ -38,7 +38,7 @@ const validateAuthorizationCodeAndReturnJSON = async (req, res, next) => {
         if (!code) {
             throw {
                 status: 404,
-                message: 'Page not found.',
+                message: 'System is not available now.',
             };
         }
         const tokenData = await tokenModel.getToken({ token: code });
@@ -46,7 +46,7 @@ const validateAuthorizationCodeAndReturnJSON = async (req, res, next) => {
         if (objectUtils.isEmpty(tokenData)) {
             throw {
                 status: 404,
-                message: 'Page not found.',
+                message: 'System is not available now.',
             };
         }
 

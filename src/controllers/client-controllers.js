@@ -20,7 +20,6 @@ const handleTransactionRequestFromClient = async (req, res) => {
                 message: 'Invalid client ID',
             };
         }
-
         const requestID = await requestModel.addRequest({
             clientID,
             userID,

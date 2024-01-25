@@ -30,7 +30,6 @@ const getTransactionPage = async (req, res) => {
                 message: 'Page not found.'
             }
         }
-
         if (transactionData.status !== 'Pending') {
             throw {
                 status: 404,
@@ -45,7 +44,6 @@ const getTransactionPage = async (req, res) => {
         const clientID = requestData.client_id
         const clientData = await clientModel.getClientModel({ id: clientID })
 
-
         return res.render('transaction/payment', {
             from_account: transactionData.from_account,
             to_account: transactionData.to_account,
@@ -57,7 +55,7 @@ const getTransactionPage = async (req, res) => {
             clientName: clientData.name,
             orderID: requestData.order_id,
             transactionID: transactionID,
-            callback_url: ''
+            callback_url: 'http://' + clientData.callback_url + '/' + requestData.order_id + '/callback?status=fail&code=' + clientData.code
         })
 
     }
@@ -76,7 +74,7 @@ const processTransaction = async (req, res) => {
         if (!transactionID) {
             throw {
                 status: 401,
-                message: 'Invalid transaction'
+                message: 'System is not available now.'
             }
         }
 
@@ -85,7 +83,7 @@ const processTransaction = async (req, res) => {
         if (objectUtils.isEmpty(transactionData)) {
             throw {
                 status: 401,
-                message: 'Invalid transaction'
+                message: 'System is not available now.'
             }
         }
 
@@ -95,11 +93,12 @@ const processTransaction = async (req, res) => {
                 message: 'Invalid transaction'
             }
         }
-
         const userAccountData = await accountModel.getAccountModel({ id: transactionData.from_account })
-        if (transactionData.amount > userAccountData.balance) {
+        const balance = parseFloat(userAccountData.balance)
+        const amount = parseFloat(transactionData.amount)
+        console.log(3123)
+        if (amount > balance) {
             await transactionModel.updateTransaction({ id: transactionID, status: 'Failed', message: 'Insufficient funds. Cannot process the transaction.' })
-  
             throw {
                 status: 400,
                 message: 'Insufficient funds. Cannot process the transaction.'
@@ -112,8 +111,8 @@ const processTransaction = async (req, res) => {
         const clientID = requestData.client_id
         const clientAccountData = await accountModel.getAccountModelByMainSystemID({ id: clientID })
 
-        await accountModel.updateAccountModel({ id: userAccountData.id, balance: userAccountData.balance - transactionData.amount, message: '' })
-        await accountModel.updateAccountModel({ id: clientAccountData.id, balance: clientAccountData.balance + transactionData.amount, message: '' })
+        await accountModel.updateAccountModel({ id: userAccountData.id, balance: balance - amount, message: '' })
+        await accountModel.updateAccountModel({ id: clientAccountData.id, balance: parseFloat(clientAccountData.balance) + amount, message: '' })
 
         await transactionModel.updateTransaction({ id: transactionID, status: 'Success' })
 
@@ -158,10 +157,14 @@ const handleFailedTransaction = async (req, res) => {
             }
         }
 
+        const requestID = transactionData.request_id
+        const requestData = await requestModel.getRequest({ id: requestID })
+        const clientID = requestData.client_id
+        const clientData = await clientModel.getClientModel({ id: clientID })
 
         return res.render('transaction/error-payment', {
             message: transactionData.message,
-            callback_url: ''
+            callback_url: 'http://' + clientData.callback_url + '/' + requestData.order_id + '/callback?status=fail&code=' + clientData.code
         })
     }
     catch (err) {
@@ -210,10 +213,10 @@ const handleSuccessTransaction = async (req, res) => {
         return res.render('transaction/success-payment', {
             name: userAccountData.name,
             clientName: clientData.name,
-            date: new Date().getTime(),
+            date: new Date().toDateString(),
             transactionID: transactionID,
             amount: transactionData.amount,
-            callback_url: ''
+            callback_url: 'http://' + clientData.callback_url + '/' + requestData.order_id + '/callback?status=success&code=' + clientData.code
         })
     }
     catch (err) {
@@ -232,7 +235,7 @@ const handleTransactionCancel = async (req, res) => {
         if (!transactionID) {
             throw {
                 status: 401,
-                message: 'Page not found.'
+                message: 'System is not available now.'
             }
         }
 
@@ -241,20 +244,20 @@ const handleTransactionCancel = async (req, res) => {
         if (objectUtils.isEmpty(transactionData)) {
             throw {
                 status: 401,
-                message: 'Page not found.'
+                message: 'System is not available now.'
             }
         }
         if (transactionData.status !== 'Pending') {
             throw {
                 status: 401,
-                message: 'Page not found.'
+                message: 'System is not available now.'
             }
         }
 
         await transactionModel.updateTransaction({ id: transactionID, status: 'Failed', message: 'User requested to cancel transaction' })
 
         return res.json({
-            callback_url: '/'
+            status: 200
         })
     }
     catch (err) {

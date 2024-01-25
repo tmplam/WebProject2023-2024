@@ -6,6 +6,7 @@ module.exports = class Client {
         this.id = client.id
         this.name = client.name
         this.callback_url = client.callback_url
+        this.code = client.code
     }
 
     static getClientModel = async ({ id }) => {

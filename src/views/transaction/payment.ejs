@@ -178,9 +178,7 @@
                         try {
                             const errorResponse = JSON.parse(xhr.responseText);
                             const status = errorResponse.status
-                            if (status === 400) {
-                                window.location.href = `/transactions/<%= transactionID %>/failed?authorization_code=<%= authorization_code %>`;
-                            }
+                            window.location.href = `/transactions/<%= transactionID %>/failed?authorization_code=<%= authorization_code %>`;
                         } catch (parseError) {
                             console.error('Error parsing JSON response:', parseError);
                         }
