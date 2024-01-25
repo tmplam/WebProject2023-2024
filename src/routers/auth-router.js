@@ -4,16 +4,14 @@ const router = express.Router();
 const { handleTransactionRequestFromClient } = require('../controllers/client-controllers');
 const authControllers = require('../controllers/auth-controllers');
 
-const { validateAuthorizationCode } = require('../middlewares/validate-token');
+const { validateAuthorizationCodeAndReturnJSON, validateAuthorizationCodeAndReturnPage } = require('../middlewares/validate-authorization_code');
 
 router
 
-    .get('/login', validateAuthorizationCode, authControllers.getLoginPage)
+    .get('/login', validateAuthorizationCodeAndReturnPage, authControllers.getLoginPage)
 
     .post('/client', handleTransactionRequestFromClient)
-    // .post('/login', validateAuthorizationCode, authControllers.loginController)
-    .post('/login', authControllers.loginController)
-    // .post('/register', validateAuthorizationCode, authControllers.registerController);
-    .post('/register', authControllers.registerController);
-
+    .post('/login', validateAuthorizationCodeAndReturnJSON, authControllers.loginController)
+    .post('/register', validateAuthorizationCodeAndReturnJSON, authControllers.registerController);
+    
 module.exports = router;

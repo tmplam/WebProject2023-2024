@@ -9,6 +9,7 @@ module.exports = class Transaction {
         this.amount = transaction.amount
         this.request_id = transaction.request_id
         this.status = transaction.status
+        this.message = transaction.message
         this.created_time = transaction.created_time
     }
 
@@ -25,7 +26,7 @@ module.exports = class Transaction {
         return await transactionQueries.addTransactionQuery({ fromAccount, toAccount, amount, requestID })
     }
 
-    static updateTransaction = async ({ status, id }) => {
-        return await transactionQueries.updateTransactionQuery({ status, id })
+    static updateTransaction = async ({ status, message, id }) => {
+        return await transactionQueries.updateTransactionQuery({ status, message, id })
     }
 }

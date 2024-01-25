@@ -4,14 +4,21 @@ const router = express.Router();
 const {
     getTransactionPage,
     processTransaction,
+    handleFailedTransaction,
+    handleSuccessTransaction,
+    handleTransactionCancel
 } = require('../controllers/transaction-controllers');
 
-const { validateAuthorizationCode } = require('../middlewares/validate-token');
+const { validateAuthorizationCodeAndReturnJSON, validateAuthorizationCodeAndReturnPage } = require('../middlewares/validate-authorization_code');
 
 router
 
-    .get('/:id/payment', validateAuthorizationCode, getTransactionPage)
+    .get('/:id/payment', validateAuthorizationCodeAndReturnPage, getTransactionPage)
+    .get('/:id/success', validateAuthorizationCodeAndReturnPage, handleSuccessTransaction)
+    .get('/:id/failed', validateAuthorizationCodeAndReturnPage, handleFailedTransaction)
 
-    .post('/:id/payment', validateAuthorizationCode, processTransaction);
+    .post('/:id/payment', validateAuthorizationCodeAndReturnJSON, processTransaction)
+
+    .put('/:id/cancel', validateAuthorizationCodeAndReturnJSON, handleTransactionCancel)
 
 module.exports = router;

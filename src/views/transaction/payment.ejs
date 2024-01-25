@@ -5,37 +5,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment</title>
-    <%- include('../partials/cdn')  %>
-    <style>
+    <%- include('../partials/cdn') %>
+        <style>
+            #ticket:before {
+                content: "";
+                background: #fff;
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                top: -16px;
+                left: -24px;
+                border-radius: 100%;
+            }
 
-        #ticket:before {
-            content: "";
-            background: #fff;
-            width: 32px;
-            height: 32px;
-            position: absolute;
-            top: -16px;
-            left: -24px;
-            border-radius: 100%;
-        }
-    
-        #ticket:after {
-            content: "";
-            background: #fff;
-            width: 32px;
-            height: 32px;
-            position: absolute;
-            top: -16px;
-            right: -24px;
-            border-radius: 100%;
-        }
-    
-        #ticket {
-            border-top: 1px dashed #bdbdbd;
-            position: relative;
-        }
-    
-    </style>
+            #ticket:after {
+                content: "";
+                background: #fff;
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                top: -16px;
+                right: -24px;
+                border-radius: 100%;
+            }
+
+            #ticket {
+                border-top: 1px dashed #bdbdbd;
+                position: relative;
+            }
+        </style>
 </head>
 
 
@@ -53,17 +51,24 @@
                         </div>
                         <div id="countdown">
                             <span style="background-color: #401780;" class="badge p-2 fs-5">0</span>
-                            <span style="background-color: #401780;" style="margin-left: 2px;" class="badge p-2 fs-5">0</span>
+                            <span style="background-color: #401780;" style="margin-left: 2px;"
+                                class="badge p-2 fs-5">0</span>
                             <span class="fs-5">:</span>
                             <span style="background-color: #401780;" class="badge p-2 fs-5">0</span>
-                            <span style="background-color: #401780;" style="margin-left: 2px;" class="badge p-2 fs-5">0</span>
+                            <span style="background-color: #401780;" style="margin-left: 2px;"
+                                class="badge p-2 fs-5">0</span>
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <div class="mb-1"><span class="fw-bold">Account holder:</span> Vương Huỳnh Khải</div>
-                        <div class="mb-1"><span class="fw-bold">Account number:</span> 8794531735</div>
-                        <div class="mb-1"><span class="fw-bold">Balance:</span> $1000</div>
+                        <div class="mb-1"><span class="fw-bold">Account holder:</span>
+                            <%= name %>
+                        </div>
+                        <div class="mb-1"><span class="fw-bold">Account number:</span>
+                            <%= from_account %>
+                        </div>
+                        <div class="mb-1"><span class="fw-bold">Balance:</span> $<%= balance %>
+                        </div>
                     </div>
 
                     <div class="row justify-content-center">
@@ -71,22 +76,29 @@
                             <div class="p-4">
                                 <div class="row justify-content-between">
                                     <div class="col-6"><span class="fw-semibold">Order:</span></div>
-                                    <div class="col-6 text-end fw-light">6574898234321</div>
+                                    <div class="col-6 text-end fw-light">
+                                        <%= orderID %>
+                                    </div>
                                 </div>
 
                                 <div class="row justify-content-between">
                                     <div class="col-6"><span class="fw-semibold">Beneficiary:</span></div>
-                                    <div class="col-6 text-end fw-light">Book Store</div>
+                                    <div class="col-6 text-end fw-light">
+                                        <%= clientName %>
+                                    </div>
                                 </div>
 
                                 <div class="row justify-content-between">
                                     <div class="col-6"><span class="fw-semibold">Beneficiary account:</span></div>
-                                    <div class="col-6 text-end fw-light">4935263748</div>
+                                    <div class="col-6 text-end fw-light">
+                                        <%= to_account %>
+                                    </div>
                                 </div>
 
                                 <div class="row justify-content-between">
                                     <div class="col-6"><span class="fw-semibold">Subtotal:</span></div>
-                                    <div class="col-6 text-end fw-light">$200</div>
+                                    <div class="col-6 text-end fw-light">$<%= amount %>
+                                    </div>
                                 </div>
 
                                 <div class="row justify-content-between">
@@ -97,7 +109,7 @@
                             <div id="ticket">
                                 <div class="d-flex p-4 align-items-center justify-content-between">
                                     <div><span class="fw-semibold">You Have To Pay:</span></div>
-                                    <div class="fs-2 text-success"><strong>$200</strong></div>
+                                    <div class="fs-2 text-success"><strong>$<%= amount %></strong></div>
                                 </div>
                             </div>
                         </div>
@@ -105,12 +117,14 @@
                         <div class="col-12 d-flex justify-content-between mt-5 my-1">
                             <div class="row flex-fill gx-3">
                                 <div class="col-6">
-                                    <a href="#" class="w-100 btn btn-outline-danger py-1 fs-3 text-center text-uppercase">
+                                    <button id="btn-cancel"
+                                        class="w-100 btn btn-outline-danger py-1 fs-3 text-center text-uppercase">
                                         Cancel
-                                    </a>
+                                    </button>
                                 </div>
                                 <div class="col-6">
-                                    <button id="btn-payment" class="w-100 btn btn-outline-success py-1 fs-3 text-center text-uppercase">
+                                    <button id="btn-payment"
+                                        class="w-100 btn btn-outline-success py-1 fs-3 text-center text-uppercase">
                                         Pay
                                     </button>
                                 </div>
@@ -122,9 +136,9 @@
         </div>
     </div>
 
-    <form id="form-payment" action="" method="post" class="d-none">
+    <!-- <form id="form-payment" action="" method="post" class="d-none">
         <input type="text" name="payment" id="" value="">
-    </form>
+    </form> -->
 
     <script>
         function updateCountdown() {
@@ -137,22 +151,58 @@
             countdownElement.children[3].textContent = parseInt(seconds / 10)
             countdownElement.children[4].textContent = seconds % 10
 
-            // If the countdown reaches 0, you can perform additional actions
             if (remainingSeconds === 0) {
-                clearInterval(countdownInterval);
-                window.location.href = '/payment/error';
+                // clearInterval(countdownInterval);
+                // window.location.href = '/payment/error';
             }
         }
 
-        const createdTime = new Date()
-        const targetTime = new Date(createdTime.getTime() + 5 * 60 * 1000);
+        const createdTime = new Date('<%= created_time %>')
+        const targetTime = new Date(createdTime.getTime() + 10 * 60 * 1000);
         const countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
 
 
         $(() => {
             $('#btn-payment').click((e) => {
-                $('#form-payment').submit();
+                $.ajax({
+                    url: '/transactions/<%= transactionID %>/payment',
+                    method: 'post',
+                    headers: {
+                        authorization_code: `<%= authorization_code %>`,
+                    },
+                    success: function (data) {
+                        window.location.href = `/transactions/<%= transactionID %>/success?authorization_code=<%= authorization_code %>`;
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        try {
+                            const errorResponse = JSON.parse(xhr.responseText);
+                            const status = errorResponse.status
+                            if (status === 400) {
+                                window.location.href = `/transactions/<%= transactionID %>/failed?authorization_code=<%= authorization_code %>`;
+                            }
+                        } catch (parseError) {
+                            console.error('Error parsing JSON response:', parseError);
+                        }
+                    },
+                });
+            })
+
+
+            $('#btn-cancel').click((e) => {
+                $.ajax({
+                    url: '/transactions/<%= transactionID %>/cancel',
+                    method: 'put',
+                    headers: {
+                        authorization_code: `<%= authorization_code %>`,
+                    },
+                    success: function (data) {
+                        window.location.href = `<%= callback_url %>`;
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log('something error')
+                    },
+                });
             })
         })
     </script>

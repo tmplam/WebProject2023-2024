@@ -55,7 +55,7 @@ app.set('view engine', 'ejs');
 const authRouter = require('./routers/auth-router');
 const transactionRouter = require('./routers/transaction-router');
 app.use('/auth', authRouter);
-app.use('/transaction', transactionRouter);
+app.use('/transactions', transactionRouter);
 
 const server = https.createServer(options, app);
 // Start server

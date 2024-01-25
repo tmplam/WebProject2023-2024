@@ -10,7 +10,7 @@ const accountUtils = require('../utils/accountUtils');
 
 const getLoginPage = async (req, res) => {
     const request = req.query['request'];
-    // const token = req.authorization['token']
+    const authorizationCode = req.query['authorization_code']
 
     try {
         const requestData = await requestModel.getRequest({ id: request });
@@ -25,10 +25,10 @@ const getLoginPage = async (req, res) => {
         const userAccountData = await accountModel.getAccountModelByMainSystemID({ id: userID });
 
         if (objectUtils.isEmpty(userAccountData)) {
-            return res.render('auth/register', { request, name: requestData.name, token: '123' });
+            return res.render('auth/register', { request, name: requestData.name, authorizationCode });
         }
 
-        return res.render('auth/login', { request, name: requestData.name, token: '123' });
+        return res.render('auth/login', { request, name: requestData.name, authorizationCode });
     } catch (err) {
         return res.status(err.status).render('error', {
             status: err.status,
@@ -40,8 +40,7 @@ const getLoginPage = async (req, res) => {
 const loginController = async (req, res) => {
     const password = req.body['password'];
     const request = req.query['request'];
-    const token = req.query['authorization_code'];
-    console.log(req.body);
+    const code = req.query['authorization_code'];
 
     try {
         const requestData = await requestModel.getRequest({ id: request });
@@ -70,7 +69,7 @@ const loginController = async (req, res) => {
 
         const userToken = tokenUtils.generateNewToken({ userID });
         await tokenModel.addToken({ token: userToken });
-        await tokenModel.deleteToken({ token });
+        await tokenModel.deleteToken({ token: code });
 
         return res.json({
             authorization_code: userToken,
@@ -86,15 +85,16 @@ const loginController = async (req, res) => {
 
 const registerController = async (req, res) => {
     const password = req.body['password'];
-    const repeatPassword = req.body['repeat-password'];
+    const confirmedPassword = req.body['confirmedPassword'];
     const request = req.query['request'];
 
+    const code = req.query['authorization_code'];
     try {
         const requestData = await requestModel.getRequest({ id: request });
 
         const userID = requestData.user_id;
 
-        if (password !== repeatPassword) {
+        if (password !== confirmedPassword) {
             throw {
                 status: 401,
                 message: 'Passwords do not match',
@@ -124,7 +124,7 @@ const registerController = async (req, res) => {
         });
         const userToken = tokenUtils.generateNewToken({ userID });
         await tokenModel.addToken({ token: userToken });
-        await tokenModel.deleteToken({ token });
+        await tokenModel.deleteToken({ token: code });
 
         return res.json({
             authorization_code: userToken,
