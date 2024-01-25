@@ -99,7 +99,7 @@ const processTransaction = async (req, res) => {
         const userAccountData = await accountModel.getAccountModel({ id: transactionData.from_account })
         if (transactionData.amount > userAccountData.balance) {
             await transactionModel.updateTransaction({ id: transactionID, status: 'Failed', message: 'Insufficient funds. Cannot process the transaction.' })
-            console.log(1)
+  
             throw {
                 status: 400,
                 message: 'Insufficient funds. Cannot process the transaction.'
