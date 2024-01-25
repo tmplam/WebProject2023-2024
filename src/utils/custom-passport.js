@@ -1,11 +1,12 @@
+require('dotenv').config();
 const passport = require('passport');
 const MyStrategy = require('../utils/custom-strategy');
 const User = require('../models/user.m');
 const bcrypt = require('bcrypt');
 
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const GOOGLE_CLIENT_ID = '653529584077-chikp7dkd5ren6i0vtlblmf9g2o3hisa.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 passport.serializeUser((user, done) => {
     done(null, { username: user.username, darkMode: user.darkMode });
@@ -44,9 +45,6 @@ module.exports = (app) => {
                     let user = await User.getByUsername(username);
 
                     if (user && user.username) {
-                        if (user.status !== 'active') {
-                            return done('blocked account');
-                        }
                         return done(null, user);
                     }
 
@@ -82,11 +80,7 @@ module.exports = (app) => {
             if (user && user.username) {
                 auth = await bcrypt.compare(password, user.password);
             }
-
             if (auth) {
-                if (user.status !== 'active') {
-                    return done('blocked account');
-                }
                 return done(null, user);
             }
 
