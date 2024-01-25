@@ -312,7 +312,7 @@
                 const delivery_status = '<%= order.delivery_status %>';
                 let nextAction = '';
                 let nextStatus = '';
-                if (delivery_status == 'Pending') {
+                if (delivery_status == 'Payed') {
                     nextAction = 'Process';
                     nextStatus = 'Processing';
                 } else if (delivery_status == 'Processing') {
@@ -326,6 +326,7 @@
                 }
 
                 if (
+                    delivery_status == 'Pending' ||
                     delivery_status == 'Shipping' ||
                     delivery_status == 'Shipped' ||
                     delivery_status == 'Cancel'

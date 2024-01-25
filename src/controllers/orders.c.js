@@ -1,3 +1,4 @@
+require('dotenv').config();
 const orderModel = require('../models/order.m');
 const cartModel = require('../models/cart.m');
 const orderDetailModel = require('../models/orderDetail.m');
@@ -37,22 +38,77 @@ module.exports = {
 
     placeOrderController: async (req, res, next) => {
         let valid = true;
-        if (req.body.name.trim() == '') {
+        const name = req.body.name.trim();
+        const phone_number = req.body.phone_number.trim();
+        const delivery_address = req.body.address.trim();
+
+        if (name == '') {
             req.session.nameError = '(*) Name is required!';
             valid = false;
         }
-        if (!/^(84|0[3|5|7|8|9])\d{8}$/.test(req.body.phone_number.trim())) {
+        if (!/^(84|0[3|5|7|8|9])\d{8}$/.test(phone_number)) {
             req.session.phoneError = '(*) Invalid phone number!';
             valid = false;
         }
-        if (req.body.address.trim() == '') {
+        if (delivery_address == '') {
             req.session.addressError = '(*) Address is required!';
             valid = false;
         }
 
         if (valid) {
-            // Handle create order and go to pay
-            res.redirect('back');
+            const cartInfo = await cartModel.get(req.user.id);
+            for (let book of cartInfo.books) {
+                book.bookInfo = await bookModel.get(book.book_id);
+            }
+            // Calculate total amount of order
+            let total_amount = 0;
+            for (let book of cartInfo.books) {
+                total_amount += book.quantity * book.bookInfo.price;
+            }
+            // Create order
+            const order = {
+                order_by: req.user.id,
+                order_date: new Date(),
+                delivery_address,
+                total_amount,
+                delivery_status: 'Pending',
+                phone_number,
+            };
+            const order_id = (await orderModel.add(order)).id;
+            // Create order_details
+            for (let book of cartInfo.books) {
+                await orderDetailModel.add({
+                    order_id,
+                    book_id: book.book_id,
+                    quantity: book.quantity,
+                    price: book.quantity * book.bookInfo.price,
+                });
+            }
+            // Delete all items in cart
+            await cartModel.deleteCart(req.user.id);
+            // Handle pay
+            const authData = {
+                name: req.user.name,
+                'client-id': process.env.CLIENT_ID,
+                'user-id': req.user.id,
+                amount: total_amount,
+                'order-id': order_id,
+            };
+            const response = await fetch(process.env.PAYMENT_AUTH_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(authData),
+            });
+            const data = await response.json();
+            if (data.status == 200) {
+                res.redirect(
+                    `${process.env.PAYMENT_LOGIN_URL}?authorization_code=${data.accessToken}&request=${data.requestID}`
+                );
+            } else {
+                next(new customError('Page Not Found!', 404));
+            }
         } else {
             res.redirect('back');
         }
@@ -102,12 +158,14 @@ module.exports = {
             }
 
             const successMessage = req.session.successMessage;
+            const failMessage = req.session.failMessage;
             const phoneError = req.session.phoneError;
             const addressError = req.session.addressError;
 
             delete req.session.phoneError;
             delete req.session.addressError;
             delete req.session.successMessage;
+            delete req.session.failMessage;
 
             res.render('customer/order-detail', {
                 loginUser: req.user,
