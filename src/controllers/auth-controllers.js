@@ -3,6 +3,7 @@ const accountModel = require('../models/account-model');
 const transactionModel = require('../models/transaction-model');
 const tokenModel = require('../models/token-model');
 
+const booleanUtils = require('../utils/booleanUtils');
 const objectUtils = require('../utils/objectUtils');
 const authUtils = require('../utils/authUtils');
 const tokenUtils = require('../utils/tokenUtils');
@@ -93,6 +94,13 @@ const registerController = async (req, res) => {
         const requestData = await requestModel.getRequest({ id: request });
 
         const userID = requestData.user_id;
+
+        if(!booleanUtils.passwordValidate(password)) {
+            throw {
+                status: 401,
+                message: 'Invalid password',
+            };
+        }
 
         if (password !== confirmedPassword) {
             throw {

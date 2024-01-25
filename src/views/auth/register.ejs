@@ -1,110 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Sign up</title>
-        <%- include('../partials/cdn') %>
-    </head>
 
-    <body>
-        <div class="vh-100" style="background-color: #eee; font-size: 20px; min-height: 100vh">
-            <div class="container h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-12 col-md-10 col-lg-9 col-xl-8">
-                        <div class="card my-3" style="border-radius: 25px">
-                            <div class="card-body">
-                                <div class="row justify-content-center">
-                                    <form class="col-md-10 col-lg-9 col-xl-8" id="registerForm">
-                                        <p
-                                            style="color: #401780"
-                                            class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4 text-uppercase"
-                                        >
-                                            <i class="fa-solid fa-building-columns"></i> Payment
-                                            System
-                                        </p>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up</title>
+    <%- include('../partials/cdn') %>
+</head>
 
-                                        <div class="mx-1 mx-md-4">
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <div class="form-outline flex-fill mb-0">
-                                                    <p class="form-label mb-0" for="password">
-                                                        Hello
-                                                        <span
-                                                            class="fst-italic fw-bold text-primary"
-                                                        >
-                                                            <%= name %> </span
-                                                        >!
-                                                    </p>
-                                                    <p class="mb-0">
-                                                        This's the first-time you pay? Please
-                                                        <span class="fw-bold text-warning"
-                                                            >register</span
-                                                        >
-                                                        an account before continuing to pay:
-                                                    </p>
-                                                </div>
+<body>
+    <div class="vh-100" style="background-color: #eee; font-size: 20px; min-height: 100vh">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-10 col-lg-9 col-xl-8">
+                    <div class="card my-3" style="border-radius: 25px">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-md-10 col-lg-9 col-xl-8">
+                                    <p style="color: #401780"
+                                        class="text-center h1 fw-bold mb-4 mx-1 mx-md-4 mt-4 text-uppercase">
+                                        <i class="fa-solid fa-building-columns"></i> Payment
+                                        System
+                                    </p>
+
+                                    <form class="mx-1 mx-md-4" id="registerForm">
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <div class="form-outline flex-fill mb-0">
+                                                <p class="form-label mb-0" for="password">
+                                                    Hello
+                                                    <span class="fst-italic fw-bold text-primary">
+                                                        <%= name %>
+                                                    </span>!
+                                                </p>
+                                                <p class="mb-0">
+                                                    This's the first-time you pay? Please
+                                                    <span class="fw-bold text-warning">register</span>
+                                                    an account before continuing to pay:
+                                                </p>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <div class="form-floating flex-fill mb-0">
-                                                    <input
-                                                        style="font-size: 20px"
-                                                        type="password"
-                                                        id="password"
-                                                        name="password"
-                                                        class="form-control"
-                                                        placeholder="Password"
-                                                        required
-                                                    />
-                                                    <label for="password">Password</label>
-                                                    <span
-                                                        style="font-size: 18px"
-                                                        class="text-danger field-validation-valid"
-                                                        data-valmsg-for="password"
-                                                        data-valmsg-replace="true"
-                                                    >
-                                                        <%= typeof passwordError !=='undefined' ?
-                                                        passwordError : '' %>
-                                                    </span>
-                                                </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <div class="form-floating flex-fill mb-0">
+                                                <input style="font-size: 20px" type="password" id="password"
+                                                    name="password" class="form-control" placeholder="Password"
+                                                    required />
+                                                <label for="password">Password</label>
+                                                <span style="font-size: 14px;" id="notify-password" class="text-danger"
+                                                    data-valmsg-for="password" data-valmsg-replace="true">
+                                                    
+                                                </span>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center mb-4">
-                                                <div class="form-floating flex-fill mb-0">
-                                                    <input
-                                                        style="font-size: 20px"
-                                                        type="password"
-                                                        id="confirmedPassword"
-                                                        name="confirmedPassword"
-                                                        class="form-control"
-                                                        placeholder="Confirm password"
-                                                        required
-                                                    />
-                                                    <label for="password">Confirm password</label>
-                                                    <span
-                                                        style="font-size: 18px"
-                                                        class="text-danger field-validation-valid"
-                                                        data-valmsg-for="password"
-                                                        data-valmsg-replace="true"
-                                                    >
-                                                        <%= typeof confirmPasswordError
-                                                        !=='undefined' ? confirmPasswordError : ''
-                                                        %>
-                                                    </span>
-                                                </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <div class="form-floating flex-fill mb-0">
+                                                <input style="font-size: 20px" type="password" id="confirmedPassword"
+                                                    name="confirmedPassword" class="form-control"
+                                                    placeholder="Confirm password" required />
+                                                <label for="password">Confirm password</label>
+                                                <span style="font-size: 14px" id="notify-confirm-password" class="text-danger field-validation-valid"
+                                                    data-valmsg-for="password" data-valmsg-replace="true">
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button class="btn btn-primary btn-lg px-5 fw-semibold">
-                                                Sign-up
+                                            <button class="btn btn-primary btn-lg px-5 fw-semibold text-uppercase">
+                                                Sign up
                                             </button>
                                         </div>
-                                        <div
-                                            class="d-flex flex-row align-items-center mb-4 mx-1 mx-md-4"
-                                        >
-                                            <div class="flex-fill mb-0">
-                                                <span class="text-danger" id="error"></span>
-                                            </div>
-                                        </div>
                                     </form>
+                                    <div class="d-flex flex-row align-items-center mb-4">
+                                        <div class="flex-fill mb-0">
+                                            <span class="text-danger" id="error"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -112,40 +80,94 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            function submitRegisterForm(e) {
-                e.preventDefault();
-                const password = $('#password').val();
-                const confirmedPassword = $('#confirmedPassword').val();
-                const url = '/auth/register?request=<%= request %>';
-                $.ajax({
-                    url: url,
-                    method: 'post',
-                    headers: {
-                        authorization_code: `<%= authorizationCode %>`,
-                    },
-                    data: {
-                        password: password,
-                        confirmedPassword,
-                    },
-                    success: function (data) {
-                        window.location.href = `/transactions/${data.transaction_id}/payment?authorization_code=${data.authorization_code}`;
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        try {
-                            const errorResponse = JSON.parse(xhr.responseText);
-                            const errorMessage = errorResponse.message || 'An error occurred';
-                            $('#error').text(`(*) ${errorMessage}`);
-                        } catch (parseError) {
-                            console.error('Error parsing JSON response:', parseError);
-                        }
-                    },
-                });
+    <script>
+        const passwordValidate = (password) => {
+            const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+            if (password === null || password === undefined) {
                 return false;
             }
 
-            $('#registerForm').submit(submitRegisterForm);
-        </script>
-    </body>
+            if (!PWD_REGEX.test(password)) {
+                return false;
+            }
+
+            return password;
+        }
+        function submitRegisterForm(e) {
+            e.preventDefault();
+            const password = $('#password').val();
+            const confirmedPassword = $('#confirmedPassword').val();
+            if(!passwordValidate(password)) {
+                $('#notify-password').html('(*) Password must be at least 8 characters long, contains Capital character, number, and special character.')
+                return;
+            }
+            else if(confirmedPassword !== password) {
+                $('#notify-confirm-password').html('(*) Confirmed password does not match');
+                return;
+            }
+            const url = '/auth/register?request=<%= request %>';
+            $.ajax({
+                url: url,
+                method: 'post',
+                headers: {
+                    authorization_code: `<%= authorizationCode %>`,
+                },
+                data: {
+                    password: password,
+                    confirmedPassword
+                },
+                success: function (data) {
+                    window.location.href = `/transactions/${data.transaction_id}/payment?authorization_code=${data.authorization_code}`;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    try {
+                        const errorResponse = JSON.parse(xhr.responseText);
+                        const errorMessage = errorResponse.message || 'An error occurred';
+                        $('#error').text(errorMessage);
+                    } catch (parseError) {
+                        console.error('Error parsing JSON response:', parseError);
+                    }
+                },
+            });
+            
+        }
+
+        $('form').submit(submitRegisterForm);
+
+        $('#password').blur((e) => {
+            const password = e.target.value;
+            if(!passwordValidate(password)) {
+                if(password) {
+                    $('#password').addClass('is-invalid');
+                    $('#notify-password').html('(*) Password must be at least 8 characters long, contains Capital character, number, and special character.')
+                }
+            }
+        })
+
+        $('#confirmedPassword').blur((e) => {
+            if(e.target.value !== $('#password').val()) {
+                if(e.target.value) {
+                    $('#confirmedPassword').addClass('is-invalid');
+                    $('#notify-confirm-password').html('(*) Confirmed password does not match');
+                }
+            }
+        })
+
+        $('#password').on('input', (e) => {
+            $('#confirmedPassword').removeClass('is-invalid');
+            $('#password').removeClass('is-invalid');
+            $('#notify-password').html('');
+            $('#notify-confirm-password').html('');
+        })
+
+        $('#confirmedPassword').on('input', (e) => {
+            $('#confirmedPassword').removeClass('is-invalid');
+            $('#password').removeClass('is-invalid');
+            $('#notify-confirm-password').html('');
+        })
+    </script>
+</body>
+
 </html>
