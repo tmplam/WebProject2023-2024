@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <%- include('../partials/cdn')  %>
+    <%- include('../partials/cdn') %>
+
 <body style="background-color: #eee; min-height: 100vh">
     <div class="container" style="height: 100vh;">
         <div class="row justify-content-center align-items-center h-100">
@@ -16,15 +18,16 @@
                     <h2 class="text-center text-danger mb-0">Payment Fail</h2>
 
                     <div class="px-3 mt-4">
-                        <p>System is currently unavailable. Please try again later.</p>
+                        <p><%= message %></p>
                     </div>
 
                     <div class="text-end px-3 mt-4 mb-2">
-                        <a class="btn btn-outline-primary text-uppercase px-5" href="#">Back</a>
+                        <a class="btn btn-outline-primary text-uppercase px-5" href="<%= callback_url %>">Back</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

@@ -7,7 +7,6 @@ const getTransactionQuery = async ({ id }) => {
     try {
         postgresConnection = await pg.connect();
         const transactionData = await postgresConnection.any(queryString, values);
-        console.log(transactionData);
         const formattedData = transactionData.length === 0 ? {} : transactionData[0];
         return formattedData;
     } catch (err) {
@@ -39,9 +38,9 @@ const addTransactionQuery = async ({ fromAccount, toAccount, amount, requestID }
     }
 };
 
-const updateTransactionQuery = async ({ status, id }) => {
-    const queryString = 'update transactions set status = $1 where id = $2';
-    const values = [status, id];
+const updateTransactionQuery = async ({ status, message, id }) => {
+    const queryString = 'update transactions set status = $1, message = $2 where id = $3';
+    const values = [status, message, id];
     let postgresConnection;
     try {
         postgresConnection = await pg.connect();
