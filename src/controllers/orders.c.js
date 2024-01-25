@@ -174,6 +174,7 @@ module.exports = {
                 phoneError,
                 addressError,
                 successMessage,
+                failMessage,
                 darkMode: req.session.darkMode,
             });
         } catch (error) {
