@@ -4,8 +4,10 @@ const path = require('path');
 const app = express();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const favicon = require('express-favicon');
 
 // Setup utility
+app.use(favicon(__dirname + '/public/favicon.png'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));

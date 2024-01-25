@@ -1,8 +1,9 @@
+require('dotenv').config();
 const userModel = require('../models/user.m');
 const cartModel = require('../models/cart.m');
 const customError = require('../utils/custom-error');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = Number(process.env.SALTROUNDS);
 const fs = require('fs');
 const path = require('path');
 

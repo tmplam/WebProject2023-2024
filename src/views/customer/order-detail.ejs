@@ -243,6 +243,16 @@
                                                             </h4>
                                                         </li>
                                                     </ul>
+
+                                                    <% if (orderDetail.delivery_status == 'Pending')
+                                                    { %>
+                                                    <a
+                                                        id="next-action-btn"
+                                                        class="btn btn-success w-100 fw-semibold text-uppercase"
+                                                    >
+                                                        PAY NOW
+                                                    </a>
+                                                    <% }; %>
                                                 </div>
                                             </div>
                                         </div>

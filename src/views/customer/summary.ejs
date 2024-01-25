@@ -154,10 +154,12 @@
                                             >
                                                 <span class="text-success">Total (USD)</span>
                                                 <strong class="text-success">
-                                                    <% let total = 0; for (let book of
-                                                    cartInfo.books) { total = total +
-                                                    book.bookInfo.price * book.quantity; } total =
-                                                    total.toFixed(2); %> $<%= total %>
+                                                    <% let total = 0; 
+                                                    for (let book of cartInfo.books) { 
+                                                        total = total + book.bookInfo.price * book.quantity; 
+                                                    } 
+                                                    total = total.toFixed(2); %> 
+                                                    $<%= total %>
                                                 </strong>
                                             </li>
                                         </ul>
@@ -169,7 +171,7 @@
                             <div class="row p-1">
                                 <div class="col-12 col-md-8 col-lg-9 pt-2 mb-2">
                                     <p class="m-0 text-danger" style="font-size: 14px">
-                                        (*) Estimate Arrival Date: 1/11/2024 - 1/18/2024
+                                        (*) Estimate Arrival Date: <span id="from-time"></span> - <span id="to-time"></span>
                                     </p>
                                 </div>
                                 <div class="col-12 col-md-4 col-lg-3">
@@ -183,11 +185,21 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </main>
 
         <%- include('../partials/footer') %>
+
+        <script>
+            $(() => {
+                const from = new Date();
+                const to = new Date();
+                to.setDate(to.getDate() + 7);
+                $('#from-time').text(from.toLocaleDateString());
+                $('#to-time').text(to.toLocaleDateString());
+            })
+        </script>
     </body>
 </html>
