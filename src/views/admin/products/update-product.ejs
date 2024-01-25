@@ -1,215 +1,322 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="<%= darkMode ? 'dark' : 'light' %>">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Admin - Update book</title>
 
-        <%- include('../../partials/cdn') %>
-    </head>
-    <body>
-        <main class="d-flex flex-nowrap h-100">
-            <%- include('../partials/sidebar') %>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Update book</title>
+
+    <%- include('../../partials/cdn') %>
+</head>
+
+<body>
+    <main class="d-flex flex-nowrap h-100">
+        <%- include('../partials/sidebar') %>
 
             <div id="content" class="w-100 h-100">
                 <%- include('../partials/header') %>
 
-                <div class="bg-body-secondary p-3">
-                    <div class="container">
-                        <!-- Change the content of page here -->
-                        <div class="row justify-content-center">
-                            <div class="col-12">
-                                <div class="card shadow">
-                                    <div
-                                        class="text-bg-primary card-header py-3 d-flex flex-row align-items-center justify-content-center"
-                                    >
-                                        <h2 class="m-0 text-nowrap">
-                                            <i class="fa-solid fa-pen-to-square"></i> UPDATE BOOK
-                                        </h2>
-                                    </div>
-                                    <div class="card-body p-4">
-                                        <div class="datatable-area">
-                                            <form class="row g-3" method="post" action="" enctype="multipart/form-data">
-                                                <div class="col-md-6 col-lg-4">
-                                                    <label for="isbn" class="form-label"
-                                                        >ISBN</label
-                                                    >
-                                                    <input
-                                                        type="text"
-                                                        required
-                                                        class="form-control"
-                                                        id="isbn"
-                                                        name="isbn"
-                                                        value="<%= book.isbn %>"
-                                                    />
-                                                </div>
-                                                <div class="col-md-6 col-lg-4">
-                                                    <label for="title" class="form-label"
-                                                        >Title</label
-                                                    >
-                                                    <input
-                                                        type="text"
-                                                        required
-                                                        class="form-control"
-                                                        id="title"
-                                                        name="title"
-                                                        value="<%= book.title %>"
-                                                    />
-                                                </div>
-                                                <div class="col-md-6 col-lg-4">
-                                                    <label for="author" class="form-label"
-                                                        >Author</label
-                                                    >
-                                                    <input
-                                                        type="text"
-                                                        required
-                                                        class="form-control"
-                                                        id="author"
-                                                        name="author"
-                                                        value="<%= book.author %>"
-                                                    />
-                                                </div>
-                                                <div class="col-md-6 col-lg-4">
-                                                    <label for="genre" class="form-label">
-                                                        Genre
-                                                    </label>
-                                                    <select name="genre" id="genre" class="form-select">
-                                                        <% for(let genre of genreList) { %>
-                                                        <option value="<%= genre.id %>" 
-                                                            <% if(genre.name === book.genre){  %>
-                                                                <%= 'selected' %>
-                                                            <% } %>
-                                                        >
-                                                            <%= genre.name %>
-                                                        </option>
-                                                        <% } %>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-6 col-lg-4">
-                                                    <label for="price" class="form-label">Price</label>
-                                                    <input
-                                                        type="number"
-                                                        required
-                                                        class="form-control"
-                                                        id="price"
-                                                        name="price"
-                                                        value="<%= book.price %>"
-                                                    />
-                                                </div>
-                                                <div class="col-md-6 col-lg-4">
-                                                    <label for="quantity" class="form-label"
-                                                        >Quantity</label
-                                                    >
-                                                    <input
-                                                        type="number"
-                                                        required
-                                                        class="form-control"
-                                                        id="quantity"
-                                                        name="quantity"
-                                                        value="<%= book.stock_quantity %>"
-                                                    />
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="description" class="form-label"
-                                                        >Description</label
-                                                    >
-                                                    <textarea
-                                                        required
-                                                        class="form-control"
-                                                        id="description"
-                                                        name="description"
-                                                        rows="6"
-                                                        
-                                                    ><%= book.description %></textarea>
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="front-cover" class="form-label">
-                                                        Front cover
-                                                    </label>
-                                                    <input
-                                                        type="file"
-                                                        class="form-control"
-                                                        id="front-cover"
-                                                        name="cover-img"
-                                                        accept="image/*"
-                                                    />
-                                                </div>
-                                                <div class="col-6">
-                                                    <label for="back-cover" class="form-label">
-                                                        Back cover
-                                                    </label>
-                                                    <input
-                                                        type="file"
-                                                        class="form-control"
-                                                        id="back-cover"
-                                                        name="cover-img"
-                                                        accept="image/*"
-                                                    />
-                                                </div>
-                                                <div class="col-6">
-                                                    <div
-                                                        id="preview-front-cover"
-                                                        class="text-center"
-                                                    >
-                                                        <img
-                                                            class="shadow d-inline-block img-thumbnail"
-                                                            style="
+                    <div class="bg-body-secondary p-3">
+                        <div class="container">
+                            <!-- Change the content of page here -->
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <div class="card shadow">
+                                        <div
+                                            class="text-bg-primary card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                                            <h2 class="m-0 text-nowrap">
+                                                <i class="fa-solid fa-pen-to-square"></i> UPDATE BOOK
+                                            </h2>
+                                        </div>
+                                        <div class="card-body p-4">
+                                            <div class="datatable-area">
+                                                <form class="row g-3" method="post" action="" id="update-product"
+                                                    enctype="multipart/form-data">
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <label for="isbn" class="form-label">ISBN</label>
+                                                        <input type="text" class="form-control" id="isbn" name="isbn"
+                                                            value="<%= book.isbn %>" />
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <label for="title" class="form-label">Title</label>
+                                                        <input type="text" class="form-control" id="title" name="title"
+                                                            value="<%= book.title %>" />
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <label for="author" class="form-label">Author</label>
+                                                        <input type="text" class="form-control" id="author"
+                                                            name="author" value="<%= book.author %>" />
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <label for="genre" class="form-label">
+                                                            Genre
+                                                        </label>
+                                                        <select name="genre" id="genre" class="form-select">
+                                                            <% for(let genre of genreList) { %>
+                                                                <option value="<%= genre.id %>" <%
+                                                                    if(genre.name===book.genre){ %>
+                                                                    <%= 'selected' %>
+                                                                        <% } %>
+                                                                            >
+                                                                            <%= genre.name %>
+                                                                </option>
+                                                                <% } %>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <label for="price" class="form-label">Price</label>
+                                                        <input type="number" class="form-control" id="price"
+                                                            name="price" value="<%= book.price %>" />
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <label for="quantity" class="form-label">Quantity</label>
+                                                        <input type="number" class="form-control" id="quantity"
+                                                            name="quantity" value="<%= book.stock_quantity %>" />
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <label for="description" class="form-label">Description</label>
+                                                        <textarea class="form-control" id="description"
+                                                            name="description"
+                                                            rows="6"><%= book.description %></textarea>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="front-cover" class="form-label">
+                                                            Front cover
+                                                        </label>
+                                                        <input type="file" class="form-control" id="front-cover"
+                                                            name="cover-img" accept="image/*" />
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="back-cover" class="form-label">
+                                                            Back cover
+                                                        </label>
+                                                        <input type="file" class="form-control" id="back-cover"
+                                                            name="cover-img" accept="image/*" />
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div id="preview-front-cover" class="text-center">
+                                                            <img class="shadow d-inline-block img-thumbnail" style="
                                                                 width: 60%;
                                                                 aspect-ratio: 4 / 5;
                                                                 object-fit: cover;
-                                                            "
-                                                            src="<%= book.front_cover_image %>"
-                                                        />
+                                                            " src="<%= book.front_cover_image %>" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div
-                                                        id="preview-back-cover"
-                                                        class="text-center"
-                                                    >
-                                                        <img
-                                                            class="shadow d-inline-block img-thumbnail"
-                                                            style="
+                                                    <div class="col-6">
+                                                        <div id="preview-back-cover" class="text-center">
+                                                            <img class="shadow d-inline-block img-thumbnail" style="
                                                                 width: 60%;
                                                                 aspect-ratio: 4 / 5;
                                                                 object-fit: cover;
-                                                            "
-                                                            src="<%= book.back_cover_image %>"
-                                                        />
+                                                            " src="<%= book.back_cover_image %>" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-12 text-end">
-                                                    <button
-                                                        type="submit"
-                                                        class="btn btn-primary px-5 py-2 fw-semibold"
-                                                    >
-                                                        UPDATE
-                                                    </button>
-                                                </div>
-                                            </form>
+                                                    <div class="col-12 text-end">
+                                                        <button type="submit"
+                                                            class="btn btn-primary px-5 py-2 fw-semibold">
+                                                            UPDATE
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <%- include('../../partials/footer') %>
+                    <%- include('../../partials/footer') %>
             </div>
-        </main>
+    </main>
 
-        <script>
-            $(() => {
-                $('#front-cover').change(function (event) {
-                    const file = event.target.files[0];
+    <script>
+        function checkInput(data) {
+            if (data === '') {
+                return false;
+            }
+            return true;
+        }
 
-                    if (file) {
-                        const reader = new FileReader();
+        function priceValidate(price) {
+            if (!checkInput(price)) {
+                return false;
+            }
+            else {
+                if (price < 0) {
+                    return false;
+                }
+            }
+            return true;
 
-                        reader.onload = function (e) {
-                            const imagePreview = $('#preview-front-cover');
-                            imagePreview.html(`
+        }
+        function quantityValidate(quantity) {
+            if (!checkInput(quantity)) {
+                return false;
+            }
+            else {
+                const QUANTITY_REGEX = /^[1-9]\d*$/;
+                if (!QUANTITY_REGEX.test(quantity)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function handleBlur(namefield) {
+            $(`#${namefield}`).blur((e) => {
+                const data = e.target.value;
+                if (checkInput(data)) {
+                    $(e.target).addClass('is-valid').removeClass('is-invalid');
+                }
+                else {
+                    $(e.target).addClass('is-invalid').removeClass('is-valid');
+                }
+            })
+        }
+
+        function handlePriceBlur() {
+            $('#price').blur((e) => {
+                const price = e.target.value;
+                if (checkInput(price)) {
+                    if (price > 0) {
+                        $(e.target).addClass('is-valid').removeClass('is-invalid');
+                    }
+                    else {
+                        $(e.target).addClass('is-invalid').removeClass('is-valid');
+                    }
+                }
+                else {
+                    $(e.target).addClass('is-invalid').removeClass('is-valid');
+                }
+            })
+        }
+
+        function handleQuantityBlur() {
+            $('#quantity').blur((e) => {
+                const quantity = e.target.value;
+                if (checkInput(quantity)) {
+                    const QUANTITY_REGEX = /^[1-9]\d*$/;
+                    if (QUANTITY_REGEX.test(quantity)) {
+                        $(e.target).addClass('is-valid').removeClass('is-invalid');
+                    }
+                    else {
+                        $(e.target).addClass('is-invalid').removeClass('is-valid');
+                    }
+                }
+                else {
+                    $(e.target).addClass('is-invalid').removeClass('is-valid');
+                }
+            })
+        }
+
+
+        function handleInput(namefield, data) {
+            if (data === '') {
+                $(`#${namefield}`).addClass('is-invalid').removeClass('is-valid');
+                var newDiv = $('<div>', {
+                    class: 'invalid-feedback w-100',
+                    text: `(*) ${namefield.toUpperCase()} is required`,
+                });
+                if (($(`#${namefield}`).parent().find('div')).length != 0) {
+                    $(`#${namefield}`).parent().find('div').remove();
+                }
+                $(`#${namefield}`).parent().append(newDiv);
+            }
+            else {
+                $(`#${namefield}`).addClass('is-valid').removeClass('is-invalid');
+            }
+        }
+
+        function handlePriceInput() {
+            const price = $('#price').val();
+            if (price === '') {
+                $('#price').addClass('is-invalid').removeClass('is-valid');
+                var newDiv = $('<div>', {
+                    class: 'invalid-feedback w-100',
+                    text: '(*) PRICE  is required',
+                });
+                if (($('#price').parent().find('div')).length != 0) {
+                    $('#price').parent().find('div').remove();
+                }
+                $('#price').parent().append(newDiv);
+            }
+            else {
+                if (price < 0) {
+                    $('#price').addClass('is-invalid').removeClass('is-valid');
+                    var newDiv = $('<div>', {
+                        class: 'invalid-feedback w-100',
+                        text: '(*) PRICE  is a positive number',
+                    });
+                    if (($('#price').parent().find('div')).length != 0) {
+                        $('#price').parent().find('div').remove();
+                    }
+                    $('#price').parent().append(newDiv);
+                }
+                else {
+                    $('#price').addClass('is-valid').removeClass('is-invalid');
+                }
+            }
+        }
+
+        function handleQuantityInput() {
+            const quantity = $('#quantity').val();
+            if (quantity === '') {
+                $('#quantity').addClass('is-invalid').removeClass('is-valid');
+                var newDiv = $('<div>', {
+                    class: 'invalid-feedback w-100',
+                    text: '(*) QUANTITY  is required',
+                });
+                if (($('#quantity').parent().find('div')).length != 0) {
+                    $('#quantity').parent().find('div').remove();
+                }
+                $('#quantity').parent().append(newDiv);
+            }
+            else {
+                const QUANTITY_REGEX = /^[1-9]\d*$/;
+                if (!QUANTITY_REGEX.test(quantity)) {
+                    $('#quantity').addClass('is-invalid').removeClass('is-valid');
+                    var newDiv = $('<div>', {
+                        class: 'invalid-feedback w-100',
+                        text: '(*) QUANTITY  is a positive integer',
+                    });
+                    if (($('#quantity').parent().find('div')).length != 0) {
+                        $('#quantity').parent().find('div').remove();
+                    }
+                    $('#quantity').parent().append(newDiv);
+                }
+                else {
+                    $('#quantity').addClass('is-valid').removeClass('is-invalid');
+                }
+            }
+        }
+
+        function handleSubmit(isbn, title, author, price, quantity, description, frontcover, backcover) {
+            if (checkInput(isbn) && checkInput(title) && priceValidate(price) && checkInput(author)
+                && quantityValidate(quantity) && checkInput(description)) {
+                return true;
+            }
+            return false;
+        }
+
+        $(() => {
+            handleBlur('isbn');
+            handleBlur('title');
+            handleBlur('author');
+            handleBlur('desciption');
+            handleBlur('front-cover');
+            handleBlur('back-cover');
+            handlePriceBlur();
+            handleQuantityBlur();
+            $('#front-cover').change(function (event) {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const imagePreview = $('#preview-front-cover');
+                        imagePreview.html(`
                                 <img
                                     class="shadow d-inline-block img-thumbnail"
                                     style="
@@ -220,42 +327,66 @@
                                     src="${e.target.result}"
                                 />
                             `);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-
-                $('#back-cover').change(function (event) {
-                    const file = event.target.files[0];
-
-                    if (file) {
-                        const reader = new FileReader();
-
-                        reader.onload = function (e) {
-                            const imagePreview = $('#preview-back-cover');
-                            imagePreview.html(`
-                                <img
-                                    class="shadow d-inline-block img-thumbnail"
-                                    style="
-                                        width: 60%;
-                                        aspect-ratio: 4 / 5;
-                                        object-fit: cover;
-                                    "
-                                    src="${e.target.result}"
-                                />
-                            `);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+                    };
+                    reader.readAsDataURL(file);
+                }
             });
-        </script>
 
-        <% if(typeof updateSuccess !== 'undefined') { %>
-            <script>
-                toastr.options.timeOut = 3000;
-                toastr.success('Update this book successfully');
-            </script>
+            $('#back-cover').change(function (event) {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const imagePreview = $('#preview-back-cover');
+                        imagePreview.html(`
+                                <img
+                                    class="shadow d-inline-block img-thumbnail"
+                                    style="
+                                        width: 60%;
+                                        aspect-ratio: 4 / 5;
+                                        object-fit: cover;
+                                    "
+                                    src="${e.target.result}"
+                                />
+                            `);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            $('#update-product').submit((e) => {
+                const isbn = $('#isbn').val();
+                console.log('isbn: ', isbn);
+                const title = $('#title').val();
+                const author = $('#author').val();
+                const price = $('#price').val();
+                const quantity = $('#quantity').val();
+                const description = $('#description').val();
+                const frontcover = $('#front-cover').val();
+                const backcover = $('#back-cover').val();
+                if (!handleSubmit(isbn, title, author, price, quantity, description, frontcover, backcover)) {
+                    e.preventDefault();
+                    handleInput('isbn', isbn);
+                    handleInput('title', title);
+                    handleInput('author', author);
+                    handlePriceInput();
+                    handleQuantityInput();
+                    handleInput('description', description);
+                }
+            })
+        });
+
+    </script>
+
+
+
+    <% if(typeof updateSuccess !=='undefined' ) { %>
+        <script>
+            toastr.options.timeOut = 3000;
+            toastr.success('Update this book successfully');
+        </script>
         <% } %>
-    </body>
+</body>
+
 </html>
