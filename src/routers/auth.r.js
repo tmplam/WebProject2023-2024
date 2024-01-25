@@ -13,7 +13,12 @@ router.post(
     (req, res, next) => {
         req.session.darkMode = req.session.passport.user.darkMode;
         req.session.passport.user = req.session.passport.user.username;
-
+        
+        //check status
+        if(req.user?.status === 'block') {
+            req.logout((err) => { });
+            return res.redirect('/auth/login?status=block');
+        }
         if (req.user.role === 2) {
             res.redirect('/admin/dashboard');
         } else {
@@ -28,6 +33,10 @@ router.get(
     '/google/callback',
     passport.authenticate('google', { failureRedirect: '/auth/login?status=block' }),
     (req, res) => {
+        if(req.user?.status === 'block') {
+            req.logout((err) => { });
+            return res.redirect('/auth/login?status=block');
+        }
         res.redirect('/');
     }
 );

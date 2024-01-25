@@ -1,17 +1,23 @@
+require('dotenv').config();
 const User = require('../models/user.m');
 const CustomError = require('../utils/custom-error');
+const boolUtil = require('../utils/booleanUtil');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = Number(process.env.SALTROUNDS);
 
 module.exports = {
     getLoginPage(req, res, next) {
+        const signupSuccess = req.session.signupSuccess;
+        delete req.session.signupSuccess;
+        
         if (req.query.status === 'fail' || req.query.status === 'block') {
             return res.render('customer/login', {
                 status: req.query.status,
                 darkMode: req.session.darkMode,
+                signupSuccess
             });
         }
-        res.render('customer/login', { darkMode: req.session.darkMode });
+        res.render('customer/login', { darkMode: req.session.darkMode, signupSuccess });
     },
 
     getSignupPage(req, res, next) {
@@ -19,11 +25,15 @@ module.exports = {
     },
 
     async signUpController(req, res, next) {
-        console.log(req.body);
         const username = req.body.username;
         const password = req.body.password;
         const fullname = req.body.fullname;
         const email = req.body.email;
+        if(!boolUtil.fullnameValidate(fullname) || !boolUtil.emailValidate(email)
+        || !boolUtil.passwordValidate(password) || !boolUtil.usernameValidate(username)) {
+            throw new CustomError('Invalid information', 400);
+        }
+
         let user = await User.getByUsername(username);
 
         if (user && user.username) {
@@ -46,6 +56,7 @@ module.exports = {
         delete user.avatar;
         delete user.created_date;
         await User.add(user);
+        req.session.signupSuccess = 'success';
         res.redirect('/auth/login');
     },
 

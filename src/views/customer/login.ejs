@@ -19,11 +19,16 @@
                             class="text-body-emphasis p-4 rounded-4 shadow card"
                         >
                             <h1 class="text-center text-primary mb-2 text-uppercase">Login</h1>
-                            <% if(typeof status !== 'undefined') {%>
+                            <% if(typeof status !== 'undefined' && status === 'fail') {%>
                             <p id="notification" class="text-danger text-center mb-1">
                                 <i>Incorrect username or password</i>
                             </p>
                             <% } %>
+                            <% if(typeof status !== 'undefined' && status === 'block') {%>
+                                <p id="notification" class="text-danger text-center mb-1">
+                                    <i>This account was blocked</i>
+                                </p>
+                                <% } %>
                             <div class="form-group">
                                 <label class="form-label" for="input-username">Username</label>
                                 <input
@@ -85,7 +90,8 @@
             </div>
         </main>
 
-        <%- include('../partials/footer') %> <% if(typeof status !== 'undefined') {%>
+        <%- include('../partials/footer') %> 
+        <% if(typeof status !== 'undefined') {%>
         <script>
             $('#input-username').on('input', (e) => {
                 $('#notification').css('visibility', 'hidden');
@@ -95,5 +101,13 @@
             });
         </script>
         <% } %>
+
+        <% if(typeof signupSuccess !== 'undefined') { %>
+            <script>
+                toastr.options.timeOut = 3000;
+                toastr.success('Sign up successfully.');
+            </script>
+        <% } %>
+
     </body>
 </html>
