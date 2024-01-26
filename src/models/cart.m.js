@@ -87,12 +87,12 @@ module.exports = class Cart {
     static async updateCartItem(cartItem) {
         await db.updateVer2(tableName, cartItem, [
             { fieldName: 'user_id', value: cartItem.user_id },
-            { fieldName: 'book_id', value: cartItem.book_id }
+            { fieldName: 'book_id', value: cartItem.book_id },
         ]);
     }
 
     static async getAllCartItemsOfBook(book_id) {
-        const response = db.getManyOrNone(tableName, [ { fieldName: 'book_id', value: book_id }])
+        const response = db.getManyOrNone(tableName, [{ fieldName: 'book_id', value: book_id }]);
         return response;
     }
 };

@@ -60,7 +60,7 @@
                                                                             >
                                                                             <%= genre.name %>
                                                                 </option>
-                                                                <% } %>
+                                                            <% } %>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6 col-lg-4">
@@ -132,29 +132,28 @@
 
     <script>
         function checkInput(data) {
-            if (data === '') {
-                return false;
+                if (data.trim() === '') {
+                    return false;
+                }
+                return true;
             }
-            return true;
-        }
 
         function priceValidate(price) {
             if (!checkInput(price)) {
                 return false;
-            }
-            else {
-                if (price < 0) {
+            } else {
+                price = Number.parseFloat(price);
+                if (price <= 0) {
                     return false;
                 }
             }
             return true;
-
         }
+
         function quantityValidate(quantity) {
             if (!checkInput(quantity)) {
                 return false;
-            }
-            else {
+            } else {
                 const QUANTITY_REGEX = /^[1-9]\d*$/;
                 if (!QUANTITY_REGEX.test(quantity)) {
                     return false;
@@ -166,148 +165,121 @@
         function handleBlur(namefield) {
             $(`#${namefield}`).blur((e) => {
                 const data = e.target.value;
-                if (checkInput(data)) {
-                    $(e.target).addClass('is-valid').removeClass('is-invalid');
-                }
-                else {
-                    $(e.target).addClass('is-invalid').removeClass('is-valid');
-                }
-            })
+                handleInput(namefield, data);
+            });
         }
-
-        function handlePriceBlur() {
-            $('#price').blur((e) => {
-                const price = e.target.value;
-                if (checkInput(price)) {
-                    if (price > 0) {
-                        $(e.target).addClass('is-valid').removeClass('is-invalid');
-                    }
-                    else {
-                        $(e.target).addClass('is-invalid').removeClass('is-valid');
-                    }
-                }
-                else {
-                    $(e.target).addClass('is-invalid').removeClass('is-valid');
-                }
-            })
-        }
-
-        function handleQuantityBlur() {
-            $('#quantity').blur((e) => {
-                const quantity = e.target.value;
-                if (checkInput(quantity)) {
-                    const QUANTITY_REGEX = /^[1-9]\d*$/;
-                    if (QUANTITY_REGEX.test(quantity)) {
-                        $(e.target).addClass('is-valid').removeClass('is-invalid');
-                    }
-                    else {
-                        $(e.target).addClass('is-invalid').removeClass('is-valid');
-                    }
-                }
-                else {
-                    $(e.target).addClass('is-invalid').removeClass('is-valid');
-                }
-            })
-        }
-
 
         function handleInput(namefield, data) {
-            if (data === '') {
+            if (data.trim() === '') {
                 $(`#${namefield}`).addClass('is-invalid').removeClass('is-valid');
                 var newDiv = $('<div>', {
                     class: 'invalid-feedback w-100',
-                    text: `(*) ${namefield.toUpperCase()} is required`,
+                    text: `(*) ${namefield[0].toUpperCase() + namefield.substr(1)} is required`,
                 });
-                if (($(`#${namefield}`).parent().find('div')).length != 0) {
+                if ($(`#${namefield}`).parent().find('div').length != 0) {
                     $(`#${namefield}`).parent().find('div').remove();
                 }
                 $(`#${namefield}`).parent().append(newDiv);
-            }
-            else {
+            } else {
                 $(`#${namefield}`).addClass('is-valid').removeClass('is-invalid');
             }
         }
 
-        function handlePriceInput() {
-            const price = $('#price').val();
-            if (price === '') {
+        function handlePriceBlur() {
+            let price = $('#price').val();
+            if (price.trim() === '') {
                 $('#price').addClass('is-invalid').removeClass('is-valid');
                 var newDiv = $('<div>', {
                     class: 'invalid-feedback w-100',
-                    text: '(*) PRICE  is required',
+                    text: '(*) Price is required',
                 });
-                if (($('#price').parent().find('div')).length != 0) {
+                if ($('#price').parent().find('div').length != 0) {
                     $('#price').parent().find('div').remove();
                 }
                 $('#price').parent().append(newDiv);
-            }
-            else {
-                if (price < 0) {
+            } else {
+                price = Number.parseInt(price);
+                if (price <= 0) {
                     $('#price').addClass('is-invalid').removeClass('is-valid');
                     var newDiv = $('<div>', {
                         class: 'invalid-feedback w-100',
-                        text: '(*) PRICE  is a positive number',
+                        text: '(*) Price is a positive number',
                     });
-                    if (($('#price').parent().find('div')).length != 0) {
+                    if ($('#price').parent().find('div').length != 0) {
                         $('#price').parent().find('div').remove();
                     }
                     $('#price').parent().append(newDiv);
-                }
-                else {
+                } else {
                     $('#price').addClass('is-valid').removeClass('is-invalid');
                 }
             }
         }
 
-        function handleQuantityInput() {
+        function handleQuantityBlur() {
             const quantity = $('#quantity').val();
             if (quantity === '') {
                 $('#quantity').addClass('is-invalid').removeClass('is-valid');
                 var newDiv = $('<div>', {
                     class: 'invalid-feedback w-100',
-                    text: '(*) QUANTITY  is required',
+                    text: '(*) Quantity is required',
                 });
-                if (($('#quantity').parent().find('div')).length != 0) {
+                if ($('#quantity').parent().find('div').length != 0) {
                     $('#quantity').parent().find('div').remove();
                 }
                 $('#quantity').parent().append(newDiv);
-            }
-            else {
+            } else {
                 const QUANTITY_REGEX = /^[1-9]\d*$/;
                 if (!QUANTITY_REGEX.test(quantity)) {
                     $('#quantity').addClass('is-invalid').removeClass('is-valid');
                     var newDiv = $('<div>', {
                         class: 'invalid-feedback w-100',
-                        text: '(*) QUANTITY  is a positive integer',
+                        text: '(*) Quantity is a positive integer',
                     });
-                    if (($('#quantity').parent().find('div')).length != 0) {
+                    if ($('#quantity').parent().find('div').length != 0) {
                         $('#quantity').parent().find('div').remove();
                     }
                     $('#quantity').parent().append(newDiv);
-                }
-                else {
+                } else {
                     $('#quantity').addClass('is-valid').removeClass('is-invalid');
                 }
             }
         }
 
-        function handleSubmit(isbn, title, author, price, quantity, description, frontcover, backcover) {
-            if (checkInput(isbn) && checkInput(title) && priceValidate(price) && checkInput(author)
-                && quantityValidate(quantity) && checkInput(description)) {
+        function handleSubmit(
+                isbn,
+                title,
+                author,
+                price,
+                quantity,
+                description,
+                frontcover,
+                backcover
+        ) {
+            if (
+                checkInput(isbn) &&
+                checkInput(title) &&
+                priceValidate(price) &&
+                checkInput(author) &&
+                quantityValidate(quantity) &&
+                checkInput(description)
+            ) {
                 return true;
             }
             return false;
         }
 
+        
+
         $(() => {
             handleBlur('isbn');
             handleBlur('title');
             handleBlur('author');
-            handleBlur('desciption');
+            handleBlur('description');
             handleBlur('front-cover');
             handleBlur('back-cover');
-            handlePriceBlur();
-            handleQuantityBlur();
+            $('#price').blur(handlePriceBlur);
+            $('#quantity').blur(handleQuantityBlur);
+
             $('#front-cover').change(function (event) {
                 const file = event.target.files[0];
 
@@ -355,9 +327,9 @@
                     reader.readAsDataURL(file);
                 }
             });
+
             $('#update-product').submit((e) => {
                 const isbn = $('#isbn').val();
-                console.log('isbn: ', isbn);
                 const title = $('#title').val();
                 const author = $('#author').val();
                 const price = $('#price').val();
@@ -370,8 +342,8 @@
                     handleInput('isbn', isbn);
                     handleInput('title', title);
                     handleInput('author', author);
-                    handlePriceInput();
-                    handleQuantityInput();
+                    handlePriceBlur();
+                    handleQuantityBlur();
                     handleInput('description', description);
                 }
             })
