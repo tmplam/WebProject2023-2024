@@ -29,7 +29,7 @@
                                             <div class="col-6 pe-0 text-end">
                                                 <a
                                                     class="btn btn-outline-danger btn-sm py-2 text-uppercase"
-                                                    href="/customer/orders/<%= loginUser.id %>"
+                                                    href="/customer/orders"
                                                 >
                                                     Back to Orders
                                                 </a>
@@ -247,6 +247,7 @@
                                                     <% if (orderDetail.delivery_status == 'Pending')
                                                     { %>
                                                     <a
+                                                        href="/customer/orders/<%= orderDetail.id %>/payment"
                                                         id="next-action-btn"
                                                         class="btn btn-success w-100 fw-semibold text-uppercase"
                                                     >

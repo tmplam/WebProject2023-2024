@@ -167,6 +167,7 @@ module.exports = {
             delete req.session.successMessage;
             delete req.session.failMessage;
 
+            const numCartItem = await cartModel.getNumItem(req.user.id);
             res.render('customer/order-detail', {
                 loginUser: req.user,
                 orderDetail,
@@ -176,6 +177,7 @@ module.exports = {
                 successMessage,
                 failMessage,
                 darkMode: req.session.darkMode,
+                numCartItem
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -191,6 +193,37 @@ module.exports = {
             res.redirect('back');
         } catch (error) {
             next(new customError(error.message, 503));
+        }
+    },
+
+    payOrderController: async (req, res, next) => {
+        const order_id = req.params.orderId;
+        const order = await orderModel.get(order_id);
+        if(order.delivery_status !== 'Pending' ||  order.order_by !== req.user.id) {
+            return next(new customError('Page Not Found!', 404));
+        }
+        // Handle pay
+        const authData = {
+            name: req.user.name,
+            'client-id': process.env.CLIENT_ID,
+            'user-id': req.user.id,
+            amount: order.total_amount,
+            'order-id': order_id,
+        };
+        const response = await fetch(process.env.PAYMENT_AUTH_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(authData),
+        });
+        const data = await response.json();
+        if (data.status == 200) {
+            res.redirect(
+                `${process.env.PAYMENT_LOGIN_URL}?authorization_code=${data.accessToken}&request=${data.requestID}`
+            );
+        } else {
+            next(new customError('Page Not Found!', 404));
         }
     },
 

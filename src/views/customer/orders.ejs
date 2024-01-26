@@ -48,7 +48,19 @@
                                                         <td><%= order.order_by.name %></td>
                                                         <td><%= order.phone_number %></td>
                                                         <td><%= order.delivery_address %></td>
-                                                        <td><%= order.delivery_status %></td>
+                                                        <td>
+                                                            <span class="<% if(order.delivery_status === 'Payed' || order.delivery_status === 'Processing' || order.delivery_status === 'Shipping') { %>
+                                                                <%= 'text-primary'  %>
+                                                            <% } else if(order.delivery_status === 'Shipped') { %>
+                                                                <%= 'text-success' %>
+                                                            <% } else if(order.delivery_status === 'Cancel') { %>
+                                                                <%= 'text-danger' %>
+                                                            <% } %>">
+                                                                <%= order.delivery_status %>
+                                                            </span>
+                                                        </td>
+
+
                                                         <td><%= order.total_amount %></td>
                                                         <td>
                                                             <a
