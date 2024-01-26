@@ -25,7 +25,7 @@ module.exports = class OrderDetail {
 
     static async getManyOrNone(constraintValues) {
         const response = await db.getManyOrNone(tableName, constraintValues);
-        const orderList = response.map((order) => new Order(order));
+        const orderList = response.map((order) => new OrderDetail(order));
         return orderList;
     }
 };
