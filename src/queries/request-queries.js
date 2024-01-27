@@ -1,7 +1,9 @@
 const pg = require('../databases/postgreSQL');
 
 const getClientRequest = async ({ id }) => {
-    const queryString = 'select * from client_requests where id = $1';
+    const queryString = `select * from client_requests cr
+                         left join transactions t on cr.id = t.request_id
+                         where cr.id = $1`;
     const values = [id];
     let postgresConnection;
     try {
