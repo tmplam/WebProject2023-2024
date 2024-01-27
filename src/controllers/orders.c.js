@@ -73,6 +73,7 @@ module.exports = {
                 total_amount,
                 delivery_status: 'Pending',
                 phone_number,
+                receiver: name
             };
             const order_id = (await orderModel.add(order)).id;
             // Create order_details
@@ -161,7 +162,9 @@ module.exports = {
             const failMessage = req.session.failMessage;
             const phoneError = req.session.phoneError;
             const addressError = req.session.addressError;
+            const receiverError = req.session.receiverError;
 
+            delete req.session.receiverError;
             delete req.session.phoneError;
             delete req.session.addressError;
             delete req.session.successMessage;
@@ -174,6 +177,7 @@ module.exports = {
                 order: true,
                 phoneError,
                 addressError,
+                receiverError,
                 successMessage,
                 failMessage,
                 darkMode: req.session.darkMode,
@@ -269,9 +273,11 @@ module.exports = {
             const successMessage = req.session.successMessage;
             const phoneError = req.session.phoneError;
             const addressError = req.session.addressError;
+            const receiverError = req.session.receiverError;
 
             delete req.session.phoneError;
             delete req.session.addressError;
+            delete req.session.receiverError;
             delete req.session.successMessage;
 
             res.render('admin/order-detail', {
@@ -280,6 +286,7 @@ module.exports = {
                 orders: true,
                 phoneError,
                 addressError,
+                receiverError,
                 successMessage,
                 darkMode: req.session.darkMode,
             });
@@ -299,11 +306,16 @@ module.exports = {
                 req.session.addressError = '(*) Address is required!';
                 valid = false;
             }
+            if(req.body.receiver.trim() == '') {
+                req.session.receiverError = '(*) Receiver is required!';
+                valid = false;
+            }
 
             if (valid) {
                 const data = {
                     delivery_address: req.body.delivery_address,
                     phone_number: req.body.phone_number,
+                    receiver: req.body.receiver
                 };
                 await orderModel.update(data, req.params.orderId);
                 req.session.successMessage = 'Update order successfully!';

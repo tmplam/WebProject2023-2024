@@ -168,7 +168,12 @@ module.exports = {
                 const newPath = `${oldPath}.${ext}`;
                 fs.renameSync(oldPath, newPath);
                 if (req.user.avatar.indexOf('/default.jpg') === -1) {
-                    fs.unlinkSync(path.join(__dirname, '../', `/public${req.user.avatar}`));
+                    try {
+                        fs.unlinkSync(path.join(__dirname, '../', `/public${req.user.avatar}`));
+                    }
+                    catch(err) {
+                        //nothing to do
+                    }
                 }
                 req.body.avatar = `/images/users/avatars/${file.filename}.${ext}`;
             }

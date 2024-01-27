@@ -12,6 +12,7 @@ module.exports = class Order {
         this.total_amount = obj?.total_amount;
         this.delivery_status = obj?.delivery_status;
         this.phone_number = obj?.phone_number;
+        this.receiver = obj?.receiver;
     }
 
     static async add(order) {
