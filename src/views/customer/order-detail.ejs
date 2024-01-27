@@ -66,16 +66,18 @@
                                                                     type="text"
                                                                     data-val="true"
                                                                     data-val-required="The Name field is required."
-                                                                    id="OrderHeader_Name"
-                                                                    name="OrderHeader.Name"
-                                                                    value="<%= orderDetail.order_by.name %>"
-                                                                    readonly
+                                                                    id="receiver"
+                                                                    name="receiver"
+                                                                    value="<%= orderDetail.receiver ? orderDetail.receiver : orderDetail.order_by.name %>"
+                                                                    required
                                                                 />
                                                                 <span
                                                                     class="text-danger field-validation-valid"
-                                                                    data-valmsg-for="OrderHeader.Name"
+                                                                    data-valmsg-for="receiver"
                                                                     data-valmsg-replace="true"
-                                                                ></span>
+                                                                >   
+                                                                    <%= typeof receiverError !== 'undefined' ? receiverError : '' %>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="row my-1">

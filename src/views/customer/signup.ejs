@@ -215,7 +215,7 @@
             inputPassword.blur((e) => {
                 let txt = inputPassword.val();
                 if (!passwordValidate(txt)) {
-                    notifyPassword.html('(*) Invalid password');
+                    notifyPassword.html('(*) Password must be at least 8 characters long, contains capital character, number and special character');
                 }
             });
 
