@@ -147,18 +147,31 @@
             const minutes = Math.floor(remainingSeconds / 60);
             const seconds = remainingSeconds % 60;
 
-            countdownElement.children[1].textContent = minutes;
+            countdownElement.children[0].textContent = parseInt(minutes / 10)
+            countdownElement.children[1].textContent = minutes % 10;
             countdownElement.children[3].textContent = parseInt(seconds / 10)
             countdownElement.children[4].textContent = seconds % 10
 
             if (remainingSeconds === 0) {
-                // clearInterval(countdownInterval);
-                // window.location.href = '/payment/error';
+                clearInterval(countdownInterval);
+                $.ajax({
+                    url: '/transactions/<%= transactionID %>/cancel',
+                    method: 'put',
+                    headers: {
+                        authorization_code: `<%= authorization_code %>`,
+                    },
+                    success: function (data) {
+                        window.location.href = `<%= callback_url %>`;
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error('something error')
+                    },
+                });
             }
         }
 
         const createdTime = new Date('<%= created_time %>')
-        const targetTime = new Date(createdTime.getTime() + 10 * 60 * 1000);
+        const targetTime = new Date(createdTime.getTime() + 1 * 60 * 1000);
         const countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
 
@@ -178,7 +191,9 @@
                         try {
                             const errorResponse = JSON.parse(xhr.responseText);
                             const status = errorResponse.status
-                            window.location.href = `/transactions/<%= transactionID %>/failed?authorization_code=<%= authorization_code %>`;
+                            if (status === 400) {
+                                window.location.href = `/transactions/<%= transactionID %>/failed?authorization_code=<%= authorization_code %>`;
+                            }
                         } catch (parseError) {
                             console.error('Error parsing JSON response:', parseError);
                         }

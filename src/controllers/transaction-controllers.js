@@ -24,7 +24,7 @@ const getTransactionPage = async (req, res) => {
             };
         }
 
-        if (new Date() - new Date(transactionData.created_time).getTime() > 50 * 60 * 1000) {
+        if (new Date() - new Date(transactionData.created_time).getTime() > 20 * 60 * 1000) {
             throw {
                 status: 404,
                 message: 'Page not found.',
@@ -43,6 +43,8 @@ const getTransactionPage = async (req, res) => {
 
         const requestID = transactionData.request_id;
         const requestData = await requestModel.getRequest({ id: requestID });
+
+
         const clientID = requestData.client_id;
         const clientData = await clientModel.getClientModel({ id: clientID });
 
