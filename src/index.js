@@ -57,6 +57,14 @@ const transactionRouter = require('./routers/transaction-router');
 app.use('/auth', authRouter);
 app.use('/transactions', transactionRouter);
 
+
+app.get('/', (req, res) => {
+    return res.status(404).render('error', {
+        status: 404,
+        message: 'Page not found',
+    });
+})
+
 const server = https.createServer(options, app);
 // Start server
 const port = process.env.PORT || 3000;
