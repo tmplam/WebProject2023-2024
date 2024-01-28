@@ -5,6 +5,8 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const favicon = require('express-favicon');
+const fs = require('fs');
+const https = require('https');
 
 // Setup utility
 app.use(favicon(__dirname + '/public/favicon.png'));
@@ -24,7 +26,6 @@ app.use(
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-const httpServer = require('http').createServer(app);
 // Setup socket (if any)
 require('./utils/custom-passport')(app);
 const customError = require('./utils/custom-error');
@@ -67,6 +68,16 @@ app.use('/admin', adminRouter);
 
 // Catch exceptions
 require('./middlewares/error-handler')(app);
+
+const httpsServer = https.createServer(
+    {
+        key: fs.readFileSync('./keys/https.key'),
+        cert: fs.readFileSync('./keys/https.cert'),
+    },
+    app
+);
+
+const httpServer = require('http').createServer(app);
 
 // Start server
 const port = process.env.PORT || 3000;

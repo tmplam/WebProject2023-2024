@@ -251,9 +251,7 @@
                 author,
                 price,
                 quantity,
-                description,
-                frontcover,
-                backcover
+                description
         ) {
             if (
                 checkInput(isbn) &&
@@ -275,8 +273,6 @@
             handleBlur('title');
             handleBlur('author');
             handleBlur('description');
-            handleBlur('front-cover');
-            handleBlur('back-cover');
             $('#price').blur(handlePriceBlur);
             $('#quantity').blur(handleQuantityBlur);
 

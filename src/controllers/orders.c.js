@@ -73,7 +73,7 @@ module.exports = {
                 total_amount,
                 delivery_status: 'Pending',
                 phone_number,
-                receiver: name
+                receiver: name,
             };
             const order_id = (await orderModel.add(order)).id;
             // Create order_details
@@ -117,9 +117,10 @@ module.exports = {
 
     getOrdersOfUserController: async (req, res, next) => {
         try {
-            const orderList = await orderModel.getManyOrNone([
+            let orderList = await orderModel.getManyOrNone([
                 { fieldName: 'order_by', value: req?.user?.id },
             ]);
+            orderList = orderList.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
 
             for (let i = 0; i < orderList.length; i++) {
                 orderList[i].order_by = await userModel.get(orderList[i].order_by);
@@ -181,7 +182,7 @@ module.exports = {
                 successMessage,
                 failMessage,
                 darkMode: req.session.darkMode,
-                numCartItem
+                numCartItem,
             });
         } catch (error) {
             next(new customError(error.message, 503));
@@ -203,7 +204,7 @@ module.exports = {
     payOrderController: async (req, res, next) => {
         const order_id = req.params.orderId;
         const order = await orderModel.get(order_id);
-        if(order.delivery_status !== 'Pending' ||  order.order_by !== req.user.id) {
+        if (order.delivery_status !== 'Pending' || order.order_by !== req.user.id) {
             return next(new customError('Page Not Found!', 404));
         }
         // Handle pay
@@ -234,7 +235,9 @@ module.exports = {
     // JUST FOR ADMIN
     ordersController: async (req, res, next) => {
         try {
-            const orderList = await orderModel.getAll();
+            let orderList = await orderModel.getAll();
+            orderList = orderList.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
+            console.log(orderList);
             for (let i = 0; i < orderList.length; i++) {
                 orderList[i].order_by = await userModel.get(orderList[i].order_by);
             }
@@ -306,7 +309,7 @@ module.exports = {
                 req.session.addressError = '(*) Address is required!';
                 valid = false;
             }
-            if(req.body.receiver.trim() == '') {
+            if (req.body.receiver.trim() == '') {
                 req.session.receiverError = '(*) Receiver is required!';
                 valid = false;
             }
@@ -315,7 +318,7 @@ module.exports = {
                 const data = {
                     delivery_address: req.body.delivery_address,
                     phone_number: req.body.phone_number,
-                    receiver: req.body.receiver
+                    receiver: req.body.receiver,
                 };
                 await orderModel.update(data, req.params.orderId);
                 req.session.successMessage = 'Update order successfully!';

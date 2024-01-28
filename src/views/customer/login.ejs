@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <%- include('../partials/cdn') %>
-        <title>Document</title>
+        <title>Login</title>
     </head>
     <body>
         <%- include('../partials/header') %>
@@ -23,12 +23,11 @@
                             <p id="notification" class="text-danger text-center mb-1">
                                 <i>Incorrect username or password</i>
                             </p>
+                            <% } %> <% if(typeof status !== 'undefined' && status === 'block') {%>
+                            <p id="notification" class="text-danger text-center mb-1">
+                                <i>This account was blocked</i>
+                            </p>
                             <% } %>
-                            <% if(typeof status !== 'undefined' && status === 'block') {%>
-                                <p id="notification" class="text-danger text-center mb-1">
-                                    <i>This account was blocked</i>
-                                </p>
-                                <% } %>
                             <div class="form-group">
                                 <label class="form-label" for="input-username">Username</label>
                                 <input
@@ -90,8 +89,7 @@
             </div>
         </main>
 
-        <%- include('../partials/footer') %> 
-        <% if(typeof status !== 'undefined') {%>
+        <%- include('../partials/footer') %> <% if(typeof status !== 'undefined') {%>
         <script>
             $('#input-username').on('input', (e) => {
                 $('#notification').css('visibility', 'hidden');
@@ -100,14 +98,11 @@
                 $('#notification').css('visibility', 'hidden');
             });
         </script>
+        <% } %> <% if(typeof signupSuccess !== 'undefined') { %>
+        <script>
+            toastr.options.timeOut = 3000;
+            toastr.success('Sign up successfully.');
+        </script>
         <% } %>
-
-        <% if(typeof signupSuccess !== 'undefined') { %>
-            <script>
-                toastr.options.timeOut = 3000;
-                toastr.success('Sign up successfully.');
-            </script>
-        <% } %>
-
     </body>
 </html>
