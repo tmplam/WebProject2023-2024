@@ -5,8 +5,6 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const favicon = require('express-favicon');
-const fs = require('fs');
-const https = require('https');
 
 // Setup utility
 app.use(favicon(__dirname + '/public/favicon.png'));
@@ -69,18 +67,8 @@ app.use('/admin', adminRouter);
 // Catch exceptions
 require('./middlewares/error-handler')(app);
 
-const httpsServer = https.createServer(
-    {
-        key: fs.readFileSync('./keys/https.key'),
-        cert: fs.readFileSync('./keys/https.cert'),
-    },
-    app
-);
-
-const httpServer = require('http').createServer(app);
-
 // Start server
 const port = process.env.PORT || 3000;
-httpServer.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, () => {
+    console.log(`Server is running on https://bookstoreapp.ddns.net`);
 });
