@@ -22,6 +22,14 @@ const getLoginPage = async (req, res) => {
             };
         }
 
+        if (requestData.status === 'Failed' || requestData.status === 'Success' || requestData.status === 'Processing') {
+            throw {
+                status: 404,
+                message: 'Page not found.',
+            };
+        }
+
+
         const userID = requestData.user_id;
         const userAccountData = await accountModel.getAccountModelByMainSystemID({ id: userID });
 
@@ -95,7 +103,7 @@ const registerController = async (req, res) => {
 
         const userID = requestData.user_id;
 
-        if(!booleanUtils.passwordValidate(password)) {
+        if (!booleanUtils.passwordValidate(password)) {
             throw {
                 status: 401,
                 message: 'Invalid password',

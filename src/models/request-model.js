@@ -10,6 +10,7 @@ module.exports = class Request {
         this.order_id = request.order_id
         this.amount = request.amount
         this.created_time = request.created_time
+        this.status = request.status
     }
 
     static getRequest = async ({ id }) => {
@@ -21,7 +22,7 @@ module.exports = class Request {
         return {}
     }
 
-    static addRequest = async ({ clientID, userID, name, amount , orderID}) => {
+    static addRequest = async ({ clientID, userID, name, amount, orderID }) => {
         return await requestQueries.addClientRequest({ clientID, userID, name, amount, orderID })
     }
 }

@@ -171,7 +171,7 @@
         }
 
         const createdTime = new Date('<%= created_time %>')
-        const targetTime = new Date(createdTime.getTime() + 1 * 60 * 1000);
+        const targetTime = new Date(createdTime.getTime() + 10 * 60 * 1000);
         const countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
 
