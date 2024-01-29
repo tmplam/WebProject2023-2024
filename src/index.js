@@ -59,7 +59,7 @@ app.use('/transactions', transactionRouter);
 
 const server = https.createServer(options, app);
 // Start server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3003;
 server.listen(port, () => {
     console.log(`Server is running on https://localhost:${port}`);
 });

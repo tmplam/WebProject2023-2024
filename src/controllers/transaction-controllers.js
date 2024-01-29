@@ -44,7 +44,6 @@ const getTransactionPage = async (req, res) => {
         const requestID = transactionData.request_id;
         const requestData = await requestModel.getRequest({ id: requestID });
 
-
         const clientID = requestData.client_id;
         const clientData = await clientModel.getClientModel({ id: clientID });
 
@@ -59,7 +58,7 @@ const getTransactionPage = async (req, res) => {
             clientName: clientData.name,
             orderID: requestData.order_id,
             transactionID: transactionID,
-            callback_url: `http://${clientData.callback_url}/${requestData.order_id}/callback?code=${clientData.code}`,
+            callback_url: `https://${clientData.callback_url}/${requestData.order_id}/callback?code=${clientData.code}`,
         });
     } catch (err) {
         return res.status(err.status).render('error', {
@@ -183,7 +182,7 @@ const handleFailedTransaction = async (req, res) => {
 
         return res.render('transaction/error-payment', {
             message: transactionData.message,
-            callback_url: `http://${clientData.callback_url}/${requestData.order_id}/callback?code=${clientData.code}`,
+            callback_url: `https://${clientData.callback_url}/${requestData.order_id}/callback?code=${clientData.code}`,
         });
     } catch (err) {
         return res.status(err.status).render('error', {
@@ -235,7 +234,7 @@ const handleSuccessTransaction = async (req, res) => {
             transactionID: transactionID,
             amount: transactionData.amount,
             callback_url:
-                'http://' +
+                'https://' +
                 clientData.callback_url +
                 '/' +
                 requestData.order_id +
