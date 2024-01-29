@@ -1,0 +1,77 @@
+create table CLIENTS (
+	ID TEXT CONSTRAINT PK_CL PRIMARY KEY,
+	Name TEXT,
+	Callback_URL TEXT,
+	Code TEXT
+);
+
+create table ACCOUNTS(
+	ID CHAR(15) CONSTRAINT PK_AC PRIMARY KEY,
+	Main_System_ID TEXT,
+	Name Text,
+	Password TEXT,
+     	Avatar TEXT DEFAULT '/images/users/avatars/default.jpg'	,
+	Balance DECIMAL(10, 2) DEFAULT 1000.00,
+	Created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create table ROLES(
+	ID UUID DEFAULT gen_random_uuid() CONSTRAINT PK_RO PRIMARY KEY,
+	Name TEXT 
+);
+
+create table TRANSACTIONS(
+	ID UUID DEFAULT gen_random_uuid() CONSTRAINT PK_TR PRIMARY KEY,
+	From_Account CHAR(15),
+	To_Account CHAR(15),
+	Request_ID UUID,
+	Amount DECIMAL(10, 2),
+	Status TEXT,
+	Message TEXT,
+	Created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+create table TOKENS(
+        ID UUID DEFAULT gen_random_uuid() CONSTRAINT PK_TK PRIMARY KEY,
+	Value TEXT,
+        Created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+create table CLIENT_REQUESTS(
+	ID UUID DEFAULT gen_random_uuid() CONSTRAINT PK_CR PRIMARY KEY,
+	Client_ID TEXT,
+	User_ID TEXT,
+	Order_ID TEXT,
+	Name TEXT,
+	Amount DECIMAL(10, 2),
+	Created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP	
+);
+
+
+
+	
+ALTER TABLE TRANSACTIONS ADD
+CONSTRAINT FK_TR_AC1 FOREIGN KEY (From_Account) REFERENCES ACCOUNTS(ID);
+ALTER TABLE TRANSACTIONS ADD
+CONSTRAINT FK_TR_AC2 FOREIGN KEY (To_Account) REFERENCES ACCOUNTS(ID);
+ALTER TABLE TRANSACTIONS ADD
+CONSTRAINT FK_TR_CR FOREIGN KEY (Request_ID) REFERENCES CLIENT_REQUESTS(ID);
+
+
+ALTER TABLE CLIENT_REQUESTS ADD
+CONSTRAINT FK_CR_CL FOREIGN KEY (Client_ID) REFERENCES CLIENTS(ID);
+
+INSERT INTO ACCOUNTS VALUES
+('421727528192528', '96513127-7ffd-41eb-8fdd-2bc31e047688', 'Vương Huỳnh Khải', '$2b$10$B4zq79jHpV.41vfUwQaaqeh5leIF9zaTTcUD5ZzEjNMxraQDknvpi', '/images/users/avatars/default.jpg', 1000, '2024-01-20'),
+('999999999999999', '81ed8243-2fd2-4926-9add-88326d60e0c7', 'Book Store', null, '/images/users/avatars/default.jpg', 10000,'2024-01-01');
+INSERT INTO CLIENTS VALUES
+('81ed8243-2fd2-4926-9add-88326d60e0c7', 'Book Store', 'localhost:3000/utils/payment', 'D5rtCvy73457n-cn4n8yhfgbadsf-fdsgbhas-argbdfjbh-23nfhbjf');
+
+
+
+
+
+
+

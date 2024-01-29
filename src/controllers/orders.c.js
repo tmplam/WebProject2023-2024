@@ -85,6 +85,7 @@ module.exports = {
                     price: book.quantity * book.bookInfo.price,
                 });
             }
+
             // Delete all items in cart
             await cartModel.deleteCart(req.user.id);
             // Handle pay
@@ -95,6 +96,7 @@ module.exports = {
                 amount: total_amount,
                 'order-id': order_id,
             };
+
             const response = await fetch(process.env.PAYMENT_AUTH_URL, {
                 method: 'POST',
                 headers: {
@@ -102,6 +104,7 @@ module.exports = {
                 },
                 body: JSON.stringify(authData),
             });
+
             const data = await response.json();
             if (data.status == 200) {
                 res.redirect(
@@ -237,7 +240,7 @@ module.exports = {
         try {
             let orderList = await orderModel.getAll();
             orderList = orderList.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
-            
+
             for (let i = 0; i < orderList.length; i++) {
                 orderList[i].order_by = await userModel.get(orderList[i].order_by);
             }
