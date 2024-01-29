@@ -74,8 +74,6 @@ module.exports = {
 
     createUserController: async (req, res, next) => {
         try {
-            console.log(req.body);
-
             const username = req.body.username;
             const password = req.body.password;
             const fullname = req.body.fullname;
@@ -170,8 +168,7 @@ module.exports = {
                 if (req.user.avatar.indexOf('/default.jpg') === -1) {
                     try {
                         fs.unlinkSync(path.join(__dirname, '../', `/public${req.user.avatar}`));
-                    }
-                    catch(err) {
+                    } catch (err) {
                         //nothing to do
                     }
                 }

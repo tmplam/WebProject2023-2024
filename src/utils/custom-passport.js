@@ -37,7 +37,7 @@ module.exports = (app) => {
             {
                 clientID: GOOGLE_CLIENT_ID,
                 clientSecret: GOOGLE_CLIENT_SECRET,
-                callbackURL: 'http://localhost:3000/auth/google/callback',
+                callbackURL: 'https://localhost:3000/auth/google/callback',
             },
             async (accessToken, refreshToken, profile, done) => {
                 const username = profile.emails[0].value;

@@ -106,8 +106,12 @@ module.exports = {
                     return accumulator + Number.parseFloat(order.total_amount);
                 return accumulator;
             }, 0);
+            
             const earningMonth = orders.reduce((accumulator, order) => {
-                if (new Date(order.order_date).getMonth() == now.getMonth())
+                if (
+                    new Date(order.order_date).getMonth() == now.getMonth() &&
+                    new Date(order.order_date).getFullYear() == now.getFullYear()
+                )
                     return accumulator + Number.parseFloat(order.total_amount);
                 return accumulator;
             }, 0);

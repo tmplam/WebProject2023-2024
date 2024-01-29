@@ -1,3 +1,21 @@
+<style>
+    #home:hover #lv1-menu {
+        display: block !important;
+    }
+
+    #lv1-menu .lv1-item:hover #lv2-menu {
+        display: block !important;
+    }
+
+    .lv2-btn {
+        outline: none !important;
+    }
+
+    .arrow-sign {
+        cursor: pointer;
+    }
+</style>
+
 <header class="p-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center">
@@ -10,13 +28,36 @@
             </a>
 
             <ul class="nav nav-pills col-auto me-auto justify-content-center mb-md-0 fw-bold">
-                <li class="nav-item">
+                <li class="nav-item" id="home">
                     <a
                         href="/"
                         class="nav-link px-2 <%= typeof home !== 'undefined' && home ? 'link-secondary' : 'link-body-emphasis' %>"
                     >
                         Home
                     </a>
+                    <ul class="dropdown-menu" id="lv1-menu">
+                        <li class="dropdown-item py-1 px-0">
+                            <div class="btn-group dropend w-100">
+                                <div class="flex-fill py-0 px-3 text-start fw-normal">Genre</div>
+                                <div
+                                    class="arrow-sign dropdown-toggle dropdown-toggle-split py-0 px-3 text-end"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <span class="visually-hidden">Toggle Dropend</span>
+                                </div>
+                                <ul class="dropdown-menu">
+                                    <% globalData.genreList.forEach((genre) => { %>
+                                    <li>
+                                        <a class="dropdown-item" href="/?genre=<%= genre.id %>"
+                                            ><%= genre.name %></a
+                                        >
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a
@@ -124,24 +165,26 @@
 </header>
 
 <script>
-    $('#darkMode').change(async (e) => {
-        const darkMode = $('#darkMode').is(':checked');
-        const response = await fetch('/utils/dark-mode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ darkMode }),
-        });
-        const result = await response.json();
-        if (result.success) {
-            if (darkMode) {
-                $('html').attr('data-bs-theme', 'dark');
-                $('#dark-mode-icon').removeClass('fa-sun').addClass('fa-moon');
-            } else {
-                $('html').attr('data-bs-theme', 'light');
-                $('#dark-mode-icon').removeClass('fa-moon').addClass('fa-sun');
+    $(() => {
+        $('#darkMode').change(async (e) => {
+            const darkMode = $('#darkMode').is(':checked');
+            const response = await fetch('/utils/dark-mode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ darkMode }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                if (darkMode) {
+                    $('html').attr('data-bs-theme', 'dark');
+                    $('#dark-mode-icon').removeClass('fa-sun').addClass('fa-moon');
+                } else {
+                    $('html').attr('data-bs-theme', 'light');
+                    $('#dark-mode-icon').removeClass('fa-moon').addClass('fa-sun');
+                }
             }
-        }
+        });
     });
 </script>
