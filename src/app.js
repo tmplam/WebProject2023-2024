@@ -5,6 +5,9 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const favicon = require('express-favicon');
+const fs = require('fs');
+const https = require('https');
+const genreModel = require('./models/genre.m');
 
 // Setup utility
 app.use(favicon(__dirname + '/public/favicon.png'));
@@ -37,6 +40,13 @@ const usersRouter = require('./routers/users.r');
 const adminRouter = require('./routers/admin.r');
 const utilsRouter = require('./routers/utils.r');
 
+app.use(async (req, res, next) => {
+    const genreList = await genreModel.getAll();
+    res.locals.globalData = {
+        genreList,
+    };
+    next();
+});
 app.use('/auth', authRouter);
 app.use('/', productsRouter);
 app.use('/utils', utilsRouter);

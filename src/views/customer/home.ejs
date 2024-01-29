@@ -191,7 +191,7 @@
                     e.stopPropagation();
                     const currentPage = Number.parseInt(`<%= bookData.page %>`);
                     const totalPage = Number.parseInt(`<%= bookData.totalPage %>`);
-                    console.log(totalPage);
+                   
                     if (currentPage !== totalPage) {
                         const currentUrl = new URL(window.location.href);
                         currentUrl.searchParams.delete('page')

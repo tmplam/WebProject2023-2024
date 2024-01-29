@@ -237,7 +237,7 @@ module.exports = {
         try {
             let orderList = await orderModel.getAll();
             orderList = orderList.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
-            console.log(orderList);
+            
             for (let i = 0; i < orderList.length; i++) {
                 orderList[i].order_by = await userModel.get(orderList[i].order_by);
             }
